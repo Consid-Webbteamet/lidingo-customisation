@@ -24,6 +24,21 @@ define('LIDINGO_CUSTOMISATION_VERSION', '1.0.0');
 $autoload = LIDINGO_CUSTOMISATION_PATH . 'vendor/autoload.php';
 if (file_exists($autoload)) {
     require_once $autoload;
+} else {
+    spl_autoload_register(static function (string $class): void {
+        $prefix = __NAMESPACE__ . '\\';
+        if (strpos($class, $prefix) !== 0) {
+            return;
+        }
+
+        $relativeClass = substr($class, strlen($prefix));
+        $relativePath = str_replace('\\', DIRECTORY_SEPARATOR, $relativeClass) . '.php';
+        $file = LIDINGO_CUSTOMISATION_PATH . 'source/php/' . $relativePath;
+
+        if (file_exists($file)) {
+            require_once $file;
+        }
+    });
 }
 
 add_action('plugins_loaded', static function (): void {
