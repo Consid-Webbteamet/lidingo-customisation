@@ -22,7 +22,8 @@ if (file_exists('package.json') && file_exists('package-lock.json')) {
 }
 
 if (file_exists('package.json')) {
-    $buildCommands[] = 'npx --yes browserslist@latest --update-db';
+    // Best-effort: allow build to continue in restricted environments.
+    $buildCommands[] = 'npx --yes browserslist@latest --update-db || true';
     $buildCommands[] = 'npm run build';
 }
 
