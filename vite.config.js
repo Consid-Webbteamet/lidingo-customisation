@@ -2,6 +2,23 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
 export default defineConfig({
+    server: {
+        host: 'localhost',
+        port: 5173,
+        strictPort: true,
+        origin: 'http://localhost:5173',
+        cors: {
+            origin: [
+                'http://municipio-deployment.test',
+                'https://municipio-deployment.test'
+            ]
+        },
+        hmr: {
+            host: 'localhost',
+            port: 5173,
+            protocol: 'ws'
+        }
+    },
     build: {
         outDir: 'dist',
         emptyOutDir: true,
