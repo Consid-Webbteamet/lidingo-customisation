@@ -1,0 +1,24 @@
+{
+  "name": "consid-webbteamet/lidingo-customisation",
+  "description": "Custom CSS/JS overrides for Lidingo Municipio installation",
+  "type": "wordpress-plugin",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Consid Webbteamet"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload": {
+    "psr-4": {
+      "LidingoCustomisation\\": "source/php/"
+    }
+  },
+  "require": {
+    "php": "^8.0"
+  },
+  "config": {
+    "optimize-autoloader": true
+  }
+}

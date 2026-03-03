@@ -1,0 +1,16 @@
+{
+  "name": "lidingo-customisation",
+  "version": "1.0.0",
+  "description": "Custom CSS and JS overrides for Lidingo Municipio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "watch": "vite build --watch"
+  },
+  "devDependencies": {
+    "sass": "^1.69.0",
+    "vite": "^5.0.0"
+  }
+}
