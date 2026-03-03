@@ -25,6 +25,7 @@ class App
         add_action('admin_head', [$this, 'printAdminStylesheet'], 1001);
         add_action('admin_footer', [$this, 'printAdminScript'], 1001);
         add_filter('WpSecurity/Csp', [$this, 'addDevServerCspDomains'], 10, 1);
+        add_filter('Website/HTML/output', [$this, 'stripDevBlockingCspDirectives'], 20, 1);
 
         if (!$this->assetManifest->isLoaded()) {
             add_action('admin_notices', [$this, 'renderMissingManifestNotice']);
@@ -168,6 +169,39 @@ class App
         return $domains;
     }
 
+    public function stripDevBlockingCspDirectives(string $markup): string
+    {
+        if (!$this->shouldUseDevServer()) {
+            return $markup;
+        }
+
+        $headerValue = $this->getContentSecurityPolicyHeaderValue();
+
+        if ($headerValue === null || $headerValue === '') {
+            return $markup;
+        }
+
+        $directives = array_filter(array_map('trim', explode(';', $headerValue)));
+
+        $filteredDirectives = array_values(array_filter(
+            $directives,
+            static function (string $directive): bool {
+                $normalized = strtolower($directive);
+
+                return $normalized !== 'upgrade-insecure-requests'
+                    && $normalized !== 'block-all-mixed-content';
+            }
+        ));
+
+        header_remove('Content-Security-Policy');
+
+        if (!empty($filteredDirectives)) {
+            header('Content-Security-Policy: ' . implode('; ', $filteredDirectives));
+        }
+
+        return $markup;
+    }
+
     private function shouldUseDevServer(): bool
     {
         $enabledByDefault = defined('WP_ENV') && WP_ENV === 'development';
@@ -244,6 +278,19 @@ class App
         );
 
         return rtrim($origin, '/');
+    }
+
+    private function getContentSecurityPolicyHeaderValue(): ?string
+    {
+        foreach (headers_list() as $header) {
+            if (stripos($header, 'Content-Security-Policy:') !== 0) {
+                continue;
+            }
+
+            return trim(substr($header, strlen('Content-Security-Policy:')));
+        }
+
+        return null;
     }
 
     private function getDevServerHostWithPort(): ?string

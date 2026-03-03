@@ -20,6 +20,7 @@ composer dump-autoload
   - `script-src`: `localhost:5173`
   - `style-src`: `localhost:5173`
   - `connect-src`: `localhost:5173` and `ws://localhost:5173`
+- Dev-only CSP override removes `upgrade-insecure-requests` and `block-all-mixed-content` when Vite dev server is active
 - Admin assets are disabled by default and can be enabled with filter:
 
 ```php
