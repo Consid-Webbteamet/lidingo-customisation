@@ -1,0 +1,11 @@
+@mixin icon-weight($weight) {
+  .c-icon[data-material-symbol^=":"][data-material-symbol$=":"] {
+    --lidingo-icon-weight: #{$weight};
+  }
+}
+
+@mixin icon-token-weight($token, $weight) {
+  .c-icon[data-material-symbol="#{$token}"] {
+    --lidingo-icon-weight: #{$weight};
+  }
+}

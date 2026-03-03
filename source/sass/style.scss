@@ -5,3 +5,8 @@
 :root.lidingo-customisation-loaded {
   --lidingo-customisation-ready: 1;
 }
+
+@use './components/header';
+@use './components/footer';
+@use './components/search-hero';
+@use './components/card';

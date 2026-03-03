@@ -1,0 +1,145 @@
+@use "../tokens" as *;
+@use "../mixins" as *;
+
+:root {
+  --c-nav-h-font-size: 1.125rem;
+}
+
+.c-header {
+  height: 5rem;
+  transition: height 180ms ease;
+
+  &__main-lower-area-container {
+    height: 100%;
+  }
+
+  .o-container {
+    padding-right: 0;
+
+    @media (min-width: $ipad-breakpoint) {
+      padding-inline: 1rem;
+    }
+  }
+
+  &__flex-content {
+    height: 100%;
+    gap: 2rem;
+  }
+
+  &__menu {
+    height: 100%;
+    transition: height 180ms ease;
+  }
+
+  @include icon-weight(400);
+
+  .c-nav.c-nav--horizontal.c-nav--depth-1 {
+    gap: 2rem;
+    margin-right: 2rem;
+
+    > .c-nav__item > .c-nav__item-wrapper:hover .c-nav__link:after {
+      display: none;
+    }
+  }
+
+  &__lower-right {
+    height: 100%;
+    gap: 0;
+
+    > div:not(:last-child) {
+      height: 100%;
+    }
+
+    .c-button__label-text {
+      font-size: 1.125rem;
+    }
+
+    .collapsible-search-form {
+      height: 100%;
+      font-weight: var(--font-weight-base);
+      padding-inline: 0.75rem;
+      border-radius: 0;
+      background-color: $base-blue-300;
+
+      .collapsible-search-form__trigger-button {
+        height: 100%;
+      }
+    }
+
+    /* Menu button */
+    .mobile-menu-trigger {
+      font-weight: var(--font-weight-base);
+      padding-inline: 0.75rem;
+      height: 100%;
+      border-radius: 0;
+      background-color: $base-blue-400;
+
+      &::after {
+        border-radius: 0;
+      }
+
+      .c-button__label {
+        .c-button__label-icon {
+          margin-top: 3px;
+        }
+      }
+    }
+  }
+
+  .c-button.c-button--md {
+    border-radius: 0;
+  }
+
+  &.c-header--flexible {
+    .c-header__menu {
+      padding: 0;
+    }
+
+    .c-header__main-lower-area {
+      height: 100%;
+    }
+
+    .c-header__lower-right {
+      gap: 0;
+    }
+
+    .c-logotype:not(.c-brand .c-logotype) {
+      width: 7rem;
+      height: 3rem;
+      transition:
+        width 180ms ease,
+        height 180ms ease;
+    }
+  }
+}
+
+@media (min-width: $ipad-breakpoint) {
+  .c-header {
+    height: 7.25rem;
+
+    &__lower-right {
+      .collapsible-search-form,
+      .mobile-menu-trigger {
+        padding-inline: 1.5rem;
+      }
+    }
+
+    &.c-header--flexible {
+      .c-logotype:not(.c-brand .c-logotype) {
+        width: 9.25rem;
+        height: 4rem;
+      }
+    }
+
+    &.is-scrolled {
+      height: 6rem;
+
+      &.c-header--flexible {
+        .c-logotype:not(.c-brand .c-logotype) {
+          width: 6.125rem;
+          height: 2.625rem;
+        }
+      }
+    }
+  }
+}

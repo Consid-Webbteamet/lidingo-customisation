@@ -1,0 +1,25 @@
+#hero-search-form__wrapper {
+  .c-field__icon {
+    display: none;
+  }
+
+  input {
+    font-size: 1.625rem;
+  }
+
+  .c-button__label-text {
+    font-size: 1.625rem;
+  }
+
+  .c-button.c-button--lg {
+    min-width: 4.5rem;
+  }
+
+  .c-button__filled:hover:after {
+    background:transparent;
+  }
+}
+
+#hero-search-form #hero-search-form__wrapper #hero-search-form__submit {
+  flex: 0;
+}

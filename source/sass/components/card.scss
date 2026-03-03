@@ -1,0 +1,29 @@
+@use "../tokens" as *;
+
+/* card */
+
+/* front-page cards over hero */
+.ls-top-cards {
+  margin-top: -1.5rem;
+
+  .o-grid {
+    column-gap: 2.5rem;
+    row-gap: 1.5rem;
+  }
+
+  .c-card__body {
+    padding: 2rem;
+  }
+
+  .c-group {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 1.5rem;
+  }
+
+  .c-card__heading,
+  .c-icon {
+    font-size: var(--h4-font-size);
+    color: $base-blue-400;
+  }
+}

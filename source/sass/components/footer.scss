@@ -1,0 +1,106 @@
+@use '../tokens' as *;
+
+
+.c-footer {
+  padding-bottom: 2rem;
+
+  &__main-wrapper {
+    padding-top: 4rem;
+    padding-bottom: 6rem;
+  }
+
+  h2 {
+    position: relative;
+    margin-bottom: 1.5rem;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -1rem;
+      left: 0;
+      width: 12.5rem;
+      height: 0.125rem;
+      background-color: $color-white;
+    }
+  }
+
+  a {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+      text-decoration-style: solid;
+    }
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+
+  &__subfooter__logotype {
+    width: 13.375rem;
+    height: 5.8125rem;
+  }
+
+  &__subfooter__list {
+    justify-content: flex-end;
+    align-items: center;
+
+    strong {
+      font-size: 1.125rem;
+      padding-right: 1rem;
+    }
+
+    li:not(:last-child) {
+      padding-right: 0;
+    }
+
+    li:not(:first-child)::before,
+    li:not(:last-child)::before {
+      display: none;
+    }
+
+    a.c-link[href*='facebook.com'],
+    a.c-link[data-js-original-link*='facebook.com'],
+    a.c-link[href*='instagram.com'],
+    a.c-link[data-js-original-link*='instagram.com'],
+    a.c-link[href*='linkedin.com'],
+    a.c-link[data-js-original-link*='linkedin.com'] {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 3.25rem;
+      height: 3.25rem;
+      overflow: hidden;
+      white-space: nowrap;
+      font-size: 0;
+      line-height: 0;
+      color: transparent;
+      vertical-align: middle;
+
+      &::before {
+        content: '';
+        display: inline-block;
+        width: 3.25rem;
+        height: 3.25rem;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+    }
+
+    a.c-link[href*='facebook.com']::before,
+    a.c-link[data-js-original-link*='facebook.com']::before {
+      background-image: var(--lidingo-social-icon-facebook, url('../../../../../themes/municipio/assets/images/facebook.svg'));
+    }
+
+    a.c-link[href*='instagram.com']::before,
+    a.c-link[data-js-original-link*='instagram.com']::before {
+      background-image: var(--lidingo-social-icon-instagram, url('../../../../../themes/municipio/assets/images/instagram.svg'));
+    }
+
+    a.c-link[href*='linkedin.com']::before,
+    a.c-link[data-js-original-link*='linkedin.com']::before {
+      background-image: var(--lidingo-social-icon-linkedin, url('../../../../../themes/municipio/assets/images/linkedin.svg'));
+    }
+  }
+}
