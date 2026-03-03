@@ -24,6 +24,7 @@ class App
         add_action('wp_footer', [$this, 'printFrontendScript'], 1001);
         add_action('admin_head', [$this, 'printAdminStylesheet'], 1001);
         add_action('admin_footer', [$this, 'printAdminScript'], 1001);
+        add_filter('WpSecurity/Csp', [$this, 'addDevServerCspDomains'], 10, 1);
 
         if (!$this->assetManifest->isLoaded()) {
             add_action('admin_notices', [$this, 'renderMissingManifestNotice']);
@@ -138,6 +139,35 @@ class App
         );
     }
 
+    public function addDevServerCspDomains(array $domains): array
+    {
+        if (!$this->shouldUseDevServer()) {
+            return $domains;
+        }
+
+        $devServerHost = $this->getDevServerHostWithPort();
+
+        if ($devServerHost === null) {
+            return $domains;
+        }
+
+        $requiredByDirective = [
+            'script-src' => [$devServerHost],
+            'style-src' => [$devServerHost],
+            'connect-src' => [$devServerHost, $this->getDevServerWsOrigin()],
+        ];
+
+        foreach ($requiredByDirective as $directive => $values) {
+            if (!isset($domains[$directive]) || !is_array($domains[$directive])) {
+                $domains[$directive] = [];
+            }
+
+            $domains[$directive] = $this->mergeCspDirectiveValues($domains[$directive], $values);
+        }
+
+        return $domains;
+    }
+
     private function shouldUseDevServer(): bool
     {
         $enabledByDefault = defined('WP_ENV') && WP_ENV === 'development';
@@ -214,6 +244,78 @@ class App
         );
 
         return rtrim($origin, '/');
+    }
+
+    private function getDevServerHostWithPort(): ?string
+    {
+        $parsedOrigin = parse_url($this->getDevServerOrigin());
+
+        if (!is_array($parsedOrigin) || empty($parsedOrigin['host'])) {
+            return null;
+        }
+
+        $host = strtolower((string) $parsedOrigin['host']);
+
+        if (isset($parsedOrigin['port'])) {
+            $host .= ':' . (int) $parsedOrigin['port'];
+        }
+
+        return $host;
+    }
+
+    private function getDevServerWsOrigin(): ?string
+    {
+        $parsedOrigin = parse_url($this->getDevServerOrigin());
+
+        if (!is_array($parsedOrigin) || empty($parsedOrigin['host'])) {
+            return null;
+        }
+
+        $httpScheme = strtolower((string) ($parsedOrigin['scheme'] ?? 'http'));
+        $wsScheme = $httpScheme === 'https' ? 'wss' : 'ws';
+
+        $host = strtolower((string) $parsedOrigin['host']);
+
+        if (isset($parsedOrigin['port'])) {
+            $host .= ':' . (int) $parsedOrigin['port'];
+        }
+
+        return $wsScheme . '://' . $host;
+    }
+
+    private function mergeCspDirectiveValues(array $currentValues, array $valuesToAppend): array
+    {
+        $merged = [];
+
+        foreach ($currentValues as $value) {
+            if (!is_string($value)) {
+                continue;
+            }
+
+            $trimmed = trim($value);
+
+            if ($trimmed === '' || $trimmed === "'none'") {
+                continue;
+            }
+
+            $merged[] = $trimmed;
+        }
+
+        foreach ($valuesToAppend as $value) {
+            if (!is_string($value)) {
+                continue;
+            }
+
+            $trimmed = trim($value);
+
+            if ($trimmed === '') {
+                continue;
+            }
+
+            $merged[] = $trimmed;
+        }
+
+        return array_values(array_unique($merged));
     }
 
     private function shouldLoadFrontend(): bool
