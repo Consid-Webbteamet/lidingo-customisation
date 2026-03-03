@@ -1,6 +1,6 @@
 {
   "name": "lidingo-customisation",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Custom CSS and JS overrides for Lidingo Municipio",
   "private": true,
   "type": "module",
