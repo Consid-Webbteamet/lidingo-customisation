@@ -41,3 +41,35 @@ add_filter('lidingo_customisation/should_load_admin', '__return_true');
 - If the site is opened over HTTPS while Vite runs over HTTP, the browser may block assets (mixed content).
 - Build with Vite for release/deploy.
 - Keep Municipio theme custom CSS/JS unchanged.
+
+## Local HTTP mode
+
+- Local development is expected to run in HTTP mode end-to-end.
+- Keep the site URL as `http://municipio-deployment.test` when using Vite on `http://localhost:5173`.
+- If `force-ssl` is network-activated locally, disable it locally so WordPress does not rewrite theme/plugin assets to `https://` while browsing over `http://`.
+
+## Dev vs build
+
+- `npm run dev`:
+  - serves assets from Vite dev server
+  - injects `@vite/client` and enables HMR
+  - requires local CORS/CSP setup (already handled in this plugin)
+- `npm run build`:
+  - writes production assets to `dist/`
+  - does not use the Vite dev server
+  - is used by deployment/build pipelines
+- When the dev server is not reachable, the plugin falls back to `dist/` assets.
+
+## Push and deploy flow
+
+- Work in this repository: `/Users/jonasnasman/municipio-plugins/lidingo-customisation`.
+- Commit and push to `Consid-Webbteamet/lidingo-customisation` (`dev` branch).
+- In the WordPress deployment repository, run:
+  - `composer update consid-webbteamet/lidingo-customisation`
+- Commit updated `composer.lock` in the deployment repository.
+- Production deploy runs `composer install`, which installs the exact commit reference from `composer.lock`.
+
+## Build artifacts
+
+- `dist/` is gitignored in this repository and should not be committed here.
+- Deployment packaging is expected to run root `build.php`, which runs child plugin `build.php` and builds `dist/` during CI/CD.
