@@ -25,7 +25,7 @@ class App
         add_action('admin_head', [$this, 'printAdminStylesheet'], 1001);
         add_action('admin_footer', [$this, 'printAdminScript'], 1001);
         add_filter('WpSecurity/Csp', [$this, 'addDevServerCspDomains'], 10, 1);
-        add_filter('Website/HTML/output', [$this, 'stripDevBlockingCspDirectives'], 20, 1);
+        add_filter('Website/HTML/output', [$this, 'stripDevBlockingCspDirectives'], 20, 0);
 
         if (!$this->assetManifest->isLoaded()) {
             add_action('admin_notices', [$this, 'renderMissingManifestNotice']);
@@ -169,16 +169,16 @@ class App
         return $domains;
     }
 
-    public function stripDevBlockingCspDirectives(string $markup): string
+    public function stripDevBlockingCspDirectives(): void
     {
         if (!$this->shouldUseDevServer()) {
-            return $markup;
+            return;
         }
 
         $headerValue = $this->getContentSecurityPolicyHeaderValue();
 
         if ($headerValue === null || $headerValue === '') {
-            return $markup;
+            return;
         }
 
         $directives = array_filter(array_map('trim', explode(';', $headerValue)));
@@ -198,8 +198,6 @@ class App
         if (!empty($filteredDirectives)) {
             header('Content-Security-Policy: ' . implode('; ', $filteredDirectives));
         }
-
-        return $markup;
     }
 
     private function shouldUseDevServer(): bool
