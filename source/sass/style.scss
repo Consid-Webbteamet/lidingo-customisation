@@ -6,6 +6,8 @@
 @use './components/footer';
 @use './components/search-hero';
 @use './components/card';
+@use './components/button';
+@use './components/mosiac';
 
 :root.lidingo-customisation-loaded {
   --lidingo-customisation-ready: 1;

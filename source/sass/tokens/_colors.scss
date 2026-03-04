@@ -46,10 +46,13 @@ $color-border-card: var(--color-border-card);
 $color-base: var(--color-base);
 $text-secondary: var(--text-secondary);
 $text-disabled: var(--text-disabled);
+$text-1000: var(--text-1000, #333);
 
 $color-border-divider: var(--color-border-divider);
 $color-border-outline: var(--color-border-outline);
 $color-border-input: var(--color-border-input);
+$border-dark: var(--border-dark, #333);
+$border-marine-darkest: var(--border-marine-darkest, #002B49);
 
 $color-link: var(--color-link);
 $color-link-hover: var(--color-link-hover);

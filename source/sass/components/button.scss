@@ -1,0 +1,89 @@
+@use "../tokens" as *;
+
+.button,
+.button:visited {
+  display: inline-flex;
+  padding: 0.5rem 2rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  border-radius: 62.4375rem;
+  border: 1px solid transparent;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button--icon-arrow {
+  display: inline-flex;
+  padding: 0.5rem 1.5rem 0.5rem 2rem;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.button--icon-arrow::after {
+  content: ":höger:";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Lidingo Logical", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: normal;
+  font-feature-settings: "liga";
+  font-variant-ligatures: common-ligatures contextual;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1;
+}
+
+.button--no-icon::after {
+  content: none !important;
+}
+
+.button--default {
+  border: 1px solid $border-dark;
+  background: $base-blue-50;
+  color: $text-1000;
+}
+
+.button--primary {
+  border: 1px solid $base-blue-500;
+  background: $base-blue-500;
+  color: $color-white;
+}
+
+.button--secondary {
+  border: 1px solid $border-marine-darkest;
+  background: transparent;
+  color: $base-blue-500;
+}
+
+.button--ghost {
+  border: 1px solid $text-1000;
+  background: transparent;
+  color: $text-1000;
+}
+
+.button--white {
+  border: 1px solid $color-white;
+  background: transparent;
+  color: $color-white;
+}
+
+.button--big {
+  display: inline-flex;
+  padding: 0.75rem 1.5rem 0.75rem 2rem;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  border: 2px solid $text-1000;
+  color: $text-1000;
+  background: transparent;
+}
+
+.button--big.button--no-icon {
+  padding: 0.75rem 2rem;
+}
