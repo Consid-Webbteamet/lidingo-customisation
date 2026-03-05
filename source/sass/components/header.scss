@@ -111,6 +111,36 @@
         height 180ms ease;
     }
   }
+
+  &.is-scrolled {
+    height: 4.625rem;
+
+    &.c-header--flexible {
+      .c-header__main-upper-area,
+      .c-header__main-lower-area {
+        min-height: 100%;
+      }
+
+      .c-header__lower-right {
+        > div:not(:last-child),
+        .collapsible-search-form,
+        .collapsible-search-form__trigger-button,
+        .mobile-menu-trigger {
+          min-height: 100%;
+        }
+
+        .collapsible-search-form__trigger-button,
+        .mobile-menu-trigger {
+          padding-block: 0;
+        }
+      }
+
+      .c-logotype:not(.c-brand .c-logotype) {
+        width: 6.125rem;
+        height: 2.625rem;
+      }
+    }
+  }
 }
 
 @media (min-width: $ipad-breakpoint) {
@@ -128,17 +158,6 @@
       .c-logotype:not(.c-brand .c-logotype) {
         width: 9.25rem;
         height: 4rem;
-      }
-    }
-
-    &.is-scrolled {
-      height: 6rem;
-
-      &.c-header--flexible {
-        .c-logotype:not(.c-brand .c-logotype) {
-          width: 6.125rem;
-          height: 2.625rem;
-        }
       }
     }
   }
