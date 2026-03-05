@@ -100,7 +100,6 @@
   /* Shared card modes */
   .ls-mosiac__card--side-image {
     flex-direction: row;
-    min-height: clamp(20rem, 35vw, 42rem);
 
     .ls-mosiac__image-wrapper {
       order: 2;
@@ -167,8 +166,7 @@
 
     > .ls-mosiac__card {
       --mosiac-card-bg: var(--mosiac-color-green);
-      min-height: 37.5rem;
-      height: auto;
+      max-height: 37.5rem;
     }
 
     .ls-mosiac__content {
