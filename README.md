@@ -20,7 +20,9 @@ composer dump-autoload
   - `script-src`: `localhost:5173`
   - `style-src`: `localhost:5173`
   - `connect-src`: `localhost:5173` and `ws://localhost:5173`
-- Dev-only CSP override removes `upgrade-insecure-requests` and `block-all-mixed-content` when Vite dev server is active
+- Dev HTTP-mode CSP override removes `upgrade-insecure-requests` and `block-all-mixed-content` when:
+  - Vite dev server is active, or
+  - local development runs in `WP_ENV=development` with `home_url()` on `http://`
 - `Website/HTML/output` CSP hook is intentionally argumentless because earlier callbacks in the filter chain may return `null`
 - Admin assets are disabled by default and can be enabled with filter:
 
@@ -47,6 +49,7 @@ add_filter('lidingo_customisation/should_load_admin', '__return_true');
 - Local development is expected to run in HTTP mode end-to-end.
 - Keep the site URL as `http://municipio-deployment.test` when using Vite on `http://localhost:5173`.
 - If `force-ssl` is network-activated locally, disable it locally so WordPress does not rewrite theme/plugin assets to `https://` while browsing over `http://`.
+- In local HTTP development mode (`WP_ENV=development` + `home_url()` with `http://`), this plugin strips CSP directives `upgrade-insecure-requests` and `block-all-mixed-content` even when Vite dev server is off.
 
 ## Dev vs build
 

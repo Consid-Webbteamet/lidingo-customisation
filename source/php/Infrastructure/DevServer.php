@@ -1,0 +1,114 @@
+<?php
+
+declare(strict_types=1);
+
+namespace LidingoCustomisation\Infrastructure;
+
+class DevServer
+{
+    private ?bool $reachable = null;
+
+    public function shouldUseDevServer(): bool
+    {
+        $enabledByDefault = defined('WP_ENV') && WP_ENV === 'development';
+
+        $enabled = (bool) apply_filters(
+            'lidingo_customisation/use_vite_dev_server',
+            $enabledByDefault
+        );
+
+        if (!$enabled) {
+            return false;
+        }
+
+        return $this->isDevServerReachable();
+    }
+
+    public function shouldStripBlockingCspDirectives(): bool
+    {
+        return $this->shouldUseDevServer() || $this->isLocalHttpDevelopmentMode();
+    }
+
+    public function getOrigin(): string
+    {
+        $origin = (string) apply_filters(
+            'lidingo_customisation/dev_server_origin',
+            'http://localhost:5173'
+        );
+
+        return rtrim($origin, '/');
+    }
+
+    public function getHostWithPort(): ?string
+    {
+        $parsedOrigin = parse_url($this->getOrigin());
+
+        if (!is_array($parsedOrigin) || empty($parsedOrigin['host'])) {
+            return null;
+        }
+
+        $host = strtolower((string) $parsedOrigin['host']);
+
+        if (isset($parsedOrigin['port'])) {
+            $host .= ':' . (int) $parsedOrigin['port'];
+        }
+
+        return $host;
+    }
+
+    public function getWsOrigin(): ?string
+    {
+        $parsedOrigin = parse_url($this->getOrigin());
+
+        if (!is_array($parsedOrigin) || empty($parsedOrigin['host'])) {
+            return null;
+        }
+
+        $httpScheme = strtolower((string) ($parsedOrigin['scheme'] ?? 'http'));
+        $wsScheme = $httpScheme === 'https' ? 'wss' : 'ws';
+
+        $host = strtolower((string) $parsedOrigin['host']);
+
+        if (isset($parsedOrigin['port'])) {
+            $host .= ':' . (int) $parsedOrigin['port'];
+        }
+
+        return $wsScheme . '://' . $host;
+    }
+
+    private function isDevServerReachable(): bool
+    {
+        if ($this->reachable !== null) {
+            return $this->reachable;
+        }
+
+        $response = wp_remote_get(
+            $this->getOrigin() . '/@vite/client',
+            [
+                'timeout' => 0.6,
+                'sslverify' => false,
+            ]
+        );
+
+        if (is_wp_error($response)) {
+            $this->reachable = false;
+            return false;
+        }
+
+        $statusCode = wp_remote_retrieve_response_code($response);
+        $this->reachable = $statusCode >= 200 && $statusCode < 500;
+
+        return $this->reachable;
+    }
+
+    private function isLocalHttpDevelopmentMode(): bool
+    {
+        if (!defined('WP_ENV') || WP_ENV !== 'development') {
+            return false;
+        }
+
+        $homeScheme = strtolower((string) parse_url(home_url('/'), PHP_URL_SCHEME));
+
+        return $homeScheme === 'http';
+    }
+}
