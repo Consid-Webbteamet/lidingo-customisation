@@ -26,6 +26,145 @@
   }
 }
 
+.modularity-mod-posts.ls-top-cards--aktuellt {
+  .c-card__heading {
+    font-size: var(--h4-font-size);
+  }
+
+  @media screen and (min-width: 56em) {
+    // Cards 3-5: compact stacked list in the right column.
+    > .o-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(18rem, 0.9fr);
+      grid-template-rows: repeat(3, minmax(0, 1fr));
+      column-gap: 2.5rem;
+      row-gap: 1.5rem;
+      align-items: stretch;
+    }
+
+    > .o-grid > .o-grid-4\@md[data-js-item-id] {
+      display: block;
+      inline-size: 100%;
+      width: 100%;
+      max-width: none;
+      min-width: 0;
+      flex: initial;
+      justify-self: stretch;
+      align-self: stretch;
+      margin: 0;
+      padding: 0;
+    }
+
+    // Cards 1-5: let wrappers and cards fill the custom grid tracks.
+    > .o-grid > [data-js-item-id],
+    > .o-grid > .o-grid-4\@md[data-js-item-id] > .c-card,
+    > .o-grid
+      > .o-grid-4\@md[data-js-item-id]
+      > .c-card
+      > .c-card__paint-container {
+      max-width: none;
+      min-width: 0;
+      width: 100%;
+    }
+
+    > .o-grid > [data-js-item-id]:nth-child(1) {
+      grid-column: 1;
+      grid-row: 1 / 4;
+      align-self: start;
+    }
+
+    // Card 2: large feature card in column 2.
+    > .o-grid > [data-js-item-id]:nth-child(2) {
+      grid-column: 2;
+      grid-row: 1 / 4;
+      align-self: start;
+    }
+
+    // Card 3: first compact item in the right column.
+    > .o-grid > [data-js-item-id]:nth-child(3) {
+      grid-column: 3;
+      grid-row: 1;
+    }
+
+    // Card 4: second compact item in the right column.
+    > .o-grid > [data-js-item-id]:nth-child(4) {
+      grid-column: 3;
+      grid-row: 2;
+    }
+
+    // Card 5: third compact item in the right column.
+    > .o-grid > [data-js-item-id]:nth-child(5) {
+      grid-column: 3;
+      grid-row: 3;
+    }
+
+    // Cards 1-2: let the two feature cards size to their own content.
+    > .o-grid > [data-js-item-id]:nth-child(-n + 2) .c-card {
+      display: flex;
+      flex-direction: column;
+      height: auto;
+    }
+
+    > .o-grid > [data-js-item-id]:nth-child(-n + 2) .c-card__paint-container {
+      height: auto;
+    }
+
+    > .o-grid > [data-js-item-id]:nth-child(n + 3):nth-child(-n + 5) {
+      .c-card {
+        display: block;
+        aspect-ratio: auto;
+        min-height: 0;
+        height: 100%;
+        padding-top: 0;
+      }
+
+      .c-card__paint-container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .c-card__image-container,
+      .c-card__content {
+        display: none;
+      }
+
+      .c-card__body {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+        height: 100%;
+        padding: 1.5rem;
+      }
+
+      .c-card__heading-container,
+      .c-card__heading,
+      .c-card__date {
+        margin: 0;
+      }
+
+      .c-group {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 0;
+      }
+
+      .c-card__date {
+        order: -1;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        .c-icon {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+}
+
 a.c-card {
   &:hover {
     transform: none;
