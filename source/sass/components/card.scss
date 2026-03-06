@@ -1,7 +1,5 @@
 @use "../tokens" as *;
 
-/* card */
-
 /* front-page cards over hero */
 .ls-top-cards {
   margin-top: -1.5rem;
@@ -25,5 +23,11 @@
   .c-icon {
     font-size: var(--h4-font-size);
     color: $base-blue-400;
+  }
+}
+
+a.c-card {
+  &:hover {
+    transform: none;
   }
 }

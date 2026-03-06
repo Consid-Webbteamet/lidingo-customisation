@@ -1,0 +1,5 @@
+@use '../abstracts/variables' as *;
+
+:root.lidingo-customisation-loaded {
+  --drop-shadow-2: drop-shadow(#{$shadow-sm});
+}
