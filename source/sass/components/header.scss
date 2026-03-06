@@ -1,8 +1,79 @@
 @use "../tokens" as *;
 @use "../mixins" as *;
+@use "../abstracts/variables" as *;
 
 :root {
   --c-nav-h-font-size: 1.125rem;
+}
+
+.site-header .collapsible-search-form {
+  --lidingo-search-close-width: 5.875rem;
+  --lidingo-search-form-offset: calc(
+    var(--lidingo-search-close-width) - 4.5rem
+  );
+
+  &.is-open .collapsible-search-form__form {
+    width: 96%;
+    right: -0.1rem;
+
+    @media (min-width: ($breakpoint-lg)) {
+      width: 36rem;
+    }
+  }
+
+  .collapsible-search-form__form {
+    right: var(--lidingo-search-form-offset);
+
+    @media (min-width: ($breakpoint-lg)) {
+      top: 25%;
+    }
+  }
+
+  &__group {
+    .c-field__inner,
+    .c-field input {
+      border-radius: 0;
+    }
+
+    .c-field__inner {
+      border: 1px solid $border-marine-lightest;
+    }
+  }
+
+  &__close-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 var(--lidingo-search-close-width);
+    padding: 0;
+    background-color: $base-blue-400;
+    color: $color-white;
+
+    @media (min-width: ($breakpoint-lg)) {
+      background-color: $base-blue-300;
+    }
+
+    &::before {
+      display: none;
+    }
+
+    .c-icon.c-icon--size-md:after {
+      --c-icon-size-md: 2rem;
+    }
+
+    .material-symbols-rounded {
+      font-size: 2rem;
+    }
+
+    .c-button__label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      padding-left: 1.5rem;
+    }
+  }
 }
 
 .c-header {
