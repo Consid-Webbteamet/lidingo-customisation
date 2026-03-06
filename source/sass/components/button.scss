@@ -80,3 +80,114 @@
 .button--big.button--no-icon {
   padding: 0.75rem 2rem;
 }
+
+a.button.button--default,
+a.button.button--default:visited,
+a.button.button--default:hover,
+a.button.button--default:focus,
+a.button.button--default:active,
+a.button.button--default:visited:hover,
+a.button.button--default:visited:focus,
+a.button.button--default:visited:active,
+.link.button.button--default,
+.link.button.button--default:visited,
+.link.button.button--default:hover,
+.link.button.button--default:focus,
+.link.button.button--default:active,
+.link.button.button--default:visited:hover,
+.link.button.button--default:visited:focus,
+.link.button.button--default:visited:active {
+  color: $text-1000;
+}
+
+a.button.button--primary,
+a.button.button--primary:visited,
+a.button.button--primary:hover,
+a.button.button--primary:focus,
+a.button.button--primary:active,
+a.button.button--primary:visited:hover,
+a.button.button--primary:visited:focus,
+a.button.button--primary:visited:active,
+.link.button.button--primary,
+.link.button.button--primary:visited,
+.link.button.button--primary:hover,
+.link.button.button--primary:focus,
+.link.button.button--primary:active,
+.link.button.button--primary:visited:hover,
+.link.button.button--primary:visited:focus,
+.link.button.button--primary:visited:active {
+  color: $color-white;
+}
+
+a.button.button--secondary,
+a.button.button--secondary:visited,
+a.button.button--secondary:hover,
+a.button.button--secondary:focus,
+a.button.button--secondary:active,
+a.button.button--secondary:visited:hover,
+a.button.button--secondary:visited:focus,
+a.button.button--secondary:visited:active,
+.link.button.button--secondary,
+.link.button.button--secondary:visited,
+.link.button.button--secondary:hover,
+.link.button.button--secondary:focus,
+.link.button.button--secondary:active,
+.link.button.button--secondary:visited:hover,
+.link.button.button--secondary:visited:focus,
+.link.button.button--secondary:visited:active {
+  color: $base-blue-500;
+}
+
+a.button.button--ghost,
+a.button.button--ghost:visited,
+a.button.button--ghost:hover,
+a.button.button--ghost:focus,
+a.button.button--ghost:active,
+a.button.button--ghost:visited:hover,
+a.button.button--ghost:visited:focus,
+a.button.button--ghost:visited:active,
+.link.button.button--ghost,
+.link.button.button--ghost:visited,
+.link.button.button--ghost:hover,
+.link.button.button--ghost:focus,
+.link.button.button--ghost:active,
+.link.button.button--ghost:visited:hover,
+.link.button.button--ghost:visited:focus,
+.link.button.button--ghost:visited:active,
+a.button.button--big,
+a.button.button--big:visited,
+a.button.button--big:hover,
+a.button.button--big:focus,
+a.button.button--big:active,
+a.button.button--big:visited:hover,
+a.button.button--big:visited:focus,
+a.button.button--big:visited:active,
+.link.button.button--big,
+.link.button.button--big:visited,
+.link.button.button--big:hover,
+.link.button.button--big:focus,
+.link.button.button--big:active,
+.link.button.button--big:visited:hover,
+.link.button.button--big:visited:focus,
+.link.button.button--big:visited:active {
+  color: $text-1000;
+}
+
+a.button.button--white,
+a.button.button--white:visited,
+a.button.button--white:hover,
+a.button.button--white:focus,
+a.button.button--white:active,
+a.button.button--white:visited:hover,
+a.button.button--white:visited:focus,
+a.button.button--white:visited:active,
+.link.button.button--white,
+.link.button.button--white:visited,
+.link.button.button--white:hover,
+.link.button.button--white:focus,
+.link.button.button--white:active,
+.link.button.button--white:visited:hover,
+.link.button.button--white:visited:focus,
+.link.button.button--white:visited:active {
+  color: $color-white;
+}
