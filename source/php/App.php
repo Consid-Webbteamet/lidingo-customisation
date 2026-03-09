@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace LidingoCustomisation;
 
 use LidingoCustomisation\Components\HeroSearch\HeroSearchOverrides;
+use LidingoCustomisation\Components\Posts\PostsDateOverrides;
 use LidingoCustomisation\Infrastructure\AssetRenderer;
 use LidingoCustomisation\Infrastructure\AssetManifest;
 use LidingoCustomisation\Infrastructure\CspHandler;
@@ -17,6 +18,7 @@ class App
     private AssetRenderer $assetRenderer;
     private CspHandler $cspHandler;
     private HeroSearchOverrides $heroSearchOverrides;
+    private PostsDateOverrides $postsDateOverrides;
 
     public function __construct()
     {
@@ -25,6 +27,7 @@ class App
         $this->assetRenderer = new AssetRenderer($this->assetManifest, $this->devServer);
         $this->cspHandler = new CspHandler($this->devServer);
         $this->heroSearchOverrides = new HeroSearchOverrides();
+        $this->postsDateOverrides = new PostsDateOverrides();
 
         $this->addHooks();
     }
@@ -38,6 +41,7 @@ class App
         add_filter('WpSecurity/Csp', [$this, 'addDevServerCspDomains'], 10, 1);
         add_filter('Website/HTML/output', [$this, 'stripDevBlockingCspDirectives'], 20, 0);
         $this->heroSearchOverrides->addHooks();
+        $this->postsDateOverrides->addHooks();
 
         if (!$this->assetManifest->isLoaded()) {
             add_action('admin_notices', [$this, 'renderMissingManifestNotice']);

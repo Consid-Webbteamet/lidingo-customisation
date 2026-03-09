@@ -27,6 +27,11 @@ $base-green-300: var(--color-quaternary-300);
 $base-green-400: var(--color-quaternary-400);
 $base-green-500: var(--color-quaternary-500);
 
+/* Additional colors from design */
+$standard-yellow-500: #a86700;
+$text-500: #757575;
+$text-1000: #333333;
+
 /* Core Municipio colors from Customizer > General Appearance > Colors */
 $color-primary: var(--color-primary);
 $color-primary-dark: var(--color-primary-dark);
@@ -52,8 +57,8 @@ $color-border-divider: var(--color-border-divider);
 $color-border-outline: var(--color-border-outline);
 $color-border-input: var(--color-border-input);
 $border-dark: var(--border-dark, #333);
-$border-marine-lightest: #8095A4;
-$border-marine-darkest: var(--border-marine-darkest, #002B49);
+$border-marine-lightest: #8095a4;
+$border-marine-darkest: var(--border-marine-darkest, #002b49);
 
 $color-link: var(--color-link);
 $color-link-hover: var(--color-link-hover);
