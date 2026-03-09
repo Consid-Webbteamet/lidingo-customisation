@@ -9,6 +9,7 @@
 @use './components/card-news-grid';
 @use './components/button';
 @use './components/mosiac';
+@use 'typography';
 
 :root.lidingo-customisation-loaded {
   --lidingo-customisation-ready: 1;
