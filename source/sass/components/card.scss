@@ -70,14 +70,12 @@
     > .o-grid > [data-js-item-id]:nth-child(1) {
       grid-column: 1;
       grid-row: 1 / 4;
-      align-self: start;
     }
 
     // Card 2: large feature card in column 2.
     > .o-grid > [data-js-item-id]:nth-child(2) {
       grid-column: 2;
       grid-row: 1 / 4;
-      align-self: start;
     }
 
     // Card 3: first compact item in the right column.
