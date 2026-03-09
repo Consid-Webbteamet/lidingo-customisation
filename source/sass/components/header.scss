@@ -187,6 +187,14 @@
   &.is-scrolled {
     height: 4.625rem;
 
+    .collapsible-search-form .collapsible-search-form__form {
+      top: 8px;
+
+      @media (min-width: $breakpoint-md) {
+        top: 10%;
+      }
+    }
+
     &.c-header--flexible {
       .c-header__main-upper-area,
       .c-header__main-lower-area {
