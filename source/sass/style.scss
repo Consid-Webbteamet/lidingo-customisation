@@ -2,6 +2,8 @@
  * Frontend overrides loaded after Municipio custom code.
  */
 
+@use 'typography';
+
 :root.lidingo-customisation-loaded {
   --lidingo-customisation-ready: 1;
 }

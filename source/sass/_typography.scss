@@ -1,0 +1,120 @@
+@use 'abstracts/variables' as *;
+@use 'abstracts/mixins' as *;
+
+:root.lidingo-customisation-loaded {
+  --font-size-base-current: var(--font-size-base, 1.125rem);
+  --mega-font-size-current: var(--mega-font-size, var(--h1-font-size, 2.8125rem));
+  --h1-font-size-current: var(--h1-font-size, 2.8125rem);
+  --h2-font-size-current: var(--h2-font-size, 2.3125rem);
+  --h3-font-size-current: var(--h3-font-size, 1.9375rem);
+  --h4-font-size-current: var(--h4-font-size, 1.625rem);
+  --h5-font-size-current: var(--h5-font-size, 1.125rem);
+  --h6-font-size-current: var(--h6-font-size, 1.125rem);
+  --card-header-font-size-current: var(--card-header-font-size, var(--h4-font-size-current));
+  --preamble-font-size-current: var(--preamble-font-size, var(--h5-font-size-current));
+  --link-big-font-size-current: var(--link-big-font-size, var(--preamble-font-size-current));
+  --link-font-size-current: var(--link-font-size, var(--font-size-base-current));
+  --overlay-font-size-current: var(--overlay-font-size, 0.875rem);
+  --caption-font-size-current: var(--caption-font-size, 0.875rem);
+}
+
+.mega,
+.t-mega,
+.u-text-mega {
+  font-size: var(--mega-font-size-current);
+}
+
+h1,
+.h1 {
+  font-size: var(--h1-font-size-current);
+}
+
+h2,
+.h2 {
+  font-size: var(--h2-font-size-current);
+}
+
+h3,
+.h3 {
+  font-size: var(--h3-font-size-current);
+}
+
+h4,
+.h4 {
+  font-size: var(--h4-font-size-current);
+}
+
+.card-header,
+.o-card__title {
+  font-size: var(--card-header-font-size-current);
+}
+
+h5,
+.h5 {
+  font-size: var(--h5-font-size-current);
+}
+
+.preamble,
+.lead,
+.ingress {
+  font-size: var(--preamble-font-size-current);
+}
+
+h6,
+.h6 {
+  font-size: var(--h6-font-size-current);
+}
+
+.link-text-big,
+.link--large {
+  font-size: var(--link-big-font-size-current);
+}
+
+body,
+p,
+li,
+td,
+th,
+label,
+input,
+textarea,
+select {
+  font-size: var(--font-size-base-current);
+}
+
+a,
+.link-text {
+  font-size: var(--link-font-size-current);
+}
+
+.overlay,
+.overline {
+  font-size: var(--overlay-font-size-current);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+figcaption,
+.caption,
+small {
+  font-size: var(--caption-font-size-current);
+}
+
+@include breakpoint-down($breakpoint-lg) {
+  :root.lidingo-customisation-loaded {
+    --font-size-base: var(--font-size-base-mobile, 1.125rem);
+    --mega-font-size: var(--mega-font-size-mobile, 2.5625rem);
+    --h1-font-size: var(--h1-font-size-mobile, 2rem);
+    --h2-font-size: var(--h2-font-size-mobile, 1.8125rem);
+    --h3-font-size: var(--h3-font-size-mobile, 1.625rem);
+    --h4-font-size: var(--h4-font-size-mobile, 1.4375rem);
+    --h5-font-size: var(--h5-font-size-mobile, 1.125rem);
+    --h6-font-size: var(--h6-font-size-mobile, 1.125rem);
+    --card-header-font-size: var(--card-header-font-size-mobile, var(--h4-font-size));
+    --preamble-font-size: var(--preamble-font-size-mobile, 1.25rem);
+    --link-big-font-size: var(--link-big-font-size-mobile, 1.25rem);
+    --link-font-size: var(--link-font-size-mobile, var(--font-size-base));
+    --overlay-font-size: var(--overlay-font-size-mobile, 0.875rem);
+    --caption-font-size: var(--caption-font-size-mobile, 0.875rem);
+  }
+}
