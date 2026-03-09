@@ -2,6 +2,7 @@
 
 .button,
 .button:visited {
+  font-size: var(--font-size-base);
   display: inline-flex;
   padding: 0.5rem 2rem;
   justify-content: center;
