@@ -7,6 +7,8 @@
   background-color: $base-blue-400;
   --c-drawer-basic-background-color: $base-blue-400;
   --drawer-background: #{$base-blue-400};
+  --lidingo-nav-indicator-width: 1.375rem;
+  --lidingo-nav-indicator-height: 0.5rem;
 
   .c-drawer__header {
     background-color: $base-blue-400;
@@ -20,17 +22,35 @@
 
   ul.c-nav.c-nav--depth-2 {
     --c-nav-v-background-expanded: #{$base-blue-300};
+    --lidingo-nav-indicator-left: calc(var(--lidingo-nav-indicator-width) / -2);
     background-color: $base-blue-200;
   }
 
   ul.c-nav.c-nav--depth-3 {
     --c-nav-v-background-expanded: #{$base-blue-100};
+    --lidingo-nav-indicator-left: calc(var(--lidingo-nav-indicator-width) / -2);
     background-color: $base-blue-100;
   }
 
   ul.c-nav.c-nav--depth-4 {
     --c-nav-v-background-expanded: #{$color-white};
+    --lidingo-nav-indicator-left: calc(var(--lidingo-nav-indicator-width) / -2);
     background-color: $color-white;
+  }
+
+  ul.c-nav.c-nav--depth-2,
+  ul.c-nav.c-nav--depth-3,
+  ul.c-nav.c-nav--depth-4 {
+    position: relative;
+
+    .c-nav__item.is-open > .c-nav__item-wrapper .c-nav__link::after {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .c-nav__item.is-open > .c-nav__item-wrapper:hover .c-nav__link::after {
+      display: none;
+    }
   }
 
   ul.c-nav.c-nav--depth-3,
@@ -90,5 +110,58 @@
 
   ul.c-nav.c-nav--depth-4 .c-nav__link {
     padding-left: 4.5rem;
+  }
+
+  .c-nav__item--current-page-badge {
+    .c-nav__text {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      width: 100%;
+    }
+
+    .c-nav__label-copy {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .c-nav__current-badge {
+      display: inline-flex;
+      flex: 0 0 auto;
+      align-items: center;
+      padding-inline: 0.5rem;
+      background-color: $standard-red-500;
+      color: $color-white;
+      font-size: 0.875rem;
+      white-space: nowrap;
+    }
+  }
+}
+
+.lidingo-nav-hover-indicator {
+  position: fixed;
+  top: 0;
+  left: calc(var(--lidingo-nav-indicator-submenu-left, 0px) + var(--lidingo-nav-indicator-left, 0px));
+  width: var(--lidingo-nav-indicator-width, 1.375rem);
+  height: var(--lidingo-nav-indicator-height, 0.5rem);
+  background-color: $standard-red-500;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(0, calc(var(--lidingo-nav-indicator-y, 0px) - 50%), 0);
+  transition:
+    opacity 180ms ease,
+    transform 70ms linear;
+  will-change: transform, opacity;
+  z-index: 1001;
+
+  &[data-lidingo-nav-indicator-visible="true"] {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lidingo-nav-hover-indicator {
+    transition: opacity 120ms ease;
   }
 }
