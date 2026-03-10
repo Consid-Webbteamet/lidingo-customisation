@@ -152,7 +152,7 @@
     opacity 180ms ease,
     transform 70ms linear;
   will-change: transform, opacity;
-  z-index: 1001;
+  z-index: 9999;
 
   &[data-lidingo-nav-indicator-visible="true"] {
     opacity: 1;
