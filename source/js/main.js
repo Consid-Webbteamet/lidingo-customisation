@@ -2,6 +2,7 @@
  * Frontend entry for Lidingo Customisation.
  */
 
+import initNavHoverIndicator from './components/navHoverIndicator';
 import initScrolledHeaderState from './components/scrolledHeader';
 
 if (import.meta.env.DEV) {
@@ -11,4 +12,5 @@ if (import.meta.env.DEV) {
 document.addEventListener('DOMContentLoaded', () => {
     document.documentElement.classList.add('lidingo-customisation-loaded');
     initScrolledHeaderState();
+    initNavHoverIndicator();
 });
