@@ -2,15 +2,16 @@
  * Frontend overrides loaded after Municipio custom code.
  */
 
-@use './components/header';
-@use './components/footer';
-@use './components/search-hero';
-@use './components/card';
-@use './components/card-news-grid';
-@use './components/button';
-@use './components/mosiac';
-@use './components/shortcuts';
-@use 'typography';
+@use "./components/header";
+@use "./components/footer";
+@use "./components/search-hero";
+@use "./components/card";
+@use "./components/card-news-grid";
+@use "./components/button";
+@use "./components/mosiac";
+@use "./components/shortcuts";
+@use "./components/nav";
+@use "typography";
 
 :root.lidingo-customisation-loaded {
   --lidingo-customisation-ready: 1;
