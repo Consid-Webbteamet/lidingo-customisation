@@ -114,15 +114,14 @@
 
   .c-nav__item--current-page-badge {
     .c-nav__text {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 1rem;
-      width: 100%;
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
 
     .c-nav__label-copy {
-      flex: 1 1 auto;
+      flex: 0 1 auto;
       min-width: 0;
     }
 
