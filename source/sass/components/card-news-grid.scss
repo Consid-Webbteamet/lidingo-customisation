@@ -50,6 +50,12 @@
     padding-bottom: 1.5rem;
   }
 
+  .c-card__date {
+    .c-icon {
+      display: none;
+    }
+  }
+
   > .o-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
@@ -162,10 +168,6 @@
               padding-inline: 2rem;
               background-color: $standard-yellow-500;
               color: $color-white;
-
-              .c-icon {
-                display: none;
-              }
             }
           }
         }
