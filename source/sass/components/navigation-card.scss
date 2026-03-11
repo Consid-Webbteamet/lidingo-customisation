@@ -2,6 +2,16 @@
 @use "../mixins" as *;
 @use "../abstracts/variables" as *;
 
+// Add negative margin if navigation card is after hero
+.modularity-mod-hero.block-modularity-mod-hero
+  + .modularity-mod-navigation-card.block-modularity-mod-navigation-card {
+  @media (min-width: $breakpoint-md) {
+    margin-top: -1rem;
+    position: relative;
+    z-index: 2;
+  }
+}
+
 .modularity-mod-navigation-card {
   .navigation-card-grid {
     display: grid;
@@ -40,7 +50,7 @@
   }
 
   .navigation-card {
-    background: #f6f5f2;
+    background: $color-white;
     box-shadow: $shadow-sm;
     color: $text-1000;
     display: flex;
@@ -52,7 +62,8 @@
 
     &__body {
       flex: 1 1 auto;
-      padding: 2rem 1.875rem 1.625rem;
+      padding-inline: 1.5rem;
+      padding-block: 2rem;
     }
 
     &__parent,
@@ -166,13 +177,6 @@
 
     &__toggle-icon {
       transition: transform 160ms ease;
-    }
-
-    &__toggle:focus-visible,
-    &__parent:focus-visible,
-    &__link:focus-visible {
-      outline: 2px solid $border-dark;
-      outline-offset: 3px;
     }
 
     &__parent:hover .navigation-card__parent-title,
