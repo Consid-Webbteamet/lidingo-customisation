@@ -9,6 +9,11 @@
     }
   }
 
+  &.c-hero.c-hero--normal {
+    min-height: initial;
+    max-height: 21.25rem;
+  }
+
   &.c-hero--overlay {
     .c-hero__overlay {
       backdrop-filter: none;
