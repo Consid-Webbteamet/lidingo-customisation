@@ -2,7 +2,7 @@
 @use 'abstracts/mixins' as *;
 
 :root.lidingo-customisation-loaded {
-  --mega-font-size: var(--mega-font-size, 2.8125rem);
+  --mega-font-size: 4rem;
   --card-header-font-size: var(--card-header-font-size, var(--h4-font-size, 1.625rem));
   --preamble-font-size: var(--preamble-font-size, 1.25rem);
   --link-big-font-size: var(--link-big-font-size, var(--preamble-font-size));
