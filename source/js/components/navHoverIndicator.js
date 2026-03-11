@@ -3,7 +3,7 @@
 // extend beyond the drawer edge because it is rendered in the document body.
 const DRAWER_SELECTOR = ".c-drawer";
 const SUBMENU_SELECTOR =
-  "ul.c-nav.c-nav--depth-2, ul.c-nav.c-nav--depth-3, ul.c-nav.c-nav--depth-4";
+  "ul.c-nav.c-nav--depth-2, ul.c-nav.c-nav--depth-3, ul.c-nav.c-nav--depth-4 ul.c-nav.c-nav--depth-5";
 const INDICATOR_CLASS = "lidingo-nav-hover-indicator";
 const INDICATOR_VISIBLE_ATTRIBUTE = "data-lidingo-nav-indicator-visible";
 const POSITION_PROPERTY = "--lidingo-nav-indicator-y";
