@@ -1,0 +1,8 @@
+@use "../tokens" as *;
+
+body.home,
+body.page-template-landing-page,
+body.page-template-landing-page-blade,
+body.page-template-landing-page-blade-php {
+  background-color: $base-blue-50;
+}
