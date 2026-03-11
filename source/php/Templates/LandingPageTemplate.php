@@ -15,9 +15,8 @@ class LandingPageTemplate
 
     public function __construct(?string $viewPath = null)
     {
-        $this->viewPath = rtrim(
-            $viewPath ?? LIDINGO_CUSTOMISATION_PATH . 'source/views',
-            DIRECTORY_SEPARATOR
+        $this->viewPath = untrailingslashit(
+            $viewPath ?? LIDINGO_CUSTOMISATION_PATH . 'source/views'
         );
     }
 
@@ -37,7 +36,7 @@ class LandingPageTemplate
 
         MunicipioTemplate::add(
             __(self::TEMPLATE_NAME, 'lidingo-customisation'),
-            $this->viewPath . DIRECTORY_SEPARATOR . self::TEMPLATE_SLUG,
+            path_join($this->viewPath, self::TEMPLATE_SLUG),
             ['page']
         );
     }
