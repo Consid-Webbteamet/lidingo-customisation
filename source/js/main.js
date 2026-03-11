@@ -3,6 +3,7 @@
  */
 
 import initNavCurrentBadge from './components/navCurrentBadge';
+import initNavigationCard from './components/navigationCard';
 import initNavHoverIndicator from './components/navHoverIndicator';
 import initScrolledHeaderState from './components/scrolledHeader';
 
@@ -13,6 +14,7 @@ if (import.meta.env.DEV) {
 document.addEventListener('DOMContentLoaded', () => {
     document.documentElement.classList.add('lidingo-customisation-loaded');
     initNavCurrentBadge();
+    initNavigationCard();
     initScrolledHeaderState();
     initNavHoverIndicator();
 });
