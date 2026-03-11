@@ -8,6 +8,7 @@ const OWN_TEXT_SELECTOR = ":scope > .c-nav__item-wrapper .c-nav__text";
 const LABEL_COPY_CLASS = "c-nav__label-copy";
 const BADGE_CLASS = "c-nav__current-badge";
 const ACTIVE_BADGE_ITEM_CLASS = "c-nav__item--current-page-badge";
+const CURRENT_ITEM_CLASS = "is-current";
 const DRAWER_INITIALIZED_ATTRIBUTE =
   "data-lidingo-nav-current-badge-initialized";
 
@@ -149,34 +150,41 @@ const decorateItem = (item) => {
   }
 };
 
-// Find all items in a drawer whose link exactly matches the current page URL.
-const getMatchingItems = (drawer, currentPathname) => {
-  if (currentPathname === "") {
-    return [];
-  }
-
-  return Array.from(drawer.querySelectorAll(ITEM_SELECTOR)).filter(
-    (item) =>
-      item instanceof HTMLElement &&
-      getOwnLinkPathname(item) === currentPathname,
-  );
-};
-
 // Pick the best match by preferring the deepest item and then the last match.
-const getWinningItem = (drawer, currentPathname) => {
-  const matchingItems = getMatchingItems(drawer, currentPathname);
-
-  if (matchingItems.length === 0) {
-    return null;
-  }
-
-  return matchingItems.reduce((winningItem, item) => {
+const getDeepestItem = (items) =>
+  items.reduce((winningItem, item) => {
     if (!(winningItem instanceof HTMLElement)) {
       return item;
     }
 
     return getItemDepth(item) >= getItemDepth(winningItem) ? item : winningItem;
   }, null);
+
+// Prefer the authoritative server-rendered current item before URL matching.
+const getWinningItem = (drawer, currentPathname) => {
+  const currentItems = Array.from(drawer.querySelectorAll(ITEM_SELECTOR)).filter(
+    (item) => item instanceof HTMLElement && item.classList.contains(CURRENT_ITEM_CLASS),
+  );
+
+  if (currentItems.length > 0) {
+    return getDeepestItem(currentItems);
+  }
+
+  if (currentPathname === "") {
+    return null;
+  }
+
+  const matchingItems = Array.from(drawer.querySelectorAll(ITEM_SELECTOR)).filter(
+    (item) =>
+      item instanceof HTMLElement &&
+      getOwnLinkPathname(item) === currentPathname,
+  );
+
+  if (matchingItems.length === 0) {
+    return null;
+  }
+
+  return getDeepestItem(matchingItems);
 };
 
 // Keep exactly one current-page badge in the drawer.
