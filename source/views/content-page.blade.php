@@ -1,10 +1,10 @@
 @extends('templates.master')
 
 @section('layout')
-    <div class="c-content-page">
+    <div class="o-container c-content-page">
         <div class="c-content-page__grid">
             <div class="c-content-page__main">
-                <div class="o-container c-content-page__main-inner">
+                <div class="c-content-page__main-inner">
                     <div class="c-content-page__helper u-print-display--none">
                         @includeIf('partials.navigation.breadcrumb')
 
@@ -29,20 +29,22 @@
 
                     @php($pageTitle = method_exists($post, 'getTitle') ? $post->getTitle() : ($post->post_title ?? ''))
 
-                    @if (!empty($pageTitle))
-                        <h1 class="c-content-page__title">{!! $pageTitle !!}</h1>
-                    @endif
-
-                    @if (!empty($contentPagePreamble))
-                        <div class="c-content-page__preamble lead">
-                            {!! $contentPagePreamble !!}
-                        </div>
-                    @endif
-
-                    <div class="c-content-page__content">
-                        @if ($hasBlocks && $post)
-                            {!! $post->postContentFiltered !!}
+                    <div class="c-content-page__content-inner">
+                        @if (!empty($pageTitle))
+                            <h1 class="c-content-page__title">{!! $pageTitle !!}</h1>
                         @endif
+
+                        @if (!empty($contentPagePreamble))
+                            <div class="c-content-page__preamble lead">
+                                {!! $contentPagePreamble !!}
+                            </div>
+                        @endif
+
+                        <div class="c-content-page__content">
+                            @if ($hasBlocks && $post)
+                                {!! $post->postContentFiltered !!}
+                            @endif
+                        </div>
                     </div>
 
                     @if (!empty($contentPagePublishedDate))
@@ -62,7 +64,7 @@
             </aside>
         </div>
 
-        <div class="o-container c-content-page__below">
+        <div class="c-content-page__below">
             @includeIf('partials.sidebar', ['id' => 'content-area', 'classes' => ['o-grid']])
         </div>
     </div>
