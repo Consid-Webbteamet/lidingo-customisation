@@ -206,10 +206,18 @@
       overflow: hidden;
     }
 
+    &__hidden--inline {
+      padding-inline: 0;
+    }
+
     &__hidden.is-open {
       grid-template-rows: 1fr;
       opacity: 1;
       padding-bottom: 1.5rem;
+    }
+
+    &__hidden--inline.is-open {
+      padding-bottom: 0;
     }
 
     &__hidden:not(.is-open) {
@@ -218,6 +226,10 @@
 
     &__list--hidden {
       padding-top: 0.25rem;
+    }
+
+    &__hidden--inline > .navigation-card__list--hidden {
+      padding-top: 1rem;
     }
 
     &__hidden .navigation-card__item {
