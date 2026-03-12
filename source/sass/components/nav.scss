@@ -60,7 +60,6 @@
       --c-nav-v-color-contrasting: #{$text-1000};
       --c-nav-v-color-contrasting-active: #{$text-1000};
       color: $text-1000;
-
     }
   }
 
@@ -126,6 +125,7 @@
     }
 
     .c-nav__current-badge {
+      font-family: var(--font-family-base);
       display: inline-flex;
       flex: 0 0 auto;
       align-items: center;
@@ -141,7 +141,10 @@
 .lidingo-nav-hover-indicator {
   position: fixed;
   top: 0;
-  left: calc(var(--lidingo-nav-indicator-submenu-left, 0px) + var(--lidingo-nav-indicator-left, 0px));
+  left: calc(
+    var(--lidingo-nav-indicator-submenu-left, 0px) +
+      var(--lidingo-nav-indicator-left, 0px)
+  );
   width: var(--lidingo-nav-indicator-width, 1.375rem);
   height: var(--lidingo-nav-indicator-height, 0.5rem);
   background-color: $standard-red-500;
