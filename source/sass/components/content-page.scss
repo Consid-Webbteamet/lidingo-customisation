@@ -1,0 +1,129 @@
+@use "../tokens" as *;
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.c-content-page {
+  &__grid {
+    display: grid;
+    gap: 0;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  &__main {
+    padding-bottom: 10rem;
+  }
+
+  &__main-inner {
+    max-width: none;
+  }
+
+  &__helper {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+  }
+
+  &__print {
+    align-self: flex-start;
+  }
+
+  &__print-button {
+    .c-button__label {
+      align-items: center;
+      display: inline-flex;
+      flex-direction: row-reverse;
+      gap: 0.5rem;
+
+      &::before {
+        content: ":skrivare:";
+        display: inline-block;
+        font-family: "Lidingo Logical", sans-serif;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+      }
+    }
+  }
+
+  &__title {
+    margin: 0 0 2rem;
+  }
+
+  &__content {
+    > *:first-child {
+      margin-top: 0;
+    }
+
+    a {
+      color: $standard-blue-700;
+
+      &:visited,
+      &:hover,
+      &:focus-visible {
+        color: $standard-blue-700;
+      }
+    }
+  }
+
+  &__content-inner {
+    max-width: 68ch;
+  }
+
+  &__preamble {
+    margin-bottom: 2rem;
+
+    > *:first-child {
+      margin-top: 0;
+    }
+
+    > *:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__published {
+    margin-top: 3rem;
+  }
+
+  .c-image img {
+    margin-block: 2.5rem;
+  }
+
+  &__aside {
+    background: $color-primary-50;
+    box-shadow: 100vmax 0 0 100vmax $color-primary-50;
+    clip-path: inset(0 -100vmax 0 0);
+    display: none;
+    min-height: 16rem;
+    padding: 2rem 1.5rem;
+    position: relative;
+    z-index: 0;
+
+    > *:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__aside-inner {
+    max-width: 24rem;
+
+    > *:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  @include breakpoint-up($breakpoint-lg) {
+    &__grid {
+      column-gap: 3rem;
+      grid-template-columns: minmax(0, 2fr) minmax(18rem, 1fr);
+    }
+
+    &__aside {
+      display: block;
+      min-height: 100%;
+      padding-bottom: 10rem;
+      padding-left: 4rem;
+    }
+  }
+}
