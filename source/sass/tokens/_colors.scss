@@ -39,6 +39,11 @@ $standard-blue-700: #123F7C;
 $text-500: #757575;
 $text-1000: #333333;
 
+:root {
+  --text-1000: #{$text-1000};
+  --wp--preset--color--black: var(--text-1000);
+}
+
 /* Core Municipio colors from Customizer > General Appearance > Colors */
 $color-primary: var(--color-primary);
 $color-primary-dark: var(--color-primary-dark);
