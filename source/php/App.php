@@ -6,6 +6,7 @@ namespace LidingoCustomisation;
 
 use LidingoCustomisation\Components\HeroSearch\HeroSearchOverrides;
 use LidingoCustomisation\Components\Posts\PostsDateOverrides;
+use LidingoCustomisation\Components\Sections\SectionFullHeadingOverrides;
 use LidingoCustomisation\Infrastructure\AssetRenderer;
 use LidingoCustomisation\Infrastructure\AssetManifest;
 use LidingoCustomisation\Infrastructure\CspHandler;
@@ -21,6 +22,7 @@ class App
     private CspHandler $cspHandler;
     private HeroSearchOverrides $heroSearchOverrides;
     private PostsDateOverrides $postsDateOverrides;
+    private SectionFullHeadingOverrides $sectionFullHeadingOverrides;
     private LandingPageTemplate $landingPageTemplate;
     private ContentPageTemplate $contentPageTemplate;
 
@@ -32,6 +34,7 @@ class App
         $this->cspHandler = new CspHandler($this->devServer);
         $this->heroSearchOverrides = new HeroSearchOverrides();
         $this->postsDateOverrides = new PostsDateOverrides();
+        $this->sectionFullHeadingOverrides = new SectionFullHeadingOverrides();
         $this->landingPageTemplate = new LandingPageTemplate();
         $this->contentPageTemplate = new ContentPageTemplate();
 
@@ -48,6 +51,7 @@ class App
         add_filter('Website/HTML/output', [$this, 'stripDevBlockingCspDirectives'], 20, 0);
         $this->heroSearchOverrides->addHooks();
         $this->postsDateOverrides->addHooks();
+        $this->sectionFullHeadingOverrides->addHooks();
         $this->landingPageTemplate->addHooks();
         $this->contentPageTemplate->addHooks();
 
