@@ -1,5 +1,10 @@
 @use "../tokens" as *;
 
+.t-block-container.t-block-button {
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+}
+
 .button,
 .button:visited {
   font-size: var(--font-size-base);
