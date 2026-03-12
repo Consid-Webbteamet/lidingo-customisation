@@ -39,20 +39,20 @@
 
 .button--default {
   border: 1px solid $border-dark;
-  background: $base-blue-50;
+  background: $color-primary-50;
   color: $text-1000;
 }
 
 .button--primary {
-  border: 1px solid $base-blue-500;
-  background: $base-blue-500;
+  border: 1px solid $color-primary-500;
+  background: $color-primary-500;
   color: $color-white;
 }
 
 .button--secondary {
   border: 1px solid $border-marine-darkest;
   background: transparent;
-  color: $base-blue-500;
+  color: $color-primary-500;
 }
 
 .button--ghost {
@@ -136,7 +136,7 @@ a.button.button--secondary:visited:active,
 .link.button.button--secondary:visited:hover,
 .link.button.button--secondary:visited:focus,
 .link.button.button--secondary:visited:active {
-  color: $base-blue-500;
+  color: $color-primary-500;
 }
 
 a.button.button--ghost,

@@ -4,32 +4,32 @@
 
 .c-drawer {
   max-width: 31.25rem;
-  background-color: $base-blue-400;
-  --c-drawer-basic-background-color: $base-blue-400;
-  --drawer-background: #{$base-blue-400};
+  background-color: $color-primary-400;
+  --c-drawer-basic-background-color: $color-primary-400;
+  --drawer-background: #{$color-primary-400};
   --lidingo-nav-indicator-width: 1.375rem;
   --lidingo-nav-indicator-height: 0.5rem;
 
   .c-drawer__header {
-    background-color: $base-blue-400;
+    background-color: $color-primary-400;
   }
 
   ul.c-nav.c-nav--drawer,
   ul.c-nav.c-nav--depth-1 {
-    --c-nav-v-background-expanded: #{$base-blue-400};
-    background-color: $base-blue-400;
+    --c-nav-v-background-expanded: #{$color-primary-400};
+    background-color: $color-primary-400;
   }
 
   ul.c-nav.c-nav--depth-2 {
-    --c-nav-v-background-expanded: #{$base-blue-300};
+    --c-nav-v-background-expanded: #{$color-primary-300};
     --lidingo-nav-indicator-left: calc(var(--lidingo-nav-indicator-width) / -2);
-    background-color: $base-blue-200;
+    background-color: $color-primary-200;
   }
 
   ul.c-nav.c-nav--depth-3 {
-    --c-nav-v-background-expanded: #{$base-blue-100};
+    --c-nav-v-background-expanded: #{$color-primary-100};
     --lidingo-nav-indicator-left: calc(var(--lidingo-nav-indicator-width) / -2);
-    background-color: $base-blue-100;
+    background-color: $color-primary-100;
   }
 
   ul.c-nav.c-nav--depth-4 {

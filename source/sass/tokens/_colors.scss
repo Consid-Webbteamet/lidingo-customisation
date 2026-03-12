@@ -1,33 +1,33 @@
-/* Extended color scales from municipio-color-extension */
-$base-blue-50: var(--color-primary-50);
-$base-blue-100: var(--color-primary-100);
-$base-blue-200: var(--color-primary-200);
-$base-blue-300: var(--color-primary-300);
-$base-blue-400: var(--color-primary-400);
-$base-blue-500: var(--color-primary-500);
+/* Site-configured semantic color scales from Municipio Customizer */
+$color-primary-50: var(--color-primary-50);
+$color-primary-100: var(--color-primary-100);
+$color-primary-200: var(--color-primary-200);
+$color-primary-300: var(--color-primary-300);
+$color-primary-400: var(--color-primary-400);
+$color-primary-500: var(--color-primary-500);
 
-$base-red-50: var(--color-secondary-50);
-$base-red-100: var(--color-secondary-100);
-$base-red-200: var(--color-secondary-200);
-$base-red-300: var(--color-secondary-300);
-$base-red-400: var(--color-secondary-400);
-$base-red-500: var(--color-secondary-500);
+$color-secondary-50: var(--color-secondary-50);
+$color-secondary-100: var(--color-secondary-100);
+$color-secondary-200: var(--color-secondary-200);
+$color-secondary-300: var(--color-secondary-300);
+$color-secondary-400: var(--color-secondary-400);
+$color-secondary-500: var(--color-secondary-500);
 
-$base-brown-50: var(--color-tertiary-50);
-$base-brown-100: var(--color-tertiary-100);
-$base-brown-200: var(--color-tertiary-200);
-$base-brown-300: var(--color-tertiary-300);
-$base-brown-400: var(--color-tertiary-400);
-$base-brown-500: var(--color-tertiary-500);
+$color-tertiary-50: var(--color-tertiary-50);
+$color-tertiary-100: var(--color-tertiary-100);
+$color-tertiary-200: var(--color-tertiary-200);
+$color-tertiary-300: var(--color-tertiary-300);
+$color-tertiary-400: var(--color-tertiary-400);
+$color-tertiary-500: var(--color-tertiary-500);
 
-$base-green-50: var(--color-quaternary-50);
-$base-green-100: var(--color-quaternary-100);
-$base-green-200: var(--color-quaternary-200);
-$base-green-300: var(--color-quaternary-300);
-$base-green-400: var(--color-quaternary-400);
-$base-green-500: var(--color-quaternary-500);
+$color-quaternary-50: var(--color-quaternary-50);
+$color-quaternary-100: var(--color-quaternary-100);
+$color-quaternary-200: var(--color-quaternary-200);
+$color-quaternary-300: var(--color-quaternary-300);
+$color-quaternary-400: var(--color-quaternary-400);
+$color-quaternary-500: var(--color-quaternary-500);
 
-/* Additional colors from design */
+/* Additional fixed design colors that should not follow site palettes */
 $standard-yellow-500: #a86700;
 $standard-yellow-700: #702906;
 $standard-red-700: #7F1616;

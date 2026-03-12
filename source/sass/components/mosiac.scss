@@ -8,9 +8,9 @@
   --mosiac-gap: 0.5rem;
   --mosiac-content-padding-inline: 8rem;
   --mosiac-content-width: 34rem;
-  --mosiac-color-green: #{$base-green-500};
-  --mosiac-color-brown: #{$base-brown-500};
-  --mosiac-color-red: #{$base-red-500};
+  --mosiac-color-secondary: #{$color-secondary-500};
+  --mosiac-color-tertiary: #{$color-tertiary-500};
+  --mosiac-color-quaternary: #{$color-quaternary-500};
   --mosiac-breakout-width: min(
     calc(100vw - var(--scrollbar, 0px)),
     var(--mosiac-max-width)
@@ -49,7 +49,7 @@
     min-width: 0;
     min-height: 0;
     overflow: hidden;
-    background-color: var(--mosiac-card-bg, var(--mosiac-color-green));
+    background-color: var(--mosiac-card-bg, var(--mosiac-color-quaternary));
     color: var(--mosiac-card-color, var(--color-white, #ffffff));
   }
 
@@ -138,26 +138,26 @@
     }
   }
 
-  /* Color mapping from inline values */
+  /* Map legacy inline Lidingo colors to semantic palette roles */
   .ls-mosiac__card[style*="background-color: #0E3E38"],
   .ls-mosiac__card[style*="background-color:#0E3E38"],
   .ls-mosiac__card[style*="background-color: #0e3e38"],
   .ls-mosiac__card[style*="background-color:#0e3e38"] {
-    background-color: var(--mosiac-color-green) !important;
+    background-color: var(--mosiac-color-quaternary) !important;
   }
 
   .ls-mosiac__card[style*="background-color: #3A2A17"],
   .ls-mosiac__card[style*="background-color:#3A2A17"],
   .ls-mosiac__card[style*="background-color: #3a2a17"],
   .ls-mosiac__card[style*="background-color:#3a2a17"] {
-    background-color: var(--mosiac-color-brown) !important;
+    background-color: var(--mosiac-color-tertiary) !important;
   }
 
   .ls-mosiac__card[style*="background-color: #5B1E1E"],
   .ls-mosiac__card[style*="background-color:#5B1E1E"],
   .ls-mosiac__card[style*="background-color: #5b1e1e"],
   .ls-mosiac__card[style*="background-color:#5b1e1e"] {
-    background-color: var(--mosiac-color-red) !important;
+    background-color: var(--mosiac-color-secondary) !important;
   }
 
   /* Variant: Full */
@@ -165,7 +165,7 @@
     display: flex;
 
     > .ls-mosiac__card {
-      --mosiac-card-bg: var(--mosiac-color-green);
+      --mosiac-card-bg: var(--mosiac-color-quaternary);
       max-height: 37.5rem;
     }
 
@@ -207,7 +207,7 @@
     }
 
     .ls-mosiac__column--left > .ls-mosiac__card {
-      --mosiac-card-bg: var(--mosiac-color-brown);
+      --mosiac-card-bg: var(--mosiac-color-tertiary);
       flex: 1 1 auto;
       min-height: 100%;
       height: 100%;
@@ -249,11 +249,11 @@
     }
 
     .ls-mosiac__column--right > .ls-mosiac__card:first-child {
-      --mosiac-card-bg: var(--mosiac-color-red);
+      --mosiac-card-bg: var(--mosiac-color-secondary);
     }
 
     .ls-mosiac__column--right > .ls-mosiac__card:last-child {
-      --mosiac-card-bg: var(--mosiac-color-brown);
+      --mosiac-card-bg: var(--mosiac-color-tertiary);
     }
 
     .ls-mosiac__column--left > .ls-mosiac__card .ls-mosiac__image-wrapper,
@@ -388,7 +388,7 @@
     }
 
     .ls-mosiac__column--left > .ls-mosiac__card {
-      --mosiac-card-bg: var(--mosiac-color-green);
+      --mosiac-card-bg: var(--mosiac-color-quaternary);
 
       .ls-mosiac__image-wrapper {
         min-height: 12.4375rem;
@@ -410,7 +410,7 @@
     }
 
     .ls-mosiac__column--right > .ls-mosiac__card {
-      --mosiac-card-bg: var(--mosiac-color-brown);
+      --mosiac-card-bg: var(--mosiac-color-tertiary);
 
       .ls-mosiac__title {
         font-size: var(--h4-font-size);

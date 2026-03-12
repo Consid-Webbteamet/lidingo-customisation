@@ -47,11 +47,11 @@
     justify-content: center;
     flex: 0 0 var(--lidingo-search-close-width);
     padding: 0;
-    background-color: $base-blue-400;
+    background-color: $color-primary-400;
     color: $color-white;
 
     @media (min-width: ($breakpoint-lg)) {
-      background-color: $base-blue-300;
+      background-color: $color-primary-300;
     }
 
     &::before {
@@ -131,7 +131,7 @@
       font-weight: var(--font-weight-base);
       padding-inline: 0.75rem;
       border-radius: 0;
-      background-color: $base-blue-300;
+      background-color: $color-primary-300;
 
       .collapsible-search-form__trigger-button {
         height: 100%;
@@ -144,7 +144,7 @@
       padding-inline: 0.75rem;
       height: 100%;
       border-radius: 0;
-      background-color: $base-blue-400;
+      background-color: $color-primary-400;
 
       &::after {
         border-radius: 0;
