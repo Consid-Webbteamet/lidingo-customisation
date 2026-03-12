@@ -28,13 +28,31 @@ $color-quaternary-400: var(--color-quaternary-400);
 $color-quaternary-500: var(--color-quaternary-500);
 
 /* Additional fixed design colors that should not follow site palettes */
+$standard-yellow-50: #f5ebcb;
 $standard-yellow-500: #a86700;
 $standard-yellow-700: #702906;
-$standard-red-700: #7F1616;
+
+$standard-red-50: #ffe3e3;
 $standard-red-500: #D43F3F;
+$standard-red-700: #7F1616;
+
+$standard-green-50: #e7ecdb;
+$standard-green-500: #697d40;
 $standard-green-700: #364411;
+
+$standard-purple-50: #f3e6ee;
+$standard-purple-500: #9b6486;
 $standard-purple-700: #68265B;
+
+$standard-blue-50: #ddebff;
+$standard-blue-500: #2174d8;
 $standard-blue-700: #123F7C;
+
+$standard-orange-50: #ffe5d9;
+$standard-orange-500: #cc4900;
+
+$standard-teal-50: #dcede9;
+$standard-teal-500: #348275;
 
 $text-500: #757575;
 $text-1000: #333333;
