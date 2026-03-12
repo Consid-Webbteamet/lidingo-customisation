@@ -11,6 +11,7 @@
   --mosiac-color-secondary: #{$color-secondary-500};
   --mosiac-color-tertiary: #{$color-tertiary-500};
   --mosiac-color-quaternary: #{$color-quaternary-500};
+  --mosiac-color-white: #{$color-white};
   --mosiac-breakout-width: min(
     calc(100vw - var(--scrollbar, 0px)),
     var(--mosiac-max-width)
@@ -50,7 +51,7 @@
     min-height: 0;
     overflow: hidden;
     background-color: var(--mosiac-card-bg, var(--mosiac-color-quaternary));
-    color: var(--mosiac-card-color, var(--color-white, #ffffff));
+    color: var(--mosiac-card-color, var(--mosiac-color-white));
   }
 
   .ls-mosiac__image-wrapper {
@@ -73,6 +74,7 @@
     align-items: flex-start;
     justify-content: center;
     padding-inline: var(--mosiac-content-padding-inline);
+    color: var(--mosiac-card-color, var(--mosiac-color-white));
   }
 
   .ls-mosiac__title {
@@ -80,13 +82,16 @@
     font-size: var(--h2-font-size);
     font-weight: var(--h2-font-weight);
     line-height: var(--h2-line-height);
+    color: inherit;
   }
 
   .ls-mosiac__body {
     margin-bottom: 2.5rem;
+    color: inherit;
 
     p {
       margin: 0;
+      color: inherit;
     }
   }
 
