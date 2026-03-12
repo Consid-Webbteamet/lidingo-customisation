@@ -1,0 +1,101 @@
+<?php
+
+declare(strict_types=1);
+
+namespace LidingoCustomisation\Templates;
+
+use Municipio\Helper\Template as MunicipioTemplate;
+
+class ContentPageTemplate
+{
+    public const TEMPLATE_NAME = 'Content page';
+    public const TEMPLATE_SLUG = 'content-page.blade.php';
+
+    private string $viewPath;
+
+    public function __construct(?string $viewPath = null)
+    {
+        $this->viewPath = untrailingslashit(
+            $viewPath ?? LIDINGO_CUSTOMISATION_PATH . 'source/views'
+        );
+    }
+
+    public function addHooks(): void
+    {
+        add_action('init', [$this, 'registerTemplate'], 20);
+        add_action('init', [$this, 'enablePageExcerptSupport'], 20);
+        add_filter('Municipio/viewPaths', [$this, 'addViewPath']);
+        add_filter('Municipio/Admin/Gutenberg/TemplatesToInclude', [$this, 'extendGutenbergTemplates']);
+        add_filter('Municipio/Template/viewData', [$this, 'customizeViewData']);
+    }
+
+    public function registerTemplate(): void
+    {
+        if (!class_exists(MunicipioTemplate::class)) {
+            return;
+        }
+
+        MunicipioTemplate::add(
+            __(self::TEMPLATE_NAME, 'lidingo-customisation'),
+            path_join($this->viewPath, self::TEMPLATE_SLUG),
+            ['page']
+        );
+    }
+
+    public function enablePageExcerptSupport(): void
+    {
+        add_post_type_support('page', 'excerpt');
+    }
+
+    public function addViewPath(array $viewPaths): array
+    {
+        if (!in_array($this->viewPath, $viewPaths, true)) {
+            $viewPaths[] = $this->viewPath;
+        }
+
+        return $viewPaths;
+    }
+
+    public function extendGutenbergTemplates(array $templates): array
+    {
+        if (!in_array(self::TEMPLATE_SLUG, $templates, true)) {
+            $templates[] = self::TEMPLATE_SLUG;
+        }
+
+        return $templates;
+    }
+
+    public function customizeViewData(array $viewData): array
+    {
+        if (!$this->isContentPageTemplate()) {
+            return $viewData;
+        }
+
+        $objectId = get_queried_object_id();
+        $timestamp = is_int($objectId) ? get_post_timestamp($objectId, 'date') : false;
+        $excerpt = is_int($objectId) ? get_post_field('post_excerpt', $objectId) : '';
+
+        $viewData['hasSideMenu'] = false;
+        $viewData['helperNavBeforeContent'] = true;
+        $viewData['skipToMainContentLink'] = '#main-content';
+        $viewData['contentPagePreamble'] = is_string($excerpt) && $excerpt !== ''
+            ? apply_filters('the_excerpt', $excerpt)
+            : '';
+        $viewData['contentPagePublishedDate'] = is_int($timestamp)
+            ? wp_date((string) get_option('date_format', 'j F Y'), $timestamp)
+            : '';
+
+        return $viewData;
+    }
+
+    private function isContentPageTemplate(): bool
+    {
+        $objectId = get_queried_object_id();
+
+        if (!is_int($objectId) || $objectId <= 0) {
+            return false;
+        }
+
+        return get_page_template_slug($objectId) === self::TEMPLATE_SLUG;
+    }
+}
