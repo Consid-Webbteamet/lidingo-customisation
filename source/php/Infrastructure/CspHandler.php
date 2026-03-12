@@ -25,6 +25,7 @@ class CspHandler
         $requiredByDirective = [
             'script-src' => [$devServerHost],
             'style-src' => [$devServerHost],
+            'img-src' => [$devServerHost],
             'connect-src' => [$devServerHost, $this->devServer->getWsOrigin()],
         ];
 

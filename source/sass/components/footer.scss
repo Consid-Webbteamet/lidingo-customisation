@@ -50,6 +50,7 @@
     strong {
       font-size: 1.125rem;
       padding-right: 1rem;
+      color: $color-white;
     }
 
     li:not(:last-child) {
@@ -91,17 +92,17 @@
 
     a.c-link[href*='facebook.com']::before,
     a.c-link[data-js-original-link*='facebook.com']::before {
-      background-image: var(--lidingo-social-icon-facebook, url('../../../../../themes/municipio/assets/images/facebook.svg'));
+      background-image: url('../assets/facebook.svg');
     }
 
     a.c-link[href*='instagram.com']::before,
     a.c-link[data-js-original-link*='instagram.com']::before {
-      background-image: var(--lidingo-social-icon-instagram, url('../../../../../themes/municipio/assets/images/instagram.svg'));
+      background-image: url('../assets/instagram.svg');
     }
 
     a.c-link[href*='linkedin.com']::before,
     a.c-link[data-js-original-link*='linkedin.com']::before {
-      background-image: var(--lidingo-social-icon-linkedin, url('../../../../../themes/municipio/assets/images/linkedin.svg'));
+      background-image: url('../assets/linkedin.svg');
     }
   }
 }
