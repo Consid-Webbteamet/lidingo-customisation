@@ -1,0 +1,67 @@
+@use "../tokens" as *;
+@use "../abstracts/variables" as *;
+
+.modularity-mod-contact-card {
+  .contact-card-panel {
+    padding: 2rem;
+    color: $text-1000;
+
+    &--blue {
+      background: $standard-blue-50;
+    }
+
+    &--green {
+      background: $standard-green-50;
+    }
+
+    &--orange {
+      background: $standard-orange-50;
+    }
+
+    &--purple {
+      background: $standard-purple-50;
+    }
+
+    &--red {
+      background: $standard-red-50;
+    }
+
+    &--teal {
+      background: $standard-teal-50;
+    }
+
+    &--yellow {
+      background: $standard-yellow-50;
+    }
+
+    @media (min-width: $breakpoint-md) {
+      padding: 2.5rem 2rem;
+    }
+
+    &__preamble {
+      margin: 0 0 0.5rem;
+      max-width: 46rem;
+    }
+
+    &__content {
+      max-width: 46rem;
+      font-size: 1.125rem;
+      line-height: 1.5;
+      color: $text-1000;
+
+      > :first-child {
+        margin-top: 0;
+      }
+
+      > :last-child {
+        margin-bottom: 0;
+      }
+
+      a {
+        color: $standard-blue-700;
+        text-decoration: underline;
+        text-underline-offset: 0.14em;
+      }
+    }
+  }
+}
