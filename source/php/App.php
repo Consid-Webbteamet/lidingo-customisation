@@ -6,10 +6,12 @@ namespace LidingoCustomisation;
 
 use LidingoCustomisation\Components\HeroSearch\HeroSearchOverrides;
 use LidingoCustomisation\Components\Posts\PostsDateOverrides;
+use LidingoCustomisation\EventAdmin\LegacyApiAdapter;
 use LidingoCustomisation\Infrastructure\AssetRenderer;
 use LidingoCustomisation\Infrastructure\AssetManifest;
 use LidingoCustomisation\Infrastructure\CspHandler;
 use LidingoCustomisation\Infrastructure\DevServer;
+use LidingoCustomisation\Templates\EventTemplateOverrides;
 use LidingoCustomisation\Templates\LandingPageTemplate;
 
 class App
@@ -21,6 +23,8 @@ class App
     private HeroSearchOverrides $heroSearchOverrides;
     private PostsDateOverrides $postsDateOverrides;
     private LandingPageTemplate $landingPageTemplate;
+    private EventTemplateOverrides $eventTemplateOverrides;
+    private LegacyApiAdapter $legacyApiAdapter;
 
     public function __construct()
     {
@@ -31,6 +35,8 @@ class App
         $this->heroSearchOverrides = new HeroSearchOverrides();
         $this->postsDateOverrides = new PostsDateOverrides();
         $this->landingPageTemplate = new LandingPageTemplate();
+        $this->eventTemplateOverrides = new EventTemplateOverrides();
+        $this->legacyApiAdapter = new LegacyApiAdapter();
 
         $this->addHooks();
     }
@@ -46,6 +52,8 @@ class App
         $this->heroSearchOverrides->addHooks();
         $this->postsDateOverrides->addHooks();
         $this->landingPageTemplate->addHooks();
+        $this->eventTemplateOverrides->addHooks();
+        $this->legacyApiAdapter->addHooks();
 
         if (!$this->assetManifest->isLoaded()) {
             add_action('admin_notices', [$this, 'renderMissingManifestNotice']);
