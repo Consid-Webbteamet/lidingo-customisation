@@ -6,7 +6,7 @@
 :root.lidingo-customisation-loaded {
   --mega-font-size: 4rem;
   --card-header-font-size: var(--card-header-font-size, var(--h4-font-size, 1.625rem));
-  --preamble-font-size: var(--preamble-font-size, 1.25rem);
+  --preamble-font-size: var(--preamble-font-size, 1.375rem);
   --link-big-font-size: var(--link-big-font-size, var(--preamble-font-size));
   --link-font-size: var(--link-font-size, var(--font-size-base, 1.125rem));
   --overlay-font-size: var(--overlay-font-size, 0.875rem);
@@ -30,6 +30,8 @@ h2,
 .h2 {
   font-size: var(--h2-font-size, 2.3125rem);
   color: $text-1000;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
 }
 
 h3,
@@ -56,10 +58,10 @@ h5,
   color: $text-1000;
 }
 
-.preamble,
-.lead,
-.ingress {
-  font-size: var(--preamble-font-size, 1.25rem);
+.preamble p,
+.lead p,
+.ingress p {
+  font-size: var(--preamble-font-size, 1.375rem);
   color: $text-1000;
 }
 
