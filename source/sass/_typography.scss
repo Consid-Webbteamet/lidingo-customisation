@@ -1,5 +1,7 @@
 @use 'abstracts/variables' as *;
 @use 'abstracts/mixins' as *;
+@use 'tokens' as *;
+@use 'tokens/colors' as *;
 
 :root.lidingo-customisation-loaded {
   --mega-font-size: 4rem;
@@ -15,52 +17,62 @@
 .t-mega,
 .u-text-mega {
   font-size: var(--mega-font-size, 2.8125rem);
+  color: $text-1000;
 }
 
 h1,
 .h1 {
   font-size: var(--h1-font-size, 2.8125rem);
+  color: $text-1000;
 }
 
 h2,
 .h2 {
   font-size: var(--h2-font-size, 2.3125rem);
+  color: $text-1000;
 }
 
 h3,
 .h3 {
   font-size: var(--h3-font-size, 1.9375rem);
+  color: $text-1000;
 }
 
 h4,
 .h4 {
   font-size: var(--h4-font-size, 1.625rem);
+  color: $text-1000;
 }
 
 .card-header,
 .o-card__title {
   font-size: var(--card-header-font-size, var(--h4-font-size, 1.625rem));
+  color: $text-1000;
 }
 
 h5,
 .h5 {
   font-size: var(--h5-font-size, 1.125rem);
+  color: $text-1000;
 }
 
 .preamble,
 .lead,
 .ingress {
   font-size: var(--preamble-font-size, 1.25rem);
+  color: $text-1000;
 }
 
 h6,
 .h6 {
   font-size: var(--h6-font-size, 1.125rem);
+  color: $text-1000;
 }
 
 .link-text-big,
 .link--large {
   font-size: var(--link-big-font-size, var(--preamble-font-size, 1.25rem));
+  color: $text-1000;
 }
 
 body,
@@ -73,16 +85,19 @@ input,
 textarea,
 select {
   font-size: var(--font-size-base, 1.125rem);
+  color: $text-1000;
 }
 
 a,
 .link-text {
   font-size: var(--link-font-size, var(--font-size-base, 1.125rem));
+  color: $text-1000;
 }
 
 .overlay,
 .overline {
   font-size: var(--overlay-font-size, 0.875rem);
+  color: $text-1000;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -91,6 +106,7 @@ figcaption,
 .caption,
 small {
   font-size: var(--caption-font-size, 0.875rem);
+  color: $text-1000;
 }
 
 @include breakpoint-down($breakpoint-lg) {
