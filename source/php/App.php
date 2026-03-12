@@ -10,6 +10,7 @@ use LidingoCustomisation\Infrastructure\AssetRenderer;
 use LidingoCustomisation\Infrastructure\AssetManifest;
 use LidingoCustomisation\Infrastructure\CspHandler;
 use LidingoCustomisation\Infrastructure\DevServer;
+use LidingoCustomisation\Templates\ContentPageTemplate;
 use LidingoCustomisation\Templates\LandingPageTemplate;
 
 class App
@@ -21,6 +22,7 @@ class App
     private HeroSearchOverrides $heroSearchOverrides;
     private PostsDateOverrides $postsDateOverrides;
     private LandingPageTemplate $landingPageTemplate;
+    private ContentPageTemplate $contentPageTemplate;
 
     public function __construct()
     {
@@ -31,6 +33,7 @@ class App
         $this->heroSearchOverrides = new HeroSearchOverrides();
         $this->postsDateOverrides = new PostsDateOverrides();
         $this->landingPageTemplate = new LandingPageTemplate();
+        $this->contentPageTemplate = new ContentPageTemplate();
 
         $this->addHooks();
     }
@@ -46,6 +49,7 @@ class App
         $this->heroSearchOverrides->addHooks();
         $this->postsDateOverrides->addHooks();
         $this->landingPageTemplate->addHooks();
+        $this->contentPageTemplate->addHooks();
 
         if (!$this->assetManifest->isLoaded()) {
             add_action('admin_notices', [$this, 'renderMissingManifestNotice']);
