@@ -21,9 +21,13 @@
 
 ## Development workflow
 - Main frontend entrypoints are `source/js/main.js` and `source/sass/style.scss`.
+- Admin entrypoints are `source/js/admin.js` and `source/sass/admin.scss`.
 - Build with `npm run build`.
 - Use `npm run dev` for Vite-driven local development.
+- Use `npm run watch` for continuous production-build output without dev server/HMR.
 - Keep local development on HTTP when using the Vite dev server.
+- Use a mobile-first approach when working with responsive styles and breakpoints.
+- Reuse breakpoint variables from `source/sass/abstracts/_variables.scss` instead of hardcoded breakpoint values in Sass.
 
 ## Delivery workflow
 - `municipio-deployment` is the consuming repo where this plugin is required, installed, and loaded through Composer.
