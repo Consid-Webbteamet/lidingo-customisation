@@ -1,3 +1,16 @@
+@use "../tokens" as *;
+@use "../abstracts/variables" as *;
+
+:root {
+  --sticky-sidebar-top: calc(50px + var(--wp-admin--admin-bar--height, 0px));
+}
+
+body.sticky-header.modularity-toc--sticky-sidebar {
+  --sticky-sidebar-top: calc(var(--header-height, 0px) + 5rem);
+  --sticky-sidebar-max-height: calc(100vh - var(--sticky-sidebar-top) - 2rem);
+}
+
+
 .c-content-page__content {
   h2,
   h3,
@@ -6,7 +19,158 @@
   }
 }
 
-body.sticky-header.modularity-toc--sticky-sidebar {
-  --sticky-sidebar-top: calc(var(--header-height, 0px) + 3rem);
-  --sticky-sidebar-max-height: calc(100vh - var(--sticky-sidebar-top) - 2rem);
+.modularity-mod-toc {
+  --toc-track-width: 0.1875rem;;
+  --toc-border-width: 0.1875rem;;
+  --toc-track-color: #949494;
+  --toc-track-indicator: #{$standard-red-500};
+  --toc-link-color: var(--env-font-color, #364146);
+  --toc-link-color-hover: var(--env-font-color, #364146);
+  --toc-link-font-size: var(--preamble-font-size, 1.375rem);
+  --toc-link-font-weight: 400;
+  --toc-link-decoration: none;
+
+  color: var(--env-font-color, #364146);
+
+  .c-card,
+  .c-card__header,
+  .c-card__body {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .c-card__header,
+  .c-card__body {
+    padding: 0;
+  }
+
+  .c-toc__heading {
+    margin: 0;
+
+    h2 {
+      color: var(--env-font-color, #364146);
+      font-family: "Lidingo Logical", sans-serif;
+      font-size: 1.625rem;
+      font-weight: 600;
+      letter-spacing: 0;
+      line-height: 1.3;
+      margin: 0;
+    }
+  }
+
+  .c-toc__panel {
+    margin-top: 1rem;
+  }
+
+  .c-toc__list {
+    margin-top: 0;
+
+    &::before,
+    &::after {
+      left: 0;
+    }
+
+    > .c-toc__item {
+      padding-left: 0;
+    }
+
+    .c-toc__item {
+      margin: 0;
+      padding-left: 1.5rem;
+      padding-block: 0.75rem;
+
+      &.c-toc__item--active > .c-toc__link {
+        font-weight: 600;
+      }
+    }
+
+    .c-toc__item + .c-toc__item {
+      margin-top: 0;
+    }
+
+    .c-toc__link {
+      color: var(--toc-link-color);
+      display: block;
+      font-family: "Lidingo Logical", sans-serif;
+      font-size: var(--toc-link-font-size);
+      font-weight: var(--toc-link-font-weight);
+      line-height: 1.5;
+      text-decoration: none;
+      text-underline-offset: 0.2em;
+      transition:
+        color $transition-fast,
+        font-weight $transition-fast;
+
+      &:hover,
+      &:focus-visible {
+        color: var(--toc-link-color-hover);
+        text-decoration: none;
+      }
+    }
+
+    .c-toc__sublist {
+      margin-top: 0.25rem;
+      padding-left: 1.5rem;
+
+      .c-toc__item {
+        padding: 0.5rem 0;
+      }
+
+      .c-toc__link {
+        font-size: var(--toc-link-font-size);
+        font-weight: var(--toc-link-font-weight);
+        line-height: 1.5;
+      }
+    }
+  }
+
+  @media (max-width: $breakpoint-lg) {
+    .c-toc__toggle {
+      align-items: center;
+      background: transparent;
+      border: 1px solid $color-border-outline;
+      border-radius: 0;
+      color: var(--env-font-color, #364146);
+      column-gap: 0.75rem;
+      display: inline-flex;
+      font-family: "Lidingo Logical", sans-serif;
+      font-size: 1.125rem;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-top: 1rem;
+      padding: 0.875rem 1rem;
+      width: 100%;
+    }
+
+    .c-toc__panel {
+      margin-top: 0;
+    }
+  }
+}
+
+@media (min-width: $breakpoint-lg) {
+  body.modularity-toc--sticky-sidebar {
+    .c-content-page__aside:has(.modularity-mod-toc) {
+      align-self: flex-start;
+      overflow: visible;
+    }
+
+    .c-content-page__aside:has(.modularity-mod-toc),
+    .c-content-page__aside-inner:has(.modularity-mod-toc) {
+      position: sticky;
+      top: var(--sticky-sidebar-top);
+      max-height: var(--sticky-sidebar-max-height);
+    }
+
+    .c-content-page__aside-inner:has(.modularity-mod-toc) {
+      overflow: auto;
+    }
+
+    #sidebar-left-sidebar:has(.modularity-mod-toc),
+    #sidebar-right-sidebar:has(.modularity-mod-toc) {
+      position: sticky;
+      top: var(--sticky-sidebar-top);
+    }
+  }
 }
