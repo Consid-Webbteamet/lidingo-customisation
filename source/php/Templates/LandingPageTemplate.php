@@ -68,6 +68,7 @@ class LandingPageTemplate
         $viewData['hasSideMenu'] = false;
         $viewData['helperNavBeforeContent'] = true;
         $viewData['skipToMainContentLink'] = '#main-content';
+        $viewData['renderContentNoticesBeforeHero'] = true;
 
         return $viewData;
     }
