@@ -49,6 +49,7 @@ class App
         add_action('admin_footer', [$this, 'printAdminScript'], 1001);
         add_filter('WpSecurity/Csp', [$this, 'addDevServerCspDomains'], 10, 1);
         add_filter('Website/HTML/output', [$this, 'stripDevBlockingCspDirectives'], 20, 0);
+        add_filter('Municipio/Template/viewData', [$this, 'adjustContentNoticePlacement'], 20, 1);
         $this->heroSearchOverrides->addHooks();
         $this->postsDateOverrides->addHooks();
         $this->sectionFullHeadingOverrides->addHooks();
@@ -122,6 +123,23 @@ class App
     public function stripDevBlockingCspDirectives(): void
     {
         $this->cspHandler->stripDevBlockingCspDirectives();
+    }
+
+    public function adjustContentNoticePlacement(array $viewData): array
+    {
+        $objectId = get_queried_object_id();
+
+        if (!is_int($objectId) || $objectId <= 0) {
+            return $viewData;
+        }
+
+        if (get_page_template_slug($objectId) !== 'one-page.blade.php') {
+            return $viewData;
+        }
+
+        $viewData['renderContentNoticesBeforeHero'] = true;
+
+        return $viewData;
     }
 
     private function shouldLoadFrontend(): bool
