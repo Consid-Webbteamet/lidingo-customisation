@@ -37,6 +37,10 @@ h2,
   margin-bottom: 1rem;
 }
 
+.c-typography.c-typography__variant--h2 {
+  font-size: var(--h2-font-size, 2.3125rem);
+}
+
 h3,
 .h3 {
   font-size: var(--h3-font-size, 1.9375rem);
