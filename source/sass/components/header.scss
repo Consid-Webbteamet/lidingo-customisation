@@ -4,6 +4,11 @@
 
 :root {
   --c-nav-h-font-size: 1.125rem;
+  --header-height: 5rem;
+}
+
+body:has(.c-header.is-scrolled) {
+  --header-height: 4.625rem;
 }
 
 .site-header .collapsible-search-form {
@@ -78,7 +83,7 @@
 }
 
 .c-header {
-  height: 5rem;
+  height: var(--header-height);
   transition: height 180ms ease;
 
   &__main-lower-area-container {
@@ -185,7 +190,7 @@
   }
 
   &.is-scrolled {
-    height: 4.625rem;
+    height: var(--header-height);
 
     .collapsible-search-form .collapsible-search-form__form {
       top: 8px;
@@ -224,8 +229,12 @@
 }
 
 @media (min-width: $ipad-breakpoint) {
+  :root {
+    --header-height: 7.25rem;
+  }
+
   .c-header {
-    height: 7.25rem;
+    height: var(--header-height);
 
     &__lower-right {
       .collapsible-search-form,

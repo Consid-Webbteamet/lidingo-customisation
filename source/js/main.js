@@ -6,6 +6,7 @@ import initNavCurrentBadge from './components/navCurrentBadge';
 import initNavigationCard from './components/navigationCard';
 import initNavHoverIndicator from './components/navHoverIndicator';
 import initScrolledHeaderState from './components/scrolledHeader';
+import initModularityTocOffset from './components/modularityTocOffset';
 
 if (import.meta.env.DEV) {
     import('../sass/style.scss');
@@ -17,4 +18,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initNavigationCard();
     initScrolledHeaderState();
     initNavHoverIndicator();
+    initModularityTocOffset();
 });

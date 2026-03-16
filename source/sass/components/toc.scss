@@ -1,0 +1,12 @@
+.c-content-page__content {
+  h2,
+  h3,
+  h4 {
+    scroll-margin-top: calc(var(--header-height, 0px) + 2rem);
+  }
+}
+
+body.sticky-header.modularity-toc--sticky-sidebar {
+  --sticky-sidebar-top: calc(var(--header-height, 0px) + 3rem);
+  --sticky-sidebar-max-height: calc(100vh - var(--sticky-sidebar-top) - 2rem);
+}
