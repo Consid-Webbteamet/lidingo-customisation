@@ -1,11 +1,17 @@
 @use "../tokens" as *;
+@use "../abstracts/variables" as *;
+
 /* front-page cards over hero */
 .ls-top-cards {
   margin-top: -1.5rem;
 
   .o-grid {
     column-gap: 2.5rem;
-    row-gap: 1.5rem;
+    row-gap: 1rem;
+
+    @media (min-width: $breakpoint-md) {
+      row-gap: 1.5rem;
+    }
   }
 
   .c-card__body {
