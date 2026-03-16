@@ -6,8 +6,11 @@
 }
 
 .button,
-.button:visited {
+.button:visited,
+.c-button {
   font-size: var(--font-size-base);
+  font-weight: var(--font-weight-button);
+  font-family: var(--font-family-base);
   display: inline-flex;
   padding: 0.5rem 2rem;
   justify-content: center;
