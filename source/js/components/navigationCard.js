@@ -7,6 +7,11 @@ const INITIALIZED_ATTRIBUTE = 'data-navigation-card-initialized';
 const PANEL_OPEN_CLASS = 'is-open';
 const PANEL_INLINE_CLASS = 'navigation-card__hidden--inline';
 const EXPANDED_LABEL = 'Dölj';
+const PANEL_MAX_HEIGHT_CSS_VAR = '--navigation-card-panel-max-height';
+
+const syncPanelHeight = (panel) => {
+    panel.style.setProperty(PANEL_MAX_HEIGHT_CSS_VAR, `${panel.scrollHeight}px`);
+};
 
 const syncButtonLabel = (button, isExpanded) => {
     const label = button.querySelector(TOGGLE_LABEL_SELECTOR);
@@ -23,26 +28,30 @@ const syncButtonLabel = (button, isExpanded) => {
         button.dataset.navigationCardCollapsedAriaLabel = button.getAttribute('aria-label') ?? '';
     }
 
+    const expandedLabel = button.dataset.navigationCardExpandedLabel ?? EXPANDED_LABEL;
+    const expandedAriaLabel = button.dataset.navigationCardExpandedAriaLabel ?? expandedLabel;
+
     label.textContent = isExpanded
-        ? EXPANDED_LABEL
+        ? expandedLabel
         : button.dataset.navigationCardCollapsedLabel;
 
     button.setAttribute(
         'aria-label',
         isExpanded
-            ? EXPANDED_LABEL
+            ? expandedAriaLabel
             : button.dataset.navigationCardCollapsedAriaLabel,
     );
 };
 
 const openPanel = (button, panel) => {
-    requestAnimationFrame(() => {
-        panel.classList.add(PANEL_OPEN_CLASS);
-    });
+    syncPanelHeight(panel);
     panel.removeAttribute('aria-hidden');
     panel.inert = false;
     button.setAttribute('aria-expanded', 'true');
     syncButtonLabel(button, true);
+    requestAnimationFrame(() => {
+        panel.classList.add(PANEL_OPEN_CLASS);
+    });
 };
 
 const closePanel = (button, panel) => {
@@ -85,6 +94,7 @@ const initCard = (card) => {
     card.setAttribute(INITIALIZED_ATTRIBUTE, 'true');
     const isExpanded = button.getAttribute('aria-expanded') === 'true';
     panel.hidden = false;
+    syncPanelHeight(panel);
     panel.classList.toggle(PANEL_OPEN_CLASS, isExpanded);
     panel.inert = !isExpanded;
     syncButtonLabel(button, isExpanded);
