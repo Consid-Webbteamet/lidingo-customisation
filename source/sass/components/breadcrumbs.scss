@@ -1,4 +1,110 @@
+@use "../tokens/colors" as *;
+
 .c-breadcrumb {
   margin-top: 1rem;
   margin-bottom: 2.75rem;
+  color: $text-1000;
+  font-family: "Lidingo Logical", sans-serif;
+  font-size: var(--font-size-base, 1.125rem);
+  line-height: 1.5;
+
+  &__prefix {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__item {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+    color: $text-1000;
+  }
+
+  &__item + &__item::before {
+    content: "\00B7";
+    margin-right: 0.5rem;
+    color: $text-1000;
+    text-decoration: none;
+  }
+
+  .c-icon--chevron-right {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 0.5rem;
+    min-width: 0.5rem;
+    color: $text-1000;
+    font-size: 0;
+    line-height: 1;
+    vertical-align: middle;
+  }
+
+  .c-icon--chevron-right::after {
+    content: "\00B7";
+    font-family: "Lidingo Logical", sans-serif;
+    font-size: var(--font-size-base, 1.125rem);
+    line-height: 1;
+  }
+
+  &__item:first-child {
+    .c-icon {
+      display: none;
+    }
+
+    .c-breadcrumb__link,
+    .c-breadcrumb__link:visited {
+      display: inline-flex;
+      align-items: center;
+      color: $color-primary-500;
+      text-decoration: none;
+    }
+
+    .c-breadcrumb__link::before {
+      content: ":hus:";
+      font-family: "Lidingo Logical", sans-serif;
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    .c-breadcrumb__label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  }
+
+  &__link,
+  &__link:visited {
+    color: $color-primary-500;
+    text-decoration: underline;
+    text-underline-offset: 0.12em;
+    text-decoration-thickness: 0.0625rem;
+  }
+
+  [aria-current="page"] {
+    color: $text-1000;
+    text-decoration: none;
+  }
 }
