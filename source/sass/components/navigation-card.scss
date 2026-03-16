@@ -5,11 +5,9 @@
 // Add negative margin if navigation card is after hero
 .modularity-mod-hero.block-modularity-mod-hero
   + .modularity-mod-navigation-card.block-modularity-mod-navigation-card {
-  @media (min-width: $breakpoint-md) {
-    margin-top: -1rem;
-    position: relative;
-    z-index: 2;
-  }
+  margin-top: -1rem;
+  position: relative;
+  z-index: 2;
 }
 
 .modularity-mod-navigation-card {
@@ -83,6 +81,21 @@
       &:visited {
         color: inherit;
       }
+    }
+
+    &__link {
+      display: inline;
+      width: auto;
+    }
+
+    &__link-title,
+    &__link-icon {
+      display: inline;
+      vertical-align: baseline;
+    }
+
+    &__link-icon {
+      margin-left: 0.375rem;
     }
 
     &__toggle {
