@@ -8,7 +8,7 @@
                     <div class="c-content-page__helper u-print-display--none">
                         @includeIf('partials.navigation.breadcrumb')
 
-                        <div class="c-content-page__print" role="menubar" aria-label="{{ __('Sidfunktioner', 'lidingo-customisation') }}">
+                        <div class="c-content-page__print">
                             @button([
                                 'text' => __('Skriv ut', 'lidingo-customisation'),
                                 'style' => 'outlined',

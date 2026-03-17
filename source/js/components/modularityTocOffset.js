@@ -1,5 +1,6 @@
 const TOC_LINK_SELECTOR = '.modularity-mod-toc .c-toc__link';
 const HEADER_SELECTOR = '.site-header.c-header.c-header--flexible, .site-header.c-header, .c-header';
+const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
 
 const getScrollOffset = (heading) => {
     if (heading instanceof HTMLElement) {
@@ -16,13 +17,15 @@ const getScrollOffset = (heading) => {
     return header instanceof HTMLElement ? header.getBoundingClientRect().height : 0;
 };
 
+const shouldReduceMotion = () => window.matchMedia(REDUCED_MOTION_QUERY).matches;
+
 const scrollToHeading = (heading) => {
     const offset = getScrollOffset(heading);
     const top = heading.getBoundingClientRect().top + window.scrollY - offset;
 
     window.scrollTo({
         top,
-        behavior: 'smooth'
+        behavior: shouldReduceMotion() ? 'auto' : 'smooth'
     });
 
     history.pushState(null, '', `#${heading.id}`);
