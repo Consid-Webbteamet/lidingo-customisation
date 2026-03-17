@@ -9,6 +9,7 @@
 - `packages/lidingo-customisation/` is the canonical source for this plugin.
 - `wp-content/plugins/lidingo-customisation/` is only the installed copy.
 - Do not treat files in `wp-content/plugins/` as the editable source of truth.
+- Do not manually copy CSS or JS from this repo into `wp-content/plugins/lidingo-customisation/` unless the task explicitly asks for that local sync.
 
 ## When to work here
 - Use this repo for local presentation tweaks and project-bound frontend behavior.
