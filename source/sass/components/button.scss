@@ -5,6 +5,10 @@
   margin-bottom: 1.5rem;
 }
 
+.c-button__outlined--primary:hover:after {
+  background: none;
+}
+
 .button,
 .button:visited,
 .c-button {
