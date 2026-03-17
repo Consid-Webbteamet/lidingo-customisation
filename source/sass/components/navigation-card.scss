@@ -12,7 +12,7 @@
 
 .modularity-mod-navigation-card {
   .navigation-card-grid {
-    align-items: start;
+    align-items: stretch;
     display: grid;
     row-gap: 1.5rem;
     column-gap: 2.5rem;
@@ -49,12 +49,12 @@
   }
 
   .navigation-card {
-    align-self: start;
     background: $color-white;
     box-shadow: $shadow-sm;
     color: $text-1000;
     display: flex;
     flex-direction: column;
+    height: 100%;
 
     @include icon-token-weight(":höger:", 400);
 
