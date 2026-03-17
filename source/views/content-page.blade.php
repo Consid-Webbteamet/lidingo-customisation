@@ -45,13 +45,15 @@
                                 {!! $post->postContentFiltered !!}
                             @endif
                         </div>
-                    </div>
 
-                    @if (!empty($contentPagePublishedDate))
-                        <p class="c-content-page__published">
-                            {{ __('Publiceringsdatum', 'lidingo-customisation') }}: {{ $contentPagePublishedDate }}
-                        </p>
-                    @endif
+                        @if (!empty($contentPagePublishedDate))
+                            <p class="c-content-page__published">
+                                {{ __('Publiceringsdatum', 'lidingo-customisation') }}: {{ $contentPagePublishedDate }}
+                            </p>
+                        @endif
+
+                        @includeIf('partials.sidebar', ['id' => 'content-area-bottom', 'classes' => ['o-grid']])
+                    </div>
 
                     {!! $hook->innerLoopEnd !!}
                 </div>
