@@ -5,10 +5,6 @@
   margin-bottom: 1.5rem;
 }
 
-.c-button__outlined--primary:hover:after {
-  background: none;
-}
-
 .button,
 .button:visited,
 .c-button {
@@ -92,6 +88,36 @@
 
 .button--big.button--no-icon {
   padding: 0.75rem 2rem;
+}
+
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary,
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:visited,
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:hover,
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:focus,
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:active {
+  @extend .button;
+  @extend .button--ghost;
+  text-decoration: none;
+}
+
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary .c-button__label,
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary .c-button__label-text,
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:hover .c-button__label,
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:hover .c-button__label-text,
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:focus .c-button__label,
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:focus .c-button__label-text,
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:active .c-button__label,
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:active .c-button__label-text,
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:visited .c-button__label,
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:visited .c-button__label-text {
+  color: $text-1000;
+}
+
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary::after,
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:hover::after,
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:focus::after,
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:active::after {
+  background: none;
 }
 
 a.button.button--default,
