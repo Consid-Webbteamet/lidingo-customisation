@@ -1,0 +1,124 @@
+@use "./button";
+@use "../tokens/colors" as *;
+
+#customer-feedback {
+  filter: none;
+  background: $border-marine-darkest;
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: none;
+
+  .customer-feedback-section-icon {
+    display: none;
+  }
+
+  .customer-feedback-section {
+    align-items: center;
+    flex: 1 1 auto;
+
+    & + .customer-feedback-section {
+      .customer-feedback-section-content {
+        border-top: 0;
+        padding-top: 1.5rem;
+      }
+    }
+  }
+
+  .customer-feedback-section-content {
+    padding: 1.5rem 2rem;
+  }
+
+  .c-typography,
+  .c-field .c-field__label {
+    color: $color-white;
+  }
+
+  .c-option .c-option__radio--label-text {
+    color: $color-white;
+    font-style: normal;
+  }
+
+  .customer-feedback-main-heading,
+  .customer-feedback-section-content .c-typography__variant--h2 {
+    margin: 0;
+    color: $color-white;
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-base);
+  }
+
+  .customer-feedback-section-heading {
+    .customer-feedback-section-content > p {
+      display: none;
+    }
+  }
+
+  .customer-feedback-section-buttons
+    > .customer-feedback-section-content
+    > div {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+
+  .c-button.c-button__filled--default {
+    @extend .button--white;
+    box-shadow: none;
+    font-size: 1.125rem;
+
+    &::after {
+      display: none;
+    }
+
+    .c-button__label,
+    .c-button__label-text {
+      color: inherit;
+      font: inherit;
+      line-height: inherit;
+    }
+
+    .c-button__label-icon {
+      display: none;
+    }
+  }
+
+  .customer-feedback-loader::after {
+    border-color: $color-white;
+  }
+}
+
+#customer-feedback-form {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 56rem) {
+  #customer-feedback {
+    .customer-feedback-section-heading,
+    .customer-feedback-section-buttons {
+      flex-basis: 100%;
+    }
+
+    .customer-feedback-section-heading {
+      .customer-feedback-section-content {
+        padding-bottom: 0.75rem;
+        padding-right: 2rem;
+      }
+    }
+
+    .customer-feedback-section-buttons {
+      .customer-feedback-section-content {
+        padding-left: 2rem;
+      }
+
+      > .customer-feedback-section-content > div {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+      }
+    }
+  }
+}

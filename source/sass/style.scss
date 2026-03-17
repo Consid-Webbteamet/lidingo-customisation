@@ -20,6 +20,7 @@
 @use "./components/breadcrumbs";
 @use "./components/accordion";
 @use "./components/toc";
+@use "./components/customer-feedback";
 @use "typography";
 
 :root.lidingo-customisation-loaded {
