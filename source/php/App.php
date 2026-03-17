@@ -7,6 +7,7 @@ namespace LidingoCustomisation;
 use LidingoCustomisation\Components\HeroSearch\HeroSearchOverrides;
 use LidingoCustomisation\Components\Posts\PostsDateOverrides;
 use LidingoCustomisation\Components\Sections\SectionFullHeadingOverrides;
+use LidingoCustomisation\Integrations\CustomerFeedback\CustomerFeedbackIntegration;
 use LidingoCustomisation\Infrastructure\AssetRenderer;
 use LidingoCustomisation\Infrastructure\AssetManifest;
 use LidingoCustomisation\Infrastructure\CspHandler;
@@ -25,6 +26,7 @@ class App
     private SectionFullHeadingOverrides $sectionFullHeadingOverrides;
     private LandingPageTemplate $landingPageTemplate;
     private ContentPageTemplate $contentPageTemplate;
+    private CustomerFeedbackIntegration $customerFeedbackIntegration;
 
     public function __construct()
     {
@@ -37,6 +39,7 @@ class App
         $this->sectionFullHeadingOverrides = new SectionFullHeadingOverrides();
         $this->landingPageTemplate = new LandingPageTemplate();
         $this->contentPageTemplate = new ContentPageTemplate();
+        $this->customerFeedbackIntegration = new CustomerFeedbackIntegration();
 
         $this->addHooks();
     }
@@ -55,6 +58,7 @@ class App
         $this->sectionFullHeadingOverrides->addHooks();
         $this->landingPageTemplate->addHooks();
         $this->contentPageTemplate->addHooks();
+        $this->customerFeedbackIntegration->addHooks();
 
         if (!$this->assetManifest->isLoaded()) {
             add_action('admin_notices', [$this, 'renderMissingManifestNotice']);
