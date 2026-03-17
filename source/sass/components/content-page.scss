@@ -1,6 +1,7 @@
 @use "../tokens" as *;
 @use "../abstracts/variables" as *;
 @use "../abstracts/mixins" as *;
+@use "../components/button" as *;
 
 .c-content-page {
   &__grid {
@@ -30,10 +31,9 @@
 
   &__print-button {
     .c-button__label {
-      align-items: center;
-      display: inline-flex;
+      @extend .button;
+      @extend .button--ghost;
       flex-direction: row-reverse;
-      gap: 0.5rem;
 
       &::before {
         content: ":skrivare:";
