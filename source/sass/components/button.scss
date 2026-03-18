@@ -12,6 +12,7 @@
   font-weight: var(--font-weight-button);
   font-family: var(--font-family-base);
   display: inline-flex;
+  min-height: 0;
   padding: 0.5rem 2rem;
   justify-content: center;
   align-items: center;
@@ -20,6 +21,13 @@
   border: 1px solid transparent;
   text-decoration: none;
   cursor: pointer;
+}
+
+.c-button {
+  .c-button__label,
+  .c-button__label-text {
+    line-height: 1.5;
+  }
 }
 
 .button--icon-arrow {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace LidingoCustomisation;
 
+use LidingoCustomisation\Archives\OngoingWorkArchive;
 use LidingoCustomisation\Components\HeroSearch\HeroSearchOverrides;
 use LidingoCustomisation\Components\Posts\PostsDateOverrides;
 use LidingoCustomisation\Components\Sections\SectionFullHeadingOverrides;
@@ -25,6 +26,7 @@ class App
     private HeroSearchOverrides $heroSearchOverrides;
     private PostsDateOverrides $postsDateOverrides;
     private SectionFullHeadingOverrides $sectionFullHeadingOverrides;
+    private OngoingWorkArchive $ongoingWorkArchive;
     private ArticlePageTemplate $articlePageTemplate;
     private LandingPageTemplate $landingPageTemplate;
     private ContentPageTemplate $contentPageTemplate;
@@ -47,6 +49,7 @@ class App
         $this->heroSearchOverrides = new HeroSearchOverrides();
         $this->postsDateOverrides = new PostsDateOverrides();
         $this->sectionFullHeadingOverrides = new SectionFullHeadingOverrides();
+        $this->ongoingWorkArchive = new OngoingWorkArchive();
         $this->articlePageTemplate = new ArticlePageTemplate();
         $this->landingPageTemplate = new LandingPageTemplate();
         $this->contentPageTemplate = new ContentPageTemplate();
@@ -67,6 +70,7 @@ class App
         $this->heroSearchOverrides->addHooks();
         $this->postsDateOverrides->addHooks();
         $this->sectionFullHeadingOverrides->addHooks();
+        $this->ongoingWorkArchive->addHooks();
         $this->articlePageTemplate->addHooks();
         $this->landingPageTemplate->addHooks();
         $this->contentPageTemplate->addHooks();
