@@ -10,6 +10,7 @@
 - `wp-content/plugins/lidingo-customisation/` is only the installed copy.
 - Do not treat files in `wp-content/plugins/` as the editable source of truth.
 - Do not manually copy CSS or JS from this repo into `wp-content/plugins/lidingo-customisation/` unless the task explicitly asks for that local sync.
+- If the task explicitly asks for a local installed-copy sync, it is allowed to `rsync` this built package into `wp-content/plugins/lidingo-customisation/` for local verification. Keep all real source edits in this repo, and use Composer-based sync for deployment/prod.
 
 ## When to work here
 - Use this repo for local presentation tweaks and project-bound frontend behavior.
