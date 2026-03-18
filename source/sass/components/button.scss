@@ -124,8 +124,6 @@ a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:active:
   @extend .button;
   @extend .button--ghost;
   display: inline-flex;
-  text-decoration: none;
-  width: fit-content;
 
   &,
   &:visited,
