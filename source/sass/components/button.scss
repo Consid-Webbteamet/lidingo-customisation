@@ -120,6 +120,53 @@ a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:active:
   background: none;
 }
 
+.c-content-page__print-button {
+  @extend .button;
+  @extend .button--ghost;
+  display: inline-flex;
+  text-decoration: none;
+  width: fit-content;
+
+  &,
+  &:visited,
+  &:hover,
+  &:focus,
+  &:active {
+    color: $text-1000;
+    background: transparent;
+    text-decoration: none;
+  }
+
+  &::after,
+  &:hover::after,
+  &:focus::after,
+  &:active::after {
+    background: none;
+    opacity: 0;
+  }
+
+  .c-button__label,
+  .c-button__label-text {
+    color: inherit;
+  }
+
+  .c-button__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    flex-direction: row-reverse;
+
+    &::before {
+      content: ":skrivare:";
+      display: inline-block;
+      font-family: "Lidingo Logical", sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1;
+    }
+  }
+}
+
 a.button.button--default,
 a.button.button--default:visited,
 a.button.button--default:hover,

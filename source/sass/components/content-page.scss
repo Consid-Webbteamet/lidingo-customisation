@@ -1,7 +1,6 @@
 @use "../tokens" as *;
 @use "../abstracts/variables" as *;
 @use "../abstracts/mixins" as *;
-@use "../components/button" as *;
 
 .c-content-page {
   &__grid {
@@ -27,23 +26,6 @@
 
   &__print {
     align-self: flex-start;
-  }
-
-  &__print-button {
-    .c-button__label {
-      @extend .button;
-      @extend .button--ghost;
-      flex-direction: row-reverse;
-
-      &::before {
-        content: ":skrivare:";
-        display: inline-block;
-        font-family: "Lidingo Logical", sans-serif;
-        font-size: 1rem;
-        font-weight: 400;
-        line-height: 1;
-      }
-    }
   }
 
   &__title {
