@@ -96,6 +96,15 @@
   flex-wrap: wrap;
 }
 
+#customer-feedback {
+  .customer-feedback-section-notices,
+  .customer-feedback-section-topics,
+  .customer-feedback-section-comment,
+  .customer-feedback-section-gdpr {
+    flex-basis: 100%;
+  }
+}
+
 @media (max-width: 56rem) {
   #customer-feedback {
     .customer-feedback-section-heading,
