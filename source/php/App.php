@@ -12,6 +12,7 @@ use LidingoCustomisation\Infrastructure\AssetRenderer;
 use LidingoCustomisation\Infrastructure\AssetManifest;
 use LidingoCustomisation\Infrastructure\CspHandler;
 use LidingoCustomisation\Infrastructure\DevServer;
+use LidingoCustomisation\Templates\ArticlePageTemplate;
 use LidingoCustomisation\Templates\ContentPageTemplate;
 use LidingoCustomisation\Templates\LandingPageTemplate;
 
@@ -24,6 +25,7 @@ class App
     private HeroSearchOverrides $heroSearchOverrides;
     private PostsDateOverrides $postsDateOverrides;
     private SectionFullHeadingOverrides $sectionFullHeadingOverrides;
+    private ArticlePageTemplate $articlePageTemplate;
     private LandingPageTemplate $landingPageTemplate;
     private ContentPageTemplate $contentPageTemplate;
     private CustomerFeedbackIntegration $customerFeedbackIntegration;
@@ -45,6 +47,7 @@ class App
         $this->heroSearchOverrides = new HeroSearchOverrides();
         $this->postsDateOverrides = new PostsDateOverrides();
         $this->sectionFullHeadingOverrides = new SectionFullHeadingOverrides();
+        $this->articlePageTemplate = new ArticlePageTemplate();
         $this->landingPageTemplate = new LandingPageTemplate();
         $this->contentPageTemplate = new ContentPageTemplate();
         $this->customerFeedbackIntegration = new CustomerFeedbackIntegration();
@@ -64,6 +67,7 @@ class App
         $this->heroSearchOverrides->addHooks();
         $this->postsDateOverrides->addHooks();
         $this->sectionFullHeadingOverrides->addHooks();
+        $this->articlePageTemplate->addHooks();
         $this->landingPageTemplate->addHooks();
         $this->contentPageTemplate->addHooks();
         $this->customerFeedbackIntegration->addHooks();

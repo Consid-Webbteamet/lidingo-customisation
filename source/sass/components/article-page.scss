@@ -1,0 +1,192 @@
+@use "../tokens" as *;
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.c-article-page {
+  &__main {
+    margin-bottom: 10rem;
+  }
+
+  &__inner {
+    max-width: 52.5rem;
+  }
+
+  &__helper {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  &__actions {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  &__print-button {
+    width: fit-content;
+  }
+
+  &__article {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  &__text {
+    max-width: 42.5rem;
+  }
+
+  &__title {
+    color: $text-1000;
+    font-family: "Lidingo Logical", sans-serif;
+    font-size: 2.5rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin: 0 0 2rem;
+  }
+
+  &__published {
+    border-bottom: 1px solid $border-marine-lightest;
+    border-top: 1px solid $border-marine-lightest;
+    color: $text-1000;
+    font-family: "Lidingo Logical", sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0 0 2rem;
+    padding: 1rem 0;
+  }
+
+  &__preamble {
+    color: $text-1000;
+    font-family: "Lidingo Logical", sans-serif;
+    font-size: 1.375rem;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-bottom: 0;
+
+    > *:first-child {
+      margin-top: 0;
+    }
+
+    > *:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__featured-image {
+    width: 100%;
+    height: 26.25rem;
+    overflow: hidden;
+
+    .c-image,
+    .c-image__image,
+    img {
+      display: block;
+      height: 100%;
+      width: 100%;
+    }
+
+    img {
+      object-fit: cover;
+    }
+  }
+
+  &__content {
+    color: $text-1000;
+    font-family: "Lidingo Logical", sans-serif;
+    font-size: var(--font-size-base, 1.125rem);
+    line-height: 1.5;
+
+    > *:first-child {
+      margin-top: 0;
+    }
+
+    > *:last-child {
+      margin-bottom: 0;
+    }
+
+    a {
+      color: $standard-blue-700;
+
+      &:visited,
+      &:hover,
+      &:focus-visible {
+        color: $standard-blue-700;
+      }
+    }
+
+    h2,
+    h3,
+    h4 {
+      color: $text-1000;
+      font-family: "Lidingo Logical", sans-serif;
+      font-weight: 600;
+      line-height: 1.3;
+      margin-bottom: 1rem;
+      margin-top: 2.5rem;
+    }
+
+    h2 {
+      font-size: 2.3125rem;
+    }
+
+    h3 {
+      font-size: 1.75rem;
+    }
+
+    h4 {
+      font-size: 1.375rem;
+    }
+
+    figure,
+    .wp-block-image,
+    .c-image {
+      max-width: 100%;
+    }
+
+    .c-image img,
+    .wp-block-image img {
+      margin-block: 2.5rem;
+      max-width: 100%;
+      width: auto;
+    }
+  }
+
+  @include breakpoint-down($breakpoint-md) {
+    &__main {
+      margin-bottom: 6rem;
+    }
+
+    &__title {
+      font-size: 2.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    &__preamble {
+      font-size: 1.25rem;
+    }
+
+    &__featured-image {
+      height: auto;
+
+      img {
+        aspect-ratio: 2 / 1;
+        height: auto;
+      }
+    }
+
+    &__content {
+      h2 {
+        font-size: 2rem;
+      }
+
+      h3 {
+        font-size: 1.625rem;
+      }
+    }
+  }
+}
