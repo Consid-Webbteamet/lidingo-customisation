@@ -22,7 +22,7 @@ export default defineConfig({
     build: {
         outDir: 'dist',
         emptyOutDir: true,
-        manifest: true,
+        manifest: 'manifest.json',
         rollupOptions: {
             input: {
                 main: resolve(__dirname, 'source/js/main.js'),

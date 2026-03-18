@@ -6,6 +6,11 @@ namespace LidingoCustomisation\Infrastructure;
 
 class AssetManifest
 {
+    /**
+     * @var string[]
+     */
+    private array $requiredEntries;
+
     private string $manifestPath;
 
     /**
@@ -15,9 +20,10 @@ class AssetManifest
 
     private ?string $errorMessage = null;
 
-    public function __construct(string $manifestPath)
+    public function __construct(string $manifestPath, array $requiredEntries = [])
     {
         $this->manifestPath = $manifestPath;
+        $this->requiredEntries = $requiredEntries;
         $this->load();
     }
 
@@ -89,6 +95,21 @@ class AssetManifest
             $this->errorMessage = sprintf(
                 'Lidingo Customisation manifest har ogiltigt JSON-format: %s',
                 $this->manifestPath
+            );
+
+            return;
+        }
+
+        $missingEntries = array_values(array_filter(
+            $this->requiredEntries,
+            fn (string $entry): bool => !isset($decoded[$entry]) || !is_array($decoded[$entry])
+        ));
+
+        if (!empty($missingEntries)) {
+            $this->errorMessage = sprintf(
+                'Lidingo Customisation manifest saknar entr%1$s: %2$s',
+                count($missingEntries) === 1 ? 'y' : 'ier',
+                implode(', ', $missingEntries)
             );
 
             return;

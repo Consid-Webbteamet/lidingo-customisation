@@ -46,7 +46,7 @@ class AssetRenderer
         }
 
         printf(
-            '<script id="lidingo-customisation-main-js" src="%s" defer></script>' . "\n",
+            '<script type="module" id="lidingo-customisation-main-js" src="%s"></script>' . "\n",
             esc_url($src)
         );
     }
@@ -83,7 +83,7 @@ class AssetRenderer
         }
 
         printf(
-            '<script id="lidingo-customisation-admin-js" src="%s" defer></script>' . "\n",
+            '<script type="module" id="lidingo-customisation-admin-js" src="%s"></script>' . "\n",
             esc_url($src)
         );
     }

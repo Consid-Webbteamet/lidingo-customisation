@@ -30,7 +30,15 @@ class App
 
     public function __construct()
     {
-        $this->assetManifest = new AssetManifest(LIDINGO_CUSTOMISATION_PATH . 'dist/.vite/manifest.json');
+        $this->assetManifest = new AssetManifest(
+            LIDINGO_CUSTOMISATION_PATH . 'dist/manifest.json',
+            [
+                'source/js/main.js',
+                'source/sass/style.scss',
+                'source/js/admin.js',
+                'source/sass/admin.scss',
+            ]
+        );
         $this->devServer = new DevServer();
         $this->assetRenderer = new AssetRenderer($this->assetManifest, $this->devServer);
         $this->cspHandler = new CspHandler($this->devServer);

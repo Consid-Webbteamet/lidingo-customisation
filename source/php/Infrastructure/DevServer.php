@@ -96,7 +96,7 @@ class DevServer
         }
 
         $statusCode = wp_remote_retrieve_response_code($response);
-        $this->reachable = $statusCode >= 200 && $statusCode < 500;
+        $this->reachable = $statusCode === 200;
 
         return $this->reachable;
     }
