@@ -5,6 +5,10 @@
   margin-bottom: 1.5rem;
 }
 
+button {
+  line-height: 150%;
+}
+
 .button,
 .button:visited,
 .c-button {
@@ -108,16 +112,26 @@ a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:active 
   text-decoration: none;
 }
 
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary .c-button__label,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary .c-button__label-text,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:hover .c-button__label,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:hover .c-button__label-text,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:focus .c-button__label,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:focus .c-button__label-text,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:active .c-button__label,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:active .c-button__label-text,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:visited .c-button__label,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:visited .c-button__label-text {
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary
+  .c-button__label,
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary
+  .c-button__label-text,
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:hover
+  .c-button__label,
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:hover
+  .c-button__label-text,
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:focus
+  .c-button__label,
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:focus
+  .c-button__label-text,
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:active
+  .c-button__label,
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:active
+  .c-button__label-text,
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:visited
+  .c-button__label,
+a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:visited
+  .c-button__label-text {
   color: $text-1000;
 }
 

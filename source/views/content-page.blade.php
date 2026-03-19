@@ -9,19 +9,16 @@
                         @includeIf('partials.navigation.breadcrumb')
 
                         <div class="c-content-page__print">
-                            @button([
-                                'text' => __('Skriv ut', 'lidingo-customisation'),
-                                'style' => 'outlined',
-                                'color' => 'primary',
-                                'href' => '#',
-                                'icon' => null,
-                                'classList' => ['c-content-page__print-button'],
-                                'attributeList' => [
-                                    'onClick' => 'window.print();return false;',
-                                    'aria-label' => __('Skriv ut', 'lidingo-customisation'),
-                                ]
-                            ])
-                            @endbutton
+                            <button
+                                type="button"
+                                class="button button--ghost c-content-page__print-button"
+                                onclick="window.print()"
+                                aria-label="{{ __('Skriv ut', 'lidingo-customisation') }}"
+                            >
+                                <span class="c-button__label">
+                                    <span class="c-button__label-text">{{ __('Skriv ut', 'lidingo-customisation') }}</span>
+                                </span>
+                            </button>
                         </div>
                     </div>
 
