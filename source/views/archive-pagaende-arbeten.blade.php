@@ -6,7 +6,7 @@
 @section('content')
     @php($hasHeroCopy = !empty($ongoingWorkArchiveTitle) || !empty($ongoingWorkArchiveLead) || !empty($ongoingWorkArchiveContent))
     @php($hasHeroMedia = !empty($ongoingWorkArchiveImageHtml))
-    @php($hasFilters = $filterConfig->isTextSearchEnabled() || $filterConfig->isDateFilterEnabled() || !empty($getTaxonomyFilterSelectComponentArguments()))
+    @php($hasFilters = $filterConfig->isTextSearchEnabled() || !empty($getTaxonomyFilterSelectComponentArguments()) || !empty($ongoingWorkYearOptions))
 
     <div class="c-ongoing-work-archive">
         @if ($hasHeroCopy || $hasHeroMedia)
@@ -86,18 +86,23 @@
                             </div>
                         @endif
 
-                        @if ($filterConfig->isDateFilterEnabled())
-                            @element(['classList' => ['o-grid']])
-                                @element(['classList' => ['o-grid-12@xs', 'o-grid-auto@sm']])
-                                    @field($getDateFilterFieldArguments()['from'])@endfield
-                                @endelement
-                                @element(['classList' => ['o-grid-12@xs', 'o-grid-auto@sm']])
-                                    @field($getDateFilterFieldArguments()['to'])@endfield
-                                @endelement
-                            @endelement
-                        @endif
-
                         <div class="o-grid u-align-content--end">
+
+                          @if (!empty($ongoingWorkYearOptions))
+                              <div class="o-grid-12@xs o-grid-6@sm o-grid-auto@md u-level-4">
+                                  @select([
+                                      'label' => __('År', 'lidingo-customisation'),
+                                      'name' => $ongoingWorkYearParameterName,
+                                      'required' => false,
+                                      'placeholder' => __('År', 'lidingo-customisation'),
+                                      'options' => $ongoingWorkYearOptions,
+                                      'preselected' => !empty($ongoingWorkSelectedYear) ? [(string) $ongoingWorkSelectedYear] : [],
+                                      'size' => 'md',
+                                  ])
+                                  @endselect
+                              </div>
+                          @endif
+
                             @foreach ($getTaxonomyFilterSelectComponentArguments() as $selectArguments)
                                 <div class="o-grid-12@xs o-grid-6@sm o-grid-auto@md u-level-4">
                                     @select([...$selectArguments, 'size' => 'md'])@endselect
@@ -115,13 +120,14 @@
                                 @endbutton
                             </div>
 
-                            @if ($filterConfig->getResetUrl())
+                            @if (!empty($ongoingWorkArchiveHasActiveFilters))
                                 <div class="o-grid-fit@xs o-grid-fit@sm o-grid-fit@md u-margin__top--auto">
                                     @button([
                                         ...$getFilterFormResetButtonArguments(),
                                         'text' => __('Återställ filter', 'lidingo-customisation'),
                                         'style' => 'outlined',
                                         'color' => 'primary',
+                                        'href' => $ongoingWorkArchiveResetUrl,
                                         'classList' => ['u-display--block@xs', 'u-width--100@xs'],
                                     ])
                                     @endbutton
@@ -163,7 +169,7 @@
                     @else
                         @foreach ($posts as $post)
                             @element(['classList' => $getPostColumnClasses()])
-                                @includeFirst(['post.' . $appearanceConfig->getDesign()->value, 'post.card'])
+                                @includeFirst(['post.pagaende-arbeten-card', 'post.' . $appearanceConfig->getDesign()->value, 'post.card'])
                             @endelement
                         @endforeach
                     @endif

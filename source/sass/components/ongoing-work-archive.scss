@@ -179,3 +179,35 @@
 .c-ongoing-work-archive__posts .c-card {
   height: 100%;
 }
+
+.c-ongoing-work-archive__posts .c-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.c-ongoing-work-card__date {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: $text-800;
+  font-family: "Lidingo Logical", sans-serif;
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.c-ongoing-work-card__date-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Lidingo Logical", sans-serif;
+  font-size: 1.125rem;
+  line-height: 1;
+  @include icon-weight(400);
+}
+
+.c-ongoing-work-card__date-text {
+  display: inline-flex;
+  align-items: center;
+}

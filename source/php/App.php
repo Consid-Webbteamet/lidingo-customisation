@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace LidingoCustomisation;
 
+use LidingoCustomisation\AcfFields\OngoingWorkDateFields;
 use LidingoCustomisation\Archives\OngoingWorkArchive;
 use LidingoCustomisation\Components\HeroSearch\HeroSearchOverrides;
 use LidingoCustomisation\Components\Posts\PostsDateOverrides;
@@ -23,6 +24,7 @@ class App
     private DevServer $devServer;
     private AssetRenderer $assetRenderer;
     private CspHandler $cspHandler;
+    private OngoingWorkDateFields $ongoingWorkDateFields;
     private HeroSearchOverrides $heroSearchOverrides;
     private PostsDateOverrides $postsDateOverrides;
     private SectionFullHeadingOverrides $sectionFullHeadingOverrides;
@@ -46,6 +48,7 @@ class App
         $this->devServer = new DevServer();
         $this->assetRenderer = new AssetRenderer($this->assetManifest, $this->devServer);
         $this->cspHandler = new CspHandler($this->devServer);
+        $this->ongoingWorkDateFields = new OngoingWorkDateFields();
         $this->heroSearchOverrides = new HeroSearchOverrides();
         $this->postsDateOverrides = new PostsDateOverrides();
         $this->sectionFullHeadingOverrides = new SectionFullHeadingOverrides();
@@ -67,6 +70,7 @@ class App
         add_filter('WpSecurity/Csp', [$this, 'addDevServerCspDomains'], 10, 1);
         add_filter('Website/HTML/output', [$this, 'stripDevBlockingCspDirectives'], 20, 0);
         add_filter('Municipio/Template/viewData', [$this, 'adjustContentNoticePlacement'], 20, 1);
+        $this->ongoingWorkDateFields->addHooks();
         $this->heroSearchOverrides->addHooks();
         $this->postsDateOverrides->addHooks();
         $this->sectionFullHeadingOverrides->addHooks();
