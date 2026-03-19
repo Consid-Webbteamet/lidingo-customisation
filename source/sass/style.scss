@@ -23,6 +23,7 @@
 @use "./components/toc";
 @use "./components/customer-feedback";
 @use "./components/ongoing-work-archive";
+@use "./components/ongoing-work-card";
 @use "typography";
 
 :root.lidingo-customisation-loaded {

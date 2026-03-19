@@ -7,6 +7,13 @@
   .u-margin__bottom--12 {
     margin-bottom: 0 !important;
   }
+
+  .c-field .c-field__label {
+    color: $text-1000;
+    font-size: var(--caption-font-size);
+    font-family: var(--lead-font-family);
+    font-weight: var(--font-weight-bold);
+  }
 }
 
 .c-ongoing-work-archive {
@@ -161,10 +168,10 @@
 
 .c-ongoing-work-archive__filter-shell .o-grid.u-align-content--end {
   row-gap: 1rem;
+  column-gap: 1.5rem;
 }
 
 .c-ongoing-work-archive__filter-shell .c-button__label-icon {
-  font-size: 1.125rem;
   @include icon-weight(400);
 }
 
@@ -173,41 +180,5 @@
 }
 
 .c-ongoing-work-archive__posts {
-  align-items: stretch;
-}
-
-.c-ongoing-work-archive__posts .c-card {
-  height: 100%;
-}
-
-.c-ongoing-work-archive__posts .c-card__body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.c-ongoing-work-card__date {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: $text-800;
-  font-family: "Lidingo Logical", sans-serif;
-  font-size: 1.125rem;
-  font-weight: 500;
-  line-height: 1.5;
-}
-
-.c-ongoing-work-card__date-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Lidingo Logical", sans-serif;
-  font-size: 1.125rem;
-  line-height: 1;
-  @include icon-weight(400);
-}
-
-.c-ongoing-work-card__date-text {
-  display: inline-flex;
-  align-items: center;
+  gap: 2.5rem;
 }
