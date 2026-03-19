@@ -13,8 +13,9 @@
   --link-big-font-size: var(--link-big-font-size, var(--preamble-font-size));
   --link-font-size: var(--link-font-size, var(--font-size-base, 1.125rem));
   --overlay-font-size: var(--overlay-font-size, 0.875rem);
-  --caption-font-size: var(--caption-font-size, 0.875rem);
+  --caption-font-size: 0.875rem;
   --lead-font-weight: 500;
+  --font-weight-bold: 500;
 }
 
 .mega,
