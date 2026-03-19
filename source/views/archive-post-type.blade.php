@@ -4,43 +4,44 @@
 @stop
 
 @section('content')
-    @php($hasHeroCopy = !empty($ongoingWorkArchiveTitle) || !empty($ongoingWorkArchiveLead) || !empty($ongoingWorkArchiveContent))
-    @php($hasHeroMedia = !empty($ongoingWorkArchiveImageHtml))
-    @php($hasFilters = $filterConfig->isTextSearchEnabled() || !empty($getTaxonomyFilterSelectComponentArguments()) || !empty($ongoingWorkYearOptions))
+    @php($hasHeroCopy = !empty($archiveLayoutTitle) || !empty($archiveLayoutLead) || !empty($archiveLayoutContent))
+    @php($hasHeroMedia = !empty($archiveLayoutImageHtml))
+    @php($yearOptions = is_array($archiveLayoutYearOptions ?? null) ? $archiveLayoutYearOptions : [])
+    @php($hasFilters = $filterConfig->isTextSearchEnabled() || !empty($getTaxonomyFilterSelectComponentArguments()) || !empty($yearOptions))
 
-    <div class="c-ongoing-work-archive">
+    <div class="c-post-type-archive">
         @if ($hasHeroCopy || $hasHeroMedia)
-            <article class="c-ongoing-work-archive__hero">
-                <div class="c-ongoing-work-archive__helper u-print-display--none">
+            <article class="c-post-type-archive__hero">
+                <div class="c-post-type-archive__helper u-print-display--none">
                     @includeIf('partials.navigation.breadcrumb')
                 </div>
 
-                <div class="c-ongoing-work-archive__hero-grid">
+                <div class="c-post-type-archive__hero-grid">
                     @if ($hasHeroCopy)
-                        <div class="c-ongoing-work-archive__hero-content">
-                            @if (!empty($ongoingWorkArchiveTitle))
-                                <h1 class="c-ongoing-work-archive__title" id="page-title">
-                                    {{ $ongoingWorkArchiveTitle }}
+                        <div class="c-post-type-archive__hero-content">
+                            @if (!empty($archiveLayoutTitle))
+                                <h1 class="c-post-type-archive__title" id="page-title">
+                                    {{ $archiveLayoutTitle }}
                                 </h1>
                             @endif
 
-                            @if (!empty($ongoingWorkArchiveLead))
-                                <div class="c-ongoing-work-archive__lead lead">
-                                    {!! $ongoingWorkArchiveLead !!}
+                            @if (!empty($archiveLayoutLead))
+                                <div class="c-post-type-archive__lead lead">
+                                    {!! $archiveLayoutLead !!}
                                 </div>
                             @endif
 
-                            @if (!empty($ongoingWorkArchiveContent))
-                                <div class="c-ongoing-work-archive__content">
-                                    {!! $ongoingWorkArchiveContent !!}
+                            @if (!empty($archiveLayoutContent))
+                                <div class="c-post-type-archive__content">
+                                    {!! $archiveLayoutContent !!}
                                 </div>
                             @endif
                         </div>
                     @endif
 
                     @if ($hasHeroMedia)
-                        <div class="c-ongoing-work-archive__hero-media">
-                            {!! $ongoingWorkArchiveImageHtml !!}
+                        <div class="c-post-type-archive__hero-media">
+                            {!! $archiveLayoutImageHtml !!}
                         </div>
                     @endif
                 </div>
@@ -50,15 +51,15 @@
         @includeIf('partials.sidebar', ['id' => 'content-area-top', 'classes' => ['o-grid']])
 
         @element([
-            'classList' => array_merge($getParentColumnClasses(), ['c-ongoing-work-archive__listing']),
+            'classList' => array_merge($getParentColumnClasses(), ['c-post-type-archive__listing']),
             'id' => $id,
             'attributeList' => [
                 'style' => 'scroll-margin-top: 100px;',
             ]
         ])
             @if ($hasFilters)
-                <section class="c-ongoing-work-archive__filter-shell">
-                    <h2 class="c-ongoing-work-archive__filter-title">
+                <section class="c-post-type-archive__filter-shell">
+                    <h2 class="c-post-type-archive__filter-title">
                         {{ __('Filtrera', 'lidingo-customisation') }}
                     </h2>
                     <style>
@@ -87,21 +88,20 @@
                         @endif
 
                         <div class="o-grid u-align-content--end">
-
-                          @if (!empty($ongoingWorkYearOptions))
-                              <div class="o-grid-12@xs o-grid-6@sm o-grid-auto@md u-level-4">
-                                  @select([
-                                      'label' => __('År', 'lidingo-customisation'),
-                                      'name' => $ongoingWorkYearParameterName,
-                                      'required' => false,
-                                      'placeholder' => __('År', 'lidingo-customisation'),
-                                      'options' => $ongoingWorkYearOptions,
-                                      'preselected' => !empty($ongoingWorkSelectedYear) ? [(string) $ongoingWorkSelectedYear] : [],
-                                      'size' => 'md',
-                                  ])
-                                  @endselect
-                              </div>
-                          @endif
+                            @if (!empty($yearOptions))
+                                <div class="o-grid-12@xs o-grid-6@sm o-grid-auto@md u-level-4">
+                                    @select([
+                                        'label' => __('År', 'lidingo-customisation'),
+                                        'name' => $archiveLayoutYearParameterName,
+                                        'required' => false,
+                                        'placeholder' => __('År', 'lidingo-customisation'),
+                                        'options' => $yearOptions,
+                                        'preselected' => !empty($archiveLayoutSelectedYear) ? [(string) $archiveLayoutSelectedYear] : [],
+                                        'size' => 'md',
+                                    ])
+                                    @endselect
+                                </div>
+                            @endif
 
                             @foreach ($getTaxonomyFilterSelectComponentArguments() as $selectArguments)
                                 <div class="o-grid-12@xs o-grid-6@sm o-grid-auto@md u-level-4">
@@ -120,14 +120,14 @@
                                 @endbutton
                             </div>
 
-                            @if (!empty($ongoingWorkArchiveHasActiveFilters))
+                            @if (!empty($archiveLayoutHasActiveFilters))
                                 <div class="o-grid-fit@xs o-grid-fit@sm o-grid-fit@md u-margin__top--auto">
                                     @button([
                                         ...$getFilterFormResetButtonArguments(),
                                         'text' => __('Återställ filter', 'lidingo-customisation'),
                                         'style' => 'outlined',
                                         'color' => 'primary',
-                                        'href' => $ongoingWorkArchiveResetUrl,
+                                        'href' => $archiveLayoutResetUrl,
                                         'classList' => ['u-display--block@xs', 'u-width--100@xs'],
                                     ])
                                     @endbutton
@@ -142,7 +142,7 @@
 
             @element([
                 'classList' => [
-                    'c-ongoing-work-archive__posts',
+                    'c-post-type-archive__posts',
                     'js-async-posts',
                     'o-layout-grid',
                     'o-layout-grid--cols-12',
@@ -169,7 +169,7 @@
                     @else
                         @foreach ($posts as $post)
                             @element(['classList' => $getPostColumnClasses()])
-                                @includeFirst(['post.pagaende-arbeten-card', 'post.' . $appearanceConfig->getDesign()->value, 'post.card'])
+                                @includeFirst(['post.archive-card', 'post.' . $appearanceConfig->getDesign()->value, 'post.card'])
                             @endelement
                         @endforeach
                     @endif

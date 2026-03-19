@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace LidingoCustomisation;
 
+use LidingoCustomisation\AcfFields\ArchivePageFields;
 use LidingoCustomisation\AcfFields\OngoingWorkDateFields;
+use LidingoCustomisation\Archives\ArchiveLayout;
 use LidingoCustomisation\Archives\OngoingWorkArchive;
 use LidingoCustomisation\Components\HeroSearch\HeroSearchOverrides;
 use LidingoCustomisation\Components\Posts\PostsDateOverrides;
@@ -24,10 +26,12 @@ class App
     private DevServer $devServer;
     private AssetRenderer $assetRenderer;
     private CspHandler $cspHandler;
+    private ArchivePageFields $archivePageFields;
     private OngoingWorkDateFields $ongoingWorkDateFields;
     private HeroSearchOverrides $heroSearchOverrides;
     private PostsDateOverrides $postsDateOverrides;
     private SectionFullHeadingOverrides $sectionFullHeadingOverrides;
+    private ArchiveLayout $archiveLayout;
     private OngoingWorkArchive $ongoingWorkArchive;
     private ArticlePageTemplate $articlePageTemplate;
     private LandingPageTemplate $landingPageTemplate;
@@ -48,10 +52,12 @@ class App
         $this->devServer = new DevServer();
         $this->assetRenderer = new AssetRenderer($this->assetManifest, $this->devServer);
         $this->cspHandler = new CspHandler($this->devServer);
+        $this->archivePageFields = new ArchivePageFields();
         $this->ongoingWorkDateFields = new OngoingWorkDateFields();
         $this->heroSearchOverrides = new HeroSearchOverrides();
         $this->postsDateOverrides = new PostsDateOverrides();
         $this->sectionFullHeadingOverrides = new SectionFullHeadingOverrides();
+        $this->archiveLayout = new ArchiveLayout();
         $this->ongoingWorkArchive = new OngoingWorkArchive();
         $this->articlePageTemplate = new ArticlePageTemplate();
         $this->landingPageTemplate = new LandingPageTemplate();
@@ -70,10 +76,12 @@ class App
         add_filter('WpSecurity/Csp', [$this, 'addDevServerCspDomains'], 10, 1);
         add_filter('Website/HTML/output', [$this, 'stripDevBlockingCspDirectives'], 20, 0);
         add_filter('Municipio/Template/viewData', [$this, 'adjustContentNoticePlacement'], 20, 1);
+        $this->archivePageFields->addHooks();
         $this->ongoingWorkDateFields->addHooks();
         $this->heroSearchOverrides->addHooks();
         $this->postsDateOverrides->addHooks();
         $this->sectionFullHeadingOverrides->addHooks();
+        $this->archiveLayout->addHooks();
         $this->ongoingWorkArchive->addHooks();
         $this->articlePageTemplate->addHooks();
         $this->landingPageTemplate->addHooks();

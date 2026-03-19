@@ -39,18 +39,18 @@ class OngoingWorkArchive
         $viewData['hasSideMenu'] = false;
         $viewData['helperNavBeforeContent'] = false;
         $viewData['skipToMainContentLink'] = '#main-content';
-        $viewData['ongoingWorkArchivePageId'] = $pageId;
-        $viewData['ongoingWorkArchiveTitle'] = $this->getArchiveTitle($page, $viewData);
-        $viewData['ongoingWorkArchiveLead'] = $this->getArchiveLead($page, $viewData);
-        $viewData['ongoingWorkArchiveContent'] = $this->getArchiveContent($page);
-        $viewData['ongoingWorkArchiveImageHtml'] = $this->getArchiveImageHtml($page);
         $viewData['breadcrumbMenu'] = $this->getBreadcrumbMenu($viewData, $pageId);
-        $viewData['ongoingWorkYearOptions'] = $this->getYearOptions();
-        $viewData['ongoingWorkSelectedYear'] = $this->getSelectedYear();
-        $viewData['ongoingWorkYearParameterName'] = self::YEAR_QUERY_PARAMETER;
-        $viewData['ongoingWorkArchiveResetUrl'] = $this->getArchiveResetUrl($page);
-        $viewData['ongoingWorkArchiveHasActiveFilters'] = $this->hasActiveFilters($viewData['filterConfig'] ?? null);
-        $viewData['getOngoingWorkDateRange'] = fn(PostObjectInterface $post): string => $this->getDateRangeLabel($post);
+        $viewData['archiveLayoutTitle'] = $this->getArchiveTitle($page, $viewData);
+        $viewData['archiveLayoutLead'] = $this->getArchiveLead($page, $viewData);
+        $viewData['archiveLayoutContent'] = $this->getArchiveContent($page);
+        $viewData['archiveLayoutImageHtml'] = $this->getArchiveImageHtml($page);
+        $viewData['archiveLayoutYearOptions'] = $this->getYearOptions();
+        $viewData['archiveLayoutSelectedYear'] = $this->getSelectedYear();
+        $viewData['archiveLayoutYearParameterName'] = self::YEAR_QUERY_PARAMETER;
+        $viewData['archiveLayoutResetUrl'] = $this->getArchiveResetUrl($page);
+        $viewData['archiveLayoutHasActiveFilters'] = $this->hasActiveFilters($viewData['filterConfig'] ?? null);
+        $viewData['archiveLayoutCardMetaIcon'] = ':kalender:';
+        $viewData['getArchiveCardMeta'] = fn(PostObjectInterface $post): string => $this->getDateRangeLabel($post);
 
         return $viewData;
     }
@@ -217,7 +217,7 @@ class OngoingWorkArchive
             'large',
             false,
             [
-                'class' => 'c-ongoing-work-archive__hero-image',
+                'class' => 'c-post-type-archive__hero-image',
                 'loading' => 'eager',
                 'decoding' => 'async',
             ]

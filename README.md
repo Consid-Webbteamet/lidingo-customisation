@@ -34,8 +34,8 @@ add_filter('lidingo_customisation/should_load_admin', '__return_true');
 
 - `lidingo_customisation/should_load_frontend` (default `true`)
 - `lidingo_customisation/should_load_admin` (default `false`)
-- `lidingo_customisation/article_post_types` (default `post`, `news`, `nyheter`)
-  - Add a new singular post type here if it should use the shared article layout.
+- `lidingo_customisation/article_post_types` (default `post`, `news`, `nyheter` + all public post types with archives)
+  - Use this to add or trim singular post types that should use the shared article layout.
 
 ```php
 add_filter('lidingo_customisation/article_post_types', function (array $postTypes): array {

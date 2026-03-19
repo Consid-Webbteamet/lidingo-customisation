@@ -120,15 +120,22 @@ class ArticlePageTemplate
 
     private function getArticlePostTypes(): array
     {
+        // Keep the shared article layout for the explicit defaults and auto-include
+        // public post types that expose an archive, so their single views stay consistent.
+        $defaultPostTypes = array_values(array_unique(array_merge(
+            self::DEFAULT_ARTICLE_POST_TYPES,
+            $this->getArchivePostTypes()
+        )));
+
         // Opt in additional singular post types here without adding new single templates.
         // Example: add_filter('lidingo_customisation/article_post_types', fn (array $types) => [...$types, 'pressrelease']);
         $postTypes = apply_filters(
             'lidingo_customisation/article_post_types',
-            self::DEFAULT_ARTICLE_POST_TYPES
+            $defaultPostTypes
         );
 
         if (!is_array($postTypes)) {
-            return self::DEFAULT_ARTICLE_POST_TYPES;
+            return $defaultPostTypes;
         }
 
         $postTypes = array_values(array_filter(
@@ -139,6 +146,38 @@ class ArticlePageTemplate
             static fn(string $postType) => $postType !== ''
         ));
 
-        return !empty($postTypes) ? $postTypes : self::DEFAULT_ARTICLE_POST_TYPES;
+        return !empty($postTypes) ? $postTypes : $defaultPostTypes;
+    }
+
+    private function getArchivePostTypes(): array
+    {
+        $postTypes = get_post_types(
+            [
+                'public' => true,
+                'publicly_queryable' => true,
+            ],
+            'objects'
+        );
+
+        if (!is_array($postTypes)) {
+            return [];
+        }
+
+        return array_values(array_filter(
+            array_map(
+                static function ($postType): string {
+                    if (!is_object($postType) || empty($postType->name) || !is_string($postType->name)) {
+                        return '';
+                    }
+
+                    if (in_array($postType->name, ['page', 'attachment'], true)) {
+                        return '';
+                    }
+
+                    return !empty($postType->has_archive) ? sanitize_key($postType->name) : '';
+                },
+                $postTypes
+            )
+        ));
     }
 }
