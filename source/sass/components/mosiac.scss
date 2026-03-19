@@ -319,7 +319,7 @@
       }
     }
 
-    @media (min-width: ($breakpoint-md + 1px)) and (max-width: ($breakpoint-xl - 1px)) {
+    @media (min-width: $breakpoint-md) and (max-width: ($breakpoint-xl - 1px)) {
       flex-direction: column;
       min-height: 0;
       height: auto;
@@ -381,6 +381,15 @@
       min-height: 37.5rem;
     }
 
+    @media (max-width: ($breakpoint-xl - 1px)) {
+      height: auto;
+      min-height: 0;
+
+      .ls-mosiac__column {
+        flex: 1 1 auto;
+      }
+    }
+
     .ls-mosiac__column--left > .ls-mosiac__card {
       --mosiac-card-bg: var(--mosiac-color-quaternary);
 
@@ -432,7 +441,7 @@
   }
 
   /* Mobile behavior for all variants */
-  @media (max-width: $breakpoint-md) {
+  @media (max-width: ($breakpoint-md - 1px)) {
     .ls-mosiac__section,
     .ls-mosiac__section--two-col-image-top {
       flex-direction: column;
