@@ -1,5 +1,5 @@
-@use '../tokens' as *;
-
+@use "../tokens" as *;
+@use "../abstracts/variables" as *;
 
 .c-footer {
   padding-bottom: 2rem;
@@ -15,7 +15,7 @@
     color: $color-white;
 
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       bottom: -1rem;
       left: 0;
@@ -44,6 +44,7 @@
   }
 
   &__subfooter__list {
+    flex-direction: row;
     justify-content: flex-end;
     align-items: center;
 
@@ -62,12 +63,12 @@
       display: none;
     }
 
-    a.c-link[href*='facebook.com'],
-    a.c-link[data-js-original-link*='facebook.com'],
-    a.c-link[href*='instagram.com'],
-    a.c-link[data-js-original-link*='instagram.com'],
-    a.c-link[href*='linkedin.com'],
-    a.c-link[data-js-original-link*='linkedin.com'] {
+    a.c-link[href*="facebook.com"],
+    a.c-link[data-js-original-link*="facebook.com"],
+    a.c-link[href*="instagram.com"],
+    a.c-link[data-js-original-link*="instagram.com"],
+    a.c-link[href*="linkedin.com"],
+    a.c-link[data-js-original-link*="linkedin.com"] {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -81,7 +82,7 @@
       vertical-align: middle;
 
       &::before {
-        content: '';
+        content: "";
         display: inline-block;
         width: 3.25rem;
         height: 3.25rem;
@@ -90,19 +91,19 @@
       }
     }
 
-    a.c-link[href*='facebook.com']::before,
-    a.c-link[data-js-original-link*='facebook.com']::before {
-      background-image: url('../assets/facebook.svg');
+    a.c-link[href*="facebook.com"]::before,
+    a.c-link[data-js-original-link*="facebook.com"]::before {
+      background-image: url("../assets/facebook.svg");
     }
 
-    a.c-link[href*='instagram.com']::before,
-    a.c-link[data-js-original-link*='instagram.com']::before {
-      background-image: url('../assets/instagram.svg');
+    a.c-link[href*="instagram.com"]::before,
+    a.c-link[data-js-original-link*="instagram.com"]::before {
+      background-image: url("../assets/instagram.svg");
     }
 
-    a.c-link[href*='linkedin.com']::before,
-    a.c-link[data-js-original-link*='linkedin.com']::before {
-      background-image: url('../assets/linkedin.svg');
+    a.c-link[href*="linkedin.com"]::before,
+    a.c-link[data-js-original-link*="linkedin.com"]::before {
+      background-image: url("../assets/linkedin.svg");
     }
   }
 }
