@@ -86,6 +86,10 @@ body:has(.c-header.is-scrolled) {
   height: var(--header-height);
   transition: height 180ms ease;
 
+  .c-header__brand-text {
+    margin-left: 3rem;
+  }
+
   &__main-lower-area-container {
     height: 100%;
   }
