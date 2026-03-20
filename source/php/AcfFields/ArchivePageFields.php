@@ -9,11 +9,16 @@ class ArchivePageFields
     private const FIELD_GROUP_KEY = 'group_lidingo_archive_page_settings';
     private const FIELD_KEY_BADGE_TAXONOMY = 'field_lidingo_archive_badge_taxonomy';
     private const FIELD_NAME_BADGE_TAXONOMY = 'lidingo_archive_badge_taxonomy';
+    private const LOCATION_RULE_PARAM = 'lidingo_archive_page';
+    private const LOCATION_RULE_VALUE = 'assigned_archive_page';
 
     public function addHooks(): void
     {
         add_action('acf/init', [$this, 'registerFieldGroup']);
         add_filter('acf/load_field/key=' . self::FIELD_KEY_BADGE_TAXONOMY, [$this, 'populateBadgeTaxonomyChoices']);
+        add_filter('acf/location/rule_types', [$this, 'registerLocationRuleType']);
+        add_filter('acf/location/rule_values/' . self::LOCATION_RULE_PARAM, [$this, 'registerLocationRuleValues']);
+        add_filter('acf/location/rule_match/' . self::LOCATION_RULE_PARAM, [$this, 'matchLocationRule'], 10, 3);
     }
 
     public function registerFieldGroup(): void
@@ -48,9 +53,9 @@ class ArchivePageFields
             'location' => [
                 [
                     [
-                        'param' => 'post_type',
+                        'param' => self::LOCATION_RULE_PARAM,
                         'operator' => '==',
-                        'value' => 'page',
+                        'value' => self::LOCATION_RULE_VALUE,
                     ],
                 ],
             ],
@@ -102,6 +107,39 @@ class ArchivePageFields
         }
 
         return $field;
+    }
+
+    public function registerLocationRuleType(array $choices): array
+    {
+        $group = __('Page', 'acf');
+        $choices[$group] = is_array($choices[$group] ?? null) ? $choices[$group] : [];
+        $choices[$group][self::LOCATION_RULE_PARAM] = __('Assigned archive page', 'lidingo-customisation');
+
+        return $choices;
+    }
+
+    public function registerLocationRuleValues(array $choices): array
+    {
+        $choices[self::LOCATION_RULE_VALUE] = __('Assigned archive page', 'lidingo-customisation');
+
+        return $choices;
+    }
+
+    public function matchLocationRule(bool $match, array $rule, array $options): bool
+    {
+        $postId = isset($options['post_id']) && is_numeric($options['post_id'])
+            ? (int) $options['post_id']
+            : 0;
+
+        if ($postId <= 0) {
+            $postId = $this->getCurrentPageId();
+        }
+
+        $isAssignedArchivePage = $this->getAssignedArchivePostType($postId) !== null;
+
+        return $rule['operator'] === '!='
+            ? !$isAssignedArchivePage
+            : $isAssignedArchivePage;
     }
 
     private function getCurrentPageId(): int

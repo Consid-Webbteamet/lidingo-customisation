@@ -84,7 +84,9 @@ class ArchiveLayout
         $viewData['archiveLayoutTitle'] = $this->getArchiveTitle($postType, $page, $viewData);
         $viewData['archiveLayoutLead'] = $this->getArchiveLead($page, $viewData);
         $viewData['archiveLayoutContent'] = $this->getArchiveContent($page);
-        $viewData['archiveLayoutImageHtml'] = $this->getArchiveImageHtml($page);
+        $viewData['archiveLayoutImageHtml'] = $this->shouldDisplayArchiveHeroImage($page, $viewData)
+            ? $this->getArchiveImageHtml($page)
+            : '';
         $viewData['archiveLayoutResetUrl'] = $this->getArchiveResetUrl($postType, $page);
         $viewData['archiveLayoutHasActiveFilters'] = $this->hasActiveFilters($viewData['filterConfig'] ?? null);
         $viewData['archiveLayoutYearOptions'] = [];
@@ -278,6 +280,35 @@ class ArchiveLayout
         );
 
         return is_string($imageHtml) ? $imageHtml : '';
+    }
+
+    private function shouldDisplayArchiveHeroImage(?WP_Post $page, array $viewData): bool
+    {
+        if ($page instanceof WP_Post) {
+            if (function_exists('get_field')) {
+                return (bool) get_field('post_single_show_featured_image', $page->ID);
+            }
+
+            return (bool) get_post_meta($page->ID, 'post_single_show_featured_image', true);
+        }
+
+        $appearanceConfig = $viewData['appearanceConfig'] ?? null;
+
+        if (is_object($appearanceConfig) && method_exists($appearanceConfig, 'shouldDisplayFeaturedImage')) {
+            return (bool) $appearanceConfig->shouldDisplayFeaturedImage();
+        }
+
+        $archiveProps = $viewData['archiveProps'] ?? null;
+
+        if (is_object($archiveProps)) {
+            foreach (['displayFeaturedImage', 'featured_image'] as $property) {
+                if (isset($archiveProps->{$property})) {
+                    return filter_var($archiveProps->{$property}, FILTER_VALIDATE_BOOL);
+                }
+            }
+        }
+
+        return true;
     }
 
     private function getBreadcrumbMenu(array $viewData, ?int $pageId): array
