@@ -363,6 +363,8 @@
 
     .ls-mosiac__column--right {
       flex: 1 1 auto;
+      height: 37.5rem;
+      min-height: 37.5rem;
 
       @media (min-width: $breakpoint-xl) {
         flex: 1 1 0;
@@ -414,6 +416,8 @@
 
     .ls-mosiac__column--right > .ls-mosiac__card {
       --mosiac-card-bg: var(--mosiac-color-tertiary);
+      height: 100%;
+      min-height: 37.5rem;
 
       .ls-mosiac__title {
         font-size: var(--h4-font-size);
