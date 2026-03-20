@@ -16,6 +16,7 @@ use LidingoCustomisation\Infrastructure\AssetRenderer;
 use LidingoCustomisation\Infrastructure\AssetManifest;
 use LidingoCustomisation\Infrastructure\CspHandler;
 use LidingoCustomisation\Infrastructure\DevServer;
+use LidingoCustomisation\Search\SearchPage;
 use LidingoCustomisation\Templates\ArticlePageTemplate;
 use LidingoCustomisation\Templates\ContentPageTemplate;
 use LidingoCustomisation\Templates\LandingPageTemplate;
@@ -33,6 +34,7 @@ class App
     private SectionFullHeadingOverrides $sectionFullHeadingOverrides;
     private ArchiveLayout $archiveLayout;
     private OngoingWorkArchive $ongoingWorkArchive;
+    private SearchPage $searchPage;
     private ArticlePageTemplate $articlePageTemplate;
     private LandingPageTemplate $landingPageTemplate;
     private ContentPageTemplate $contentPageTemplate;
@@ -59,6 +61,7 @@ class App
         $this->sectionFullHeadingOverrides = new SectionFullHeadingOverrides();
         $this->archiveLayout = new ArchiveLayout();
         $this->ongoingWorkArchive = new OngoingWorkArchive();
+        $this->searchPage = new SearchPage();
         $this->articlePageTemplate = new ArticlePageTemplate();
         $this->landingPageTemplate = new LandingPageTemplate();
         $this->contentPageTemplate = new ContentPageTemplate();
@@ -83,6 +86,7 @@ class App
         $this->sectionFullHeadingOverrides->addHooks();
         $this->archiveLayout->addHooks();
         $this->ongoingWorkArchive->addHooks();
+        $this->searchPage->addHooks();
         $this->articlePageTemplate->addHooks();
         $this->landingPageTemplate->addHooks();
         $this->contentPageTemplate->addHooks();

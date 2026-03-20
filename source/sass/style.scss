@@ -4,7 +4,7 @@
 
 @use "./components/header";
 @use "./components/footer";
-@use "./components/search-hero";
+@use "./components/search-results";
 @use "./components/card";
 @use "./components/card-news-grid";
 @use "./components/button";
@@ -24,6 +24,7 @@
 @use "./components/customer-feedback";
 @use "./components/archive-post-type";
 @use "./components/archive-post-type-card";
+@use "./components/pagination";
 @use "typography";
 
 :root.lidingo-customisation-loaded {
