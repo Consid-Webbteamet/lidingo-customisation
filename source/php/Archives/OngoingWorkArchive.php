@@ -43,7 +43,9 @@ class OngoingWorkArchive
         $viewData['archiveLayoutTitle'] = $this->getArchiveTitle($page, $viewData);
         $viewData['archiveLayoutLead'] = $this->getArchiveLead($page, $viewData);
         $viewData['archiveLayoutContent'] = $this->getArchiveContent($page);
-        $viewData['archiveLayoutImageHtml'] = $this->getArchiveImageHtml($page);
+        $viewData['archiveLayoutImageHtml'] = $this->shouldDisplayArchiveHeroImage($page)
+            ? $this->getArchiveImageHtml($page)
+            : '';
         $viewData['archiveLayoutYearOptions'] = $this->getYearOptions();
         $viewData['archiveLayoutSelectedYear'] = $this->getSelectedYear();
         $viewData['archiveLayoutYearParameterName'] = self::YEAR_QUERY_PARAMETER;
@@ -224,6 +226,19 @@ class OngoingWorkArchive
         );
 
         return is_string($imageHtml) ? $imageHtml : '';
+    }
+
+    private function shouldDisplayArchiveHeroImage(?WP_Post $page): bool
+    {
+        if (!$page instanceof WP_Post) {
+            return true;
+        }
+
+        if (function_exists('get_field')) {
+            return (bool) get_field('post_single_show_featured_image', $page->ID);
+        }
+
+        return (bool) get_post_meta($page->ID, 'post_single_show_featured_image', true);
     }
 
     private function getBreadcrumbMenu(array $viewData, ?int $pageId): array
