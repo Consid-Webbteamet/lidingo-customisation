@@ -67,7 +67,7 @@
                         </p>
 
                         @if (!empty($searchPageTypeButtons))
-                            <div class="c-search-results__filters" aria-label="{{ __('Filtrera sökresultat', 'lidingo-customisation') }}">
+                            <nav class="c-search-results__filters" aria-label="{{ __('Filtrera sökresultat', 'lidingo-customisation') }}">
                                 @foreach ($searchPageTypeButtons as $button)
                                     <a
                                         class="c-search-results__filter button {{ $button['isActive'] ? 'button--primary' : 'button--ghost' }}"
@@ -77,7 +77,7 @@
                                         {{ $button['label'] }} ({{ $button['count'] }})
                                     </a>
                                 @endforeach
-                            </div>
+                            </nav>
                         @endif
                     @endif
                 </div>
