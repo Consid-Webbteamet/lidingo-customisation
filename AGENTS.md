@@ -24,7 +24,9 @@
 ## Development workflow
 - Main frontend entrypoints are `source/js/main.js` and `source/sass/style.scss`.
 - Admin entrypoints are `source/js/admin.js` and `source/sass/admin.scss`.
+- Run `composer dump-autoload` after adding or moving PHP classes under `source/php/`.
 - Build with `npm run build`.
+- Use `php build.php` for package/CI builds; it runs Composer and npm install steps before `npm run build`.
 - Use `npm run dev` for Vite-driven local development.
 - Use `npm run watch` for continuous production-build output without dev server/HMR.
 - Keep local development on HTTP when using the Vite dev server.
