@@ -127,6 +127,10 @@ class ArchivePageFields
 
     public function matchLocationRule(bool $match, array $rule, array $options): bool
     {
+        if (!$this->isPageEditScreen($options)) {
+            return $rule['operator'] === '!=';
+        }
+
         $postId = isset($options['post_id']) && is_numeric($options['post_id'])
             ? (int) $options['post_id']
             : 0;
@@ -140,6 +144,31 @@ class ArchivePageFields
         return $rule['operator'] === '!='
             ? !$isAssignedArchivePage
             : $isAssignedArchivePage;
+    }
+
+    private function isPageEditScreen(array $options): bool
+    {
+        if (isset($options['post_type']) && $options['post_type'] !== 'page') {
+            return false;
+        }
+
+        if (isset($options['post_id']) && !is_numeric($options['post_id'])) {
+            return false;
+        }
+
+        if (function_exists('get_current_screen')) {
+            $screen = get_current_screen();
+
+            if (is_object($screen) && property_exists($screen, 'base') && $screen->base !== 'post') {
+                return false;
+            }
+
+            if (is_object($screen) && property_exists($screen, 'post_type') && !empty($screen->post_type) && $screen->post_type !== 'page') {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private function getCurrentPageId(): int
