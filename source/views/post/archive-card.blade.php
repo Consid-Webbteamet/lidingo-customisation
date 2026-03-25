@@ -1,10 +1,14 @@
 @php($archiveBadgeLabel = !empty($getArchiveCardBadgeLabel) ? $getArchiveCardBadgeLabel($post) : '')
 @php($archiveCardMeta = !empty($getArchiveCardMeta) ? $getArchiveCardMeta($post) : '')
 @php($archiveCardMetaIcon = !empty($archiveLayoutCardMetaIcon) ? $archiveLayoutCardMetaIcon : '')
+@php($archiveBadgeClassList = ['c-post-type-archive-card__badge'])
+@if (!empty($archiveLayoutUsesDateBadge))
+    @php($archiveBadgeClassList[] = 'c-post-type-archive-card__badge--date')
+@endif
 
 <div class="c-post-type-archive-card-shell">
     @if (!empty($archiveBadgeLabel))
-        <div class="c-post-type-archive-card__badge">
+        <div @class($archiveBadgeClassList)>
             <span class="c-post-type-archive-card__badge-label">{{ $archiveBadgeLabel }}</span>
         </div>
     @endif

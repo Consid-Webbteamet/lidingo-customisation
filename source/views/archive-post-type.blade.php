@@ -7,7 +7,7 @@
     @php($hasHeroCopy = !empty($archiveLayoutTitle) || !empty($archiveLayoutLead) || !empty($archiveLayoutContent))
     @php($hasHeroMedia = !empty($archiveLayoutImageHtml))
     @php($yearOptions = is_array($archiveLayoutYearOptions ?? null) ? $archiveLayoutYearOptions : [])
-    @php($hasFilters = $filterConfig->isTextSearchEnabled() || !empty($getTaxonomyFilterSelectComponentArguments()) || !empty($yearOptions))
+    @php($hasFilters = $filterConfig->isTextSearchEnabled() || $filterConfig->isDateFilterEnabled() || !empty($getTaxonomyFilterSelectComponentArguments()) || !empty($yearOptions))
 
     <div class="c-post-type-archive">
         @if ($hasHeroCopy || $hasHeroMedia)
@@ -83,6 +83,17 @@
                                         'classList' => ['u-width--100'],
                                     ])
                                     @endfield
+                                </div>
+                            </div>
+                        @endif
+
+                        @if ($filterConfig->isDateFilterEnabled())
+                            <div class="o-grid">
+                                <div class="o-grid-12@xs o-grid-6@sm">
+                                    @field($getDateFilterFieldArguments()['from'])@endfield
+                                </div>
+                                <div class="o-grid-12@xs o-grid-6@sm">
+                                    @field($getDateFilterFieldArguments()['to'])@endfield
                                 </div>
                             </div>
                         @endif

@@ -1,6 +1,7 @@
 @use "../tokens" as *;
 
-.c-pagination-block {
+.c-pagination-block,
+.c-pagination {
   margin-top: 2.5rem;
 
   &__nav {
@@ -8,7 +9,8 @@
     justify-content: center;
   }
 
-  &__list {
+  &__list,
+  .c-pagination__list {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
@@ -18,12 +20,16 @@
     list-style: none;
   }
 
-  &__item {
+  &__item,
+  .c-pagination__item,
+  .c-pagination__page-wrapper {
     margin: 0;
     padding: 0;
+    list-style: none;
   }
 
   &__link,
+  .c-pagination__link,
   &__control.c-button {
     display: flex;
     align-items: center;
@@ -59,7 +65,8 @@
     }
   }
 
-  &__link#{&}__link--active {
+  &__link#{&}__link--active,
+  .c-pagination__link.c-pagination__item--is-active {
     background: $color-primary-500;
     color: $color-white;
 
@@ -109,14 +116,39 @@
     }
   }
 
+  .c-pagination__item--previous .c-button,
+  .c-pagination__item--next .c-button {
+    @extend .c-pagination-block__control;
+  }
+
   &__control--disabled.c-button,
   &__control--disabled.c-button:hover,
   &__control--disabled.c-button:focus,
   &__control--disabled.c-button:focus-visible,
-  &__control--disabled.c-button:active {
+  &__control--disabled.c-button:active,
+  .c-pagination__item--previous .c-button[disabled],
+  .c-pagination__item--previous .c-button[disabled]:hover,
+  .c-pagination__item--previous .c-button[disabled]:focus,
+  .c-pagination__item--previous .c-button[disabled]:focus-visible,
+  .c-pagination__item--previous .c-button[disabled]:active,
+  .c-pagination__item--next .c-button[disabled],
+  .c-pagination__item--next .c-button[disabled]:hover,
+  .c-pagination__item--next .c-button[disabled]:focus,
+  .c-pagination__item--next .c-button[disabled]:focus-visible,
+  .c-pagination__item--next .c-button[disabled]:active {
     background: $color-white;
     color: $text-1000;
     cursor: not-allowed;
     opacity: 1;
+  }
+
+  .c-pagination__pages {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
 }

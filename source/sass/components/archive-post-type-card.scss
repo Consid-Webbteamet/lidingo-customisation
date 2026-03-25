@@ -103,6 +103,11 @@
   z-index: 2;
 }
 
+.c-post-type-archive-card__badge--date {
+  background: $standard-yellow-500;
+  padding-inline: 2rem;
+}
+
 .c-post-type-archive-card__badge-label,
 .c-ongoing-work-card__status-label {
   color: inherit;

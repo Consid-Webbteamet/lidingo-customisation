@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace LidingoCustomisation\Archives;
 
+use Municipio\Helper\DateFormat;
 use Municipio\PostObject\PostObjectInterface;
 use WP_Post;
 use WP_Post_Type;
@@ -12,6 +13,7 @@ class ArchiveLayout
 {
     public const TEMPLATE_SLUG = 'archive-post-type.blade.php';
     public const BADGE_TAXONOMY_FIELD_NAME = 'lidingo_archive_badge_taxonomy';
+    private const DATE_BADGE_POST_TYPES = ['news', 'nyheter'];
 
     private string $viewPath;
 
@@ -94,10 +96,11 @@ class ArchiveLayout
         $viewData['archiveLayoutYearParameterName'] = '';
         $viewData['archiveLayoutCardMetaIcon'] = '';
         $viewData['breadcrumbMenu'] = $this->getBreadcrumbMenu($viewData, $pageId);
+        $viewData['archiveLayoutUsesDateBadge'] = $this->shouldUseDateBadge($postType);
 
         $badgeTaxonomy = $this->getArchiveBadgeTaxonomy($pageId, $postType);
         $viewData['archiveLayoutBadgeTaxonomy'] = $badgeTaxonomy;
-        $viewData['getArchiveCardBadgeLabel'] = fn(PostObjectInterface $post): string => $this->getBadgeLabel($post, $badgeTaxonomy);
+        $viewData['getArchiveCardBadgeLabel'] = fn(PostObjectInterface $post): string => $this->getCardBadgeLabel($post, $postType, $badgeTaxonomy);
         $viewData['getArchiveCardMeta'] = static fn(PostObjectInterface $post): string => '';
 
         return $viewData;
@@ -424,6 +427,31 @@ class ArchiveLayout
         return is_object($term) && !empty($term->name) && is_string($term->name)
             ? $term->name
             : '';
+    }
+
+    private function getCardBadgeLabel(PostObjectInterface $post, string $postType, string $taxonomy): string
+    {
+        if ($this->shouldUseDateBadge($postType)) {
+            return $this->getPublishedDateLabel($post);
+        }
+
+        return $this->getBadgeLabel($post, $taxonomy);
+    }
+
+    private function shouldUseDateBadge(string $postType): bool
+    {
+        return in_array($postType, self::DATE_BADGE_POST_TYPES, true);
+    }
+
+    private function getPublishedDateLabel(PostObjectInterface $post): string
+    {
+        $timestamp = $post->getPublishedTime();
+
+        if ($timestamp <= 0) {
+            return '';
+        }
+
+        return wp_date(DateFormat::getDateFormat('date'), $timestamp);
     }
 
     private function isUnsetThemeModValue(mixed $value): bool
