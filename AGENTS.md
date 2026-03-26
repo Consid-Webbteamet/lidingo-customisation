@@ -27,7 +27,9 @@
 - Run `composer dump-autoload` after adding or moving PHP classes under `source/php/`.
 - Build with `npm run build`.
 - Use `php build.php` for package/CI builds; it runs Composer and npm install steps before `npm run build`.
+- Use `php build.php --no-composer` when Composer dependencies are already installed, and `php build.php --cleanup` for packaging runs that should strip build-time source files.
 - Use `npm run dev` for Vite-driven local development.
+- The Vite dev server is pinned to `http://localhost:5173`; keep the origin and HMR settings aligned in `vite.config.js` if you change local tooling.
 - Use `npm run watch` for continuous production-build output without dev server/HMR.
 - Keep local development on HTTP when using the Vite dev server.
 - Use a mobile-first approach when working with responsive styles and breakpoints.
