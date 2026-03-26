@@ -19,6 +19,7 @@ use LidingoCustomisation\Infrastructure\DevServer;
 use LidingoCustomisation\Search\SearchPage;
 use LidingoCustomisation\Templates\ArticlePageTemplate;
 use LidingoCustomisation\Templates\ContentPageTemplate;
+use LidingoCustomisation\Templates\EventPageTemplate;
 use LidingoCustomisation\Templates\LandingPageTemplate;
 
 class App
@@ -36,6 +37,7 @@ class App
     private OngoingWorkArchive $ongoingWorkArchive;
     private SearchPage $searchPage;
     private ArticlePageTemplate $articlePageTemplate;
+    private EventPageTemplate $eventPageTemplate;
     private LandingPageTemplate $landingPageTemplate;
     private ContentPageTemplate $contentPageTemplate;
     private CustomerFeedbackIntegration $customerFeedbackIntegration;
@@ -63,6 +65,7 @@ class App
         $this->ongoingWorkArchive = new OngoingWorkArchive();
         $this->searchPage = new SearchPage();
         $this->articlePageTemplate = new ArticlePageTemplate();
+        $this->eventPageTemplate = new EventPageTemplate();
         $this->landingPageTemplate = new LandingPageTemplate();
         $this->contentPageTemplate = new ContentPageTemplate();
         $this->customerFeedbackIntegration = new CustomerFeedbackIntegration();
@@ -88,6 +91,7 @@ class App
         $this->ongoingWorkArchive->addHooks();
         $this->searchPage->addHooks();
         $this->articlePageTemplate->addHooks();
+        $this->eventPageTemplate->addHooks();
         $this->landingPageTemplate->addHooks();
         $this->contentPageTemplate->addHooks();
         $this->customerFeedbackIntegration->addHooks();
