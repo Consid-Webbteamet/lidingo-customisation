@@ -232,6 +232,15 @@ body:has(.c-header.is-scrolled) {
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .c-header,
+  .c-header__menu,
+  .c-header.c-header--flexible .c-logotype:not(.c-brand .c-logotype),
+  .c-header.is-scrolled .c-logotype:not(.c-brand .c-logotype) {
+    transition: none;
+  }
+}
+
 @media (min-width: $ipad-breakpoint) {
   :root {
     --header-height: 7.25rem;

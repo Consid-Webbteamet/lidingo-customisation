@@ -38,7 +38,7 @@
         @endif
 
         {{-- Page layout --}}
-        <main id="main-content">
+        <main id="main-content" tabindex="-1">
             @include('templates.sections.master.layout')
         </main>
 

@@ -160,6 +160,9 @@
                                         'size' => 'sm',
                                         'color' => 'default',
                                         'classList' => ['c-pagination-block__control', 'c-pagination-block__control--previous'],
+                                        'attributeList' => [
+                                            'aria-label' => __('Föregående sida', 'lidingo-customisation'),
+                                        ],
                                     ])
                                     @endbutton
                                 @else
@@ -172,6 +175,7 @@
                                         'attributeList' => [
                                             'disabled' => 'true',
                                             'aria-disabled' => 'true',
+                                            'aria-label' => __('Ingen föregående sida', 'lidingo-customisation'),
                                         ],
                                     ])
                                     @endbutton
@@ -199,6 +203,9 @@
                                         'size' => 'sm',
                                         'color' => 'default',
                                         'classList' => ['c-pagination-block__control', 'c-pagination-block__control--next'],
+                                        'attributeList' => [
+                                            'aria-label' => __('Nästa sida', 'lidingo-customisation'),
+                                        ],
                                     ])
                                     @endbutton
                                 @else
@@ -211,6 +218,7 @@
                                         'attributeList' => [
                                             'disabled' => 'true',
                                             'aria-disabled' => 'true',
+                                            'aria-label' => __('Ingen nästa sida', 'lidingo-customisation'),
                                         ],
                                     ])
                                     @endbutton

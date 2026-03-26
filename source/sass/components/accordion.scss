@@ -94,3 +94,9 @@
     margin-bottom: 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .c-accordion__icon.c-icon.c-icon--size-md {
+    transition: none;
+  }
+}
