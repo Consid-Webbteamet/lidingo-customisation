@@ -46,7 +46,11 @@ class EventPageTemplate
 
     public function useSingularEventControllerPath(string $controllerPath): string
     {
-        if (basename($controllerPath) !== 'SingularEvent.php' || !file_exists($this->controllerPath)) {
+        if (
+            !is_singular('evenemang')
+            || basename($controllerPath) !== 'SingularEvent.php'
+            || !file_exists($this->controllerPath)
+        ) {
             return $controllerPath;
         }
 
@@ -55,6 +59,10 @@ class EventPageTemplate
 
     public function addViewPath(array $viewPaths): array
     {
+        if (!is_singular('evenemang')) {
+            return $viewPaths;
+        }
+
         if (!in_array($this->viewPath, $viewPaths, true)) {
             array_unshift($viewPaths, $this->viewPath);
         }
