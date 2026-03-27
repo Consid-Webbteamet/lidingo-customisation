@@ -8,7 +8,7 @@ use Municipio\Helper\Template as MunicipioTemplate;
 
 class ContentPageTemplate
 {
-    public const TEMPLATE_NAME = 'Content page';
+    public const TEMPLATE_NAME = 'Innehållssida';
     public const TEMPLATE_SLUG = 'content-page.blade.php';
 
     private string $viewPath;

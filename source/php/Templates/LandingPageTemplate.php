@@ -8,7 +8,7 @@ use Municipio\Helper\Template as MunicipioTemplate;
 
 class LandingPageTemplate
 {
-    public const TEMPLATE_NAME = 'Landing page';
+    public const TEMPLATE_NAME = 'Navigationssida';
     public const TEMPLATE_SLUG = 'landing-page.blade.php';
 
     private string $viewPath;
