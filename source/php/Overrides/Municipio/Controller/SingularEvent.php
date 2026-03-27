@@ -24,6 +24,8 @@ class SingularEvent extends \Municipio\Controller\Singular
     {
         parent::init();
 
+        unset($this->data['accessibilityMenu']['items']['print']);
+
         $this->populateLanguageObject();
 
         $event = $this->post->getSchema();

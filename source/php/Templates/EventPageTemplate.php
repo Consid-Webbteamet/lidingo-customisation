@@ -78,7 +78,7 @@ class EventPageTemplate
 
         $viewData['hasSideMenu'] = false;
         $viewData['showSidebars'] = false;
-        $viewData['helperNavBeforeContent'] = true;
+        $viewData['helperNavBeforeContent'] = false;
         $viewData['skipToMainContentLink'] = '#main-content';
 
         return $viewData;

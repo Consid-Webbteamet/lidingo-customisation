@@ -82,6 +82,7 @@ class App
         add_filter('WpSecurity/Csp', [$this, 'addDevServerCspDomains'], 10, 1);
         add_filter('Website/HTML/output', [$this, 'stripDevBlockingCspDirectives'], 20, 0);
         add_filter('Municipio/Template/viewData', [$this, 'adjustContentNoticePlacement'], 20, 1);
+        add_filter('/Modularity/externalViewPath', [$this, 'addModularityExternalViewPaths']);
         $this->archivePageFields->addHooks();
         $this->ongoingWorkDateFields->addHooks();
         $this->heroSearchOverrides->addHooks();
@@ -180,6 +181,13 @@ class App
         $viewData['renderContentNoticesBeforeHero'] = true;
 
         return $viewData;
+    }
+
+    public function addModularityExternalViewPaths(array $paths): array
+    {
+        $paths['mod-posts'] = LIDINGO_CUSTOMISATION_PATH . 'source/modularity/mod-posts/views';
+
+        return $paths;
     }
 
     private function shouldLoadFrontend(): bool
