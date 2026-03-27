@@ -3,7 +3,7 @@
 @use "../abstracts/variables" as *;
 @use "../components/button" as *;
 
-.modularity-mod-posts.ls-top-cards--aktuellt {
+.modularity-mod-posts.ls-card-news-grid {
   .c-typography__variant--h2 {
     margin-bottom: 1.5rem;
     @extend .title-underline;
