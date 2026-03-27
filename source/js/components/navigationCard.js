@@ -44,17 +44,31 @@ const syncButtonLabel = (button, isExpanded) => {
 };
 
 const openPanel = (button, panel) => {
+    const queuedFrame = panel.__navigationCardToggleFrame;
+
+    if (typeof queuedFrame === 'number') {
+        cancelAnimationFrame(queuedFrame);
+    }
+
     syncPanelHeight(panel);
     panel.removeAttribute('aria-hidden');
     panel.inert = false;
     button.setAttribute('aria-expanded', 'true');
     syncButtonLabel(button, true);
-    requestAnimationFrame(() => {
+    panel.__navigationCardToggleFrame = requestAnimationFrame(() => {
         panel.classList.add(PANEL_OPEN_CLASS);
+        panel.__navigationCardToggleFrame = null;
     });
 };
 
 const closePanel = (button, panel) => {
+    const queuedFrame = panel.__navigationCardToggleFrame;
+
+    if (typeof queuedFrame === 'number') {
+        cancelAnimationFrame(queuedFrame);
+        panel.__navigationCardToggleFrame = null;
+    }
+
     panel.classList.remove(PANEL_OPEN_CLASS);
     panel.setAttribute('aria-hidden', 'true');
     panel.inert = true;

@@ -37,6 +37,11 @@ class AssetManifest
         return $this->errorMessage;
     }
 
+    public function hasEntry(string $entry): bool
+    {
+        return $this->getAssetPath($entry) !== null;
+    }
+
     public function getAssetUrl(string $entry, string $distUrl): ?string
     {
         $assetPath = $this->getAssetPath($entry);

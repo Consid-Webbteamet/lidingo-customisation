@@ -7,6 +7,10 @@ namespace LidingoCustomisation\Infrastructure;
 class AssetRenderer
 {
     private bool $hasPrintedViteClient = false;
+    /**
+     * @var array<string, bool>
+     */
+    private array $loggedMissingEntries = [];
 
     public function __construct(
         private AssetManifest $assetManifest,
@@ -23,6 +27,7 @@ class AssetRenderer
         $href = $this->assetManifest->getAssetUrl('source/sass/style.scss', LIDINGO_CUSTOMISATION_URL . 'dist/');
 
         if ($href === null) {
+            $this->logMissingAsset('source/sass/style.scss');
             return;
         }
 
@@ -42,6 +47,7 @@ class AssetRenderer
         $src = $this->assetManifest->getAssetUrl('source/js/main.js', LIDINGO_CUSTOMISATION_URL . 'dist/');
 
         if ($src === null) {
+            $this->logMissingAsset('source/js/main.js');
             return;
         }
 
@@ -60,6 +66,7 @@ class AssetRenderer
         $href = $this->assetManifest->getAssetUrl('source/sass/admin.scss', LIDINGO_CUSTOMISATION_URL . 'dist/');
 
         if ($href === null) {
+            $this->logMissingAsset('source/sass/admin.scss');
             return;
         }
 
@@ -79,6 +86,7 @@ class AssetRenderer
         $src = $this->assetManifest->getAssetUrl('source/js/admin.js', LIDINGO_CUSTOMISATION_URL . 'dist/');
 
         if ($src === null) {
+            $this->logMissingAsset('source/js/admin.js');
             return;
         }
 
@@ -111,5 +119,20 @@ class AssetRenderer
             '<script type="module" id="lidingo-customisation-vite-client" src="%s"></script>' . "\n",
             esc_url($this->devServer->getOrigin() . '/@vite/client')
         );
+    }
+
+    private function logMissingAsset(string $entry): void
+    {
+        if (isset($this->loggedMissingEntries[$entry])) {
+            return;
+        }
+
+        $this->loggedMissingEntries[$entry] = true;
+
+        $message = $this->assetManifest->hasEntry($entry)
+            ? sprintf('Lidingo Customisation asset URL could not be resolved for "%s".', $entry)
+            : sprintf('Lidingo Customisation asset entry missing from manifest: %s', $entry);
+
+        error_log($message);
     }
 }
