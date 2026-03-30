@@ -25,7 +25,10 @@ const syncButtonLabel = (button, isExpanded) => {
     }
 
     if (!button.dataset.navigationCardCollapsedAriaLabel) {
-        button.dataset.navigationCardCollapsedAriaLabel = button.getAttribute('aria-label') ?? '';
+        button.dataset.navigationCardCollapsedAriaLabel =
+            button.getAttribute('aria-label')?.trim() ||
+            button.dataset.navigationCardCollapsedLabel ||
+            '';
     }
 
     const expandedLabel = button.dataset.navigationCardExpandedLabel ?? EXPANDED_LABEL;
