@@ -6,7 +6,11 @@
             <div class="c-article-page__helper u-print-display--none">
                 @includeIf('partials.navigation.breadcrumb')
 
-                <div class="c-article-page__actions" aria-label="{{ __('Sidfunktioner', 'lidingo-customisation') }}">
+                <div
+                    class="c-article-page__actions"
+                    role="group"
+                    aria-label="{{ __('Sidfunktioner', 'lidingo-customisation') }}"
+                >
                     <button
                         type="button"
                         class="button button--ghost c-content-page__print-button c-article-page__print-button"

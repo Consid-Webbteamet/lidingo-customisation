@@ -8,7 +8,7 @@
 
 <div class="c-post-type-archive-card-shell">
     @if (!empty($archiveBadgeLabel))
-        <div @class($archiveBadgeClassList)>
+        <div @class($archiveBadgeClassList) aria-hidden="true">
             <span class="c-post-type-archive-card__badge-label">{{ $archiveBadgeLabel }}</span>
         </div>
     @endif
@@ -25,6 +25,12 @@
         'attributeList' => ['data-js-posts-list-item' => true],
     ])
         @slot('aboveContent')
+            @if (!empty($archiveBadgeLabel))
+                <p class="c-post-type-archive-card__badge-text">
+                    {{ __('Märkning', 'lidingo-customisation') }}: {{ $archiveBadgeLabel }}
+                </p>
+            @endif
+
             @if (!empty($archiveCardMeta))
                 <div class="c-post-type-archive-card__meta">
                     @if (!empty($archiveCardMetaIcon))
