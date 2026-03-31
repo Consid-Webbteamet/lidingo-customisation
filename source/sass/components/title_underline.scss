@@ -13,3 +13,17 @@
     background-color: $standard-yellow-500;
   }
 }
+
+.title-underline-light {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -1rem;
+    left: 0;
+    width: 14rem;
+    height: 0.125rem;
+    background-color: $standard-red-100;
+  }
+}
