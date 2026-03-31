@@ -4,7 +4,6 @@
 
 import initNavCurrentBadge from './components/navCurrentBadge';
 import initNavigationCard from './components/navigationCard';
-import initNavHoverIndicator from './components/navHoverIndicator';
 import initScrolledHeaderState from './components/scrolledHeader';
 import initModularityTocDeduplicate from './components/modularityTocDeduplicate';
 import initModularityTocOffset from './components/modularityTocOffset';
@@ -18,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initNavCurrentBadge();
     initNavigationCard();
     initScrolledHeaderState();
-    initNavHoverIndicator();
     initModularityTocDeduplicate();
     initModularityTocOffset();
 });

@@ -118,7 +118,7 @@ body:has(.c-header.is-scrolled) {
     gap: 2rem;
     margin-right: 2rem;
 
-    > .c-nav__item > .c-nav__item-wrapper:hover .c-nav__link:after {
+    > .c-nav__item > .c-nav__item-wrapper .c-nav__link::after {
       display: none;
     }
   }
