@@ -9,8 +9,8 @@ class ArchivePageFields
     private const FIELD_GROUP_KEY = 'group_lidingo_archive_page_settings';
     private const FIELD_KEY_BADGE_TAXONOMY = 'field_lidingo_archive_badge_taxonomy';
     private const FIELD_NAME_BADGE_TAXONOMY = 'lidingo_archive_badge_taxonomy';
-    private const LOCATION_RULE_PARAM = 'lidingo_archive_page';
-    private const LOCATION_RULE_VALUE = 'assigned_archive_page';
+    public const LOCATION_RULE_PARAM = 'lidingo_archive_page';
+    public const LOCATION_RULE_VALUE = 'assigned_archive_page';
 
     public function addHooks(): void
     {
