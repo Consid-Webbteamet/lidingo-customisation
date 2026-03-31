@@ -22,6 +22,7 @@
 - Do not leave shared module logic only in `lidingo-customisation` unless the task explicitly requires a temporary local override.
 
 ## Development workflow
+- Run `npm install` after a fresh checkout or whenever `package.json` changes.
 - Main frontend entrypoints are `source/js/main.js` and `source/sass/style.scss`.
 - Admin entrypoints are `source/js/admin.js` and `source/sass/admin.scss`.
 - Run `composer dump-autoload` after adding or moving PHP classes under `source/php/`.
@@ -29,9 +30,12 @@
 - Use `php build.php` for package/CI builds; it runs Composer and npm install steps before `npm run build`.
 - Use `php build.php --no-composer` when Composer dependencies are already installed, and `php build.php --cleanup` for packaging runs that should strip build-time source files.
 - Use `npm run dev` for Vite-driven local development.
+- `npm run dev` auto-enables the Vite dev server in `WP_ENV=development` when `http://localhost:5173/@vite/client` is reachable.
 - The Vite dev server is pinned to `http://localhost:5173`; keep the origin and HMR settings aligned in `vite.config.js` if you change local tooling.
 - Use `npm run watch` for continuous production-build output without dev server/HMR.
 - Keep local development on HTTP when using the Vite dev server.
+- In local HTTP development mode (`WP_ENV=development` with `home_url()` on `http://`), the plugin strips `upgrade-insecure-requests` and `block-all-mixed-content` CSP directives even when the Vite dev server is off.
+- If the Vite dev server is unreachable, the plugin falls back to built `dist/` assets.
 - Use a mobile-first approach when working with responsive styles and breakpoints.
 - Reuse breakpoint variables from `source/sass/abstracts/_variables.scss` instead of hardcoded breakpoint values in Sass.
 
