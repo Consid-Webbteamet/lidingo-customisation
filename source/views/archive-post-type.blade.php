@@ -180,7 +180,11 @@
                     @else
                         @foreach ($posts as $post)
                             @element(['classList' => $getPostColumnClasses()])
-                                @includeFirst(['post.archive-card', 'post.' . $appearanceConfig->getDesign()->value, 'post.card'])
+                                @if ($appearanceConfig->getDesign() === \Municipio\PostsList\Config\AppearanceConfig\PostDesign::SCHEMA)
+                                    @includeFirst(['post.' . $appearanceConfig->getDesign()->value, 'post.archive-card', 'post.card'])
+                                @else
+                                    @includeFirst(['post.archive-card', 'post.' . $appearanceConfig->getDesign()->value, 'post.card'])
+                                @endif
                             @endelement
                         @endforeach
                     @endif

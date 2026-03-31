@@ -184,3 +184,10 @@
     font-weight: var(--font-weight-bold);
   }
 }
+
+.post-type-archive-evenemang {
+  .c-post-type-archive__listing {
+    background: $color-primary-500;
+    box-shadow: 0 0 0 100vmax $color-primary-500;
+  }
+}
