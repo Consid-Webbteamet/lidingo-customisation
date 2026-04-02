@@ -135,7 +135,7 @@ class App
 
     public function printAdminStylesheet(): void
     {
-        if (!is_admin() || !$this->shouldLoadAdmin()) {
+        if (!is_admin() || !$this->shouldLoadAdminAssets()) {
             return;
         }
 
@@ -144,7 +144,7 @@ class App
 
     public function printAdminScript(): void
     {
-        if (!is_admin() || !$this->shouldLoadAdmin()) {
+        if (!is_admin() || !$this->shouldLoadAdminAssets()) {
             return;
         }
 
@@ -226,5 +226,21 @@ class App
     private function shouldLoadAdmin(): bool
     {
         return (bool) apply_filters('lidingo_customisation/should_load_admin', false);
+    }
+
+    private function shouldLoadAdminAssets(): bool
+    {
+        return $this->shouldLoadAdmin() || $this->isBlockEditorScreen();
+    }
+
+    private function isBlockEditorScreen(): bool
+    {
+        if (!function_exists('get_current_screen')) {
+            return false;
+        }
+
+        $screen = get_current_screen();
+
+        return $screen !== null && method_exists($screen, 'is_block_editor') && $screen->is_block_editor();
     }
 }

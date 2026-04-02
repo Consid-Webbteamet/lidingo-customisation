@@ -2,6 +2,94 @@
  * Admin overrides for Lidingo Customisation.
  */
 
+@use "./tokens/colors" as *;
+
 :root.lidingo-customisation-admin-loaded {
   --lidingo-customisation-admin-ready: 1;
+}
+
+body.block-editor-page {
+  .editor-styles-wrapper {
+    --lidingo-editor-content-max-width: 680px;
+    --lidingo-editor-paragraph-gap: 1.5rem;
+    color: $text-1000;
+    line-height: 1.6;
+  }
+
+  .editor-styles-wrapper .is-root-container {
+    padding-inline: 0;
+  }
+
+  .editor-styles-wrapper
+    .block-editor-block-list__layout.is-root-container
+    > .wp-block:not([data-align="wide"]):not([data-align="full"]) {
+    width: calc(min(100%, var(--lidingo-editor-content-max-width)) + 3rem);
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .editor-styles-wrapper .editor-post-title,
+  .editor-styles-wrapper .editor-post-title__block,
+  .editor-styles-wrapper .editor-post-title__input {
+    width: calc(min(100%, var(--lidingo-editor-content-max-width)) + 3rem);
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .editor-styles-wrapper
+    .block-editor-block-list__layout.is-root-container
+    > .wp-block:first-child {
+    margin-top: 0;
+  }
+
+  .editor-styles-wrapper .wp-block-paragraph {
+    margin-top: 0;
+    margin-bottom: var(--lidingo-editor-paragraph-gap);
+  }
+
+  .editor-styles-wrapper .wp-block-heading {
+    color: $text-1000;
+    line-height: 1.2;
+  }
+
+  .editor-styles-wrapper .wp-block-heading h1,
+  .editor-styles-wrapper .wp-block-heading h2,
+  .editor-styles-wrapper .wp-block-heading h3,
+  .editor-styles-wrapper .wp-block-heading h4,
+  .editor-styles-wrapper .wp-block-heading h5,
+  .editor-styles-wrapper .wp-block-heading h6 {
+    color: $text-1000;
+  }
+
+  .editor-styles-wrapper .wp-block-heading:not(:first-child) {
+    margin-top: 2rem;
+  }
+
+  .editor-styles-wrapper .wp-block-heading {
+    margin-bottom: 1rem;
+  }
+
+  .editor-styles-wrapper .wp-block-paragraph,
+  .editor-styles-wrapper .wp-block-list,
+  .editor-styles-wrapper li {
+    color: $text-1000;
+    font-size: var(--font-size-base, 1.125rem);
+    line-height: 1.6;
+  }
+
+  .editor-styles-wrapper .wp-block-list {
+    margin-top: 0;
+    margin-bottom: var(--lidingo-editor-paragraph-gap);
+    padding-inline-start: 1.5rem;
+  }
+
+  .editor-styles-wrapper .wp-block-list ul,
+  .editor-styles-wrapper .wp-block-list ol {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .editor-styles-wrapper li + li {
+    margin-top: 0.35rem;
+  }
 }
