@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace LidingoCustomisation;
 
 use LidingoCustomisation\AcfFields\ArchivePageFields;
+use LidingoCustomisation\AcfFields\HeroFields;
 use LidingoCustomisation\AcfFields\OngoingWorkDateFields;
 use LidingoCustomisation\AcfFields\ServiceInfoArchivePageFields;
 use LidingoCustomisation\Archives\ArchiveLayout;
@@ -31,6 +32,7 @@ class App
     private AssetRenderer $assetRenderer;
     private CspHandler $cspHandler;
     private ArchivePageFields $archivePageFields;
+    private HeroFields $heroFields;
     private OngoingWorkDateFields $ongoingWorkDateFields;
     private ServiceInfoArchivePageFields $serviceInfoArchivePageFields;
     private HeroSearchOverrides $heroSearchOverrides;
@@ -61,6 +63,7 @@ class App
         $this->assetRenderer = new AssetRenderer($this->assetManifest, $this->devServer);
         $this->cspHandler = new CspHandler($this->devServer);
         $this->archivePageFields = new ArchivePageFields();
+        $this->heroFields = new HeroFields();
         $this->ongoingWorkDateFields = new OngoingWorkDateFields();
         $this->serviceInfoArchivePageFields = new ServiceInfoArchivePageFields();
         $this->heroSearchOverrides = new HeroSearchOverrides();
@@ -85,11 +88,13 @@ class App
         add_action('wp_footer', [$this, 'printFrontendScript'], 1001);
         add_action('admin_head', [$this, 'printAdminStylesheet'], 1001);
         add_action('admin_footer', [$this, 'printAdminScript'], 1001);
+        add_filter('theme_page_templates', [$this, 'customizeEditorPageTemplates'], 20, 4);
         add_filter('WpSecurity/Csp', [$this, 'addDevServerCspDomains'], 10, 1);
         add_filter('Website/HTML/output', [$this, 'stripDevBlockingCspDirectives'], 20, 0);
         add_filter('Municipio/Template/viewData', [$this, 'adjustContentNoticePlacement'], 20, 1);
         add_filter('/Modularity/externalViewPath', [$this, 'addModularityExternalViewPaths']);
         $this->archivePageFields->addHooks();
+        $this->heroFields->addHooks();
         $this->ongoingWorkDateFields->addHooks();
         $this->serviceInfoArchivePageFields->addHooks();
         $this->heroSearchOverrides->addHooks();
@@ -189,6 +194,21 @@ class App
         $viewData['renderContentNoticesBeforeHero'] = true;
 
         return $viewData;
+    }
+
+    public function customizeEditorPageTemplates(array $pageTemplates, \WP_Theme $theme, ?\WP_Post $post, string $postType): array
+    {
+        if ($postType !== 'page') {
+            return $pageTemplates;
+        }
+
+        unset($pageTemplates['page-centered.blade.php']);
+
+        if (isset($pageTemplates['one-page.blade.php'])) {
+            $pageTemplates['one-page.blade.php'] = __('Startsida', 'lidingo-customisation');
+        }
+
+        return $pageTemplates;
     }
 
     public function addModularityExternalViewPaths(array $paths): array
