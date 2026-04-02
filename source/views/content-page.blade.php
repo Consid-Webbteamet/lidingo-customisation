@@ -56,11 +56,13 @@
                 </div>
             </div>
 
-            <aside class="c-content-page__aside">
-                <div class="c-content-page__aside-inner">
-                    @includeIf('partials.sidebar', ['id' => 'right-sidebar'])
-                </div>
-            </aside>
+            @if (is_active_sidebar('right-sidebar'))
+                <aside class="c-content-page__aside">
+                    <div class="c-content-page__aside-inner">
+                        @includeIf('partials.sidebar', ['id' => 'right-sidebar'])
+                    </div>
+                </aside>
+            @endif
         </div>
 
         <div class="c-content-page__below">
