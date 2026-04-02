@@ -15,7 +15,7 @@
 
     <div class="c-post-type-archive">
         @if ($hasHeroCopy || $hasHeroMedia)
-            <article class="c-post-type-archive__hero">
+            <header class="c-post-type-archive__hero">
                 <div class="c-post-type-archive__helper u-print-display--none">
                     @includeIf('partials.navigation.breadcrumb')
                 </div>
@@ -49,7 +49,7 @@
                         </div>
                     @endif
                 </div>
-            </article>
+            </header>
         @endif
 
         @includeIf('partials.sidebar', ['id' => 'content-area-top', 'classes' => ['o-grid']])
@@ -126,6 +126,9 @@
 
                                             <div class="c-service-info-archive__card-content">
                                                 <h3 class="c-service-info-archive__card-title">{{ $item['title'] }}</h3>
+                                                <span class="sr-only">
+                                                    {{ __('Öppnas i ny flik', 'lidingo-customisation') }}
+                                                </span>
 
                                                 @if (!empty($item['description']))
                                                     <div class="c-service-info-archive__card-description">

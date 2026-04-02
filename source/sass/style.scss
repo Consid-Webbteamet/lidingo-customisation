@@ -2,6 +2,7 @@
  * Frontend overrides loaded after Municipio custom code.
  */
 
+@use "./abstracts/mixins" as *;
 @use "./components/header";
 @use "./components/footer";
 @use "./components/search-results";
@@ -32,4 +33,8 @@
 
 :root.lidingo-customisation-loaded {
   --lidingo-customisation-ready: 1;
+}
+
+.sr-only {
+  @include sr-only;
 }

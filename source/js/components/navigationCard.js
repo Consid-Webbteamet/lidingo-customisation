@@ -6,7 +6,6 @@ const TOGGLE_LABEL_SELECTOR = '.navigation-card__toggle-label';
 const INITIALIZED_ATTRIBUTE = 'data-navigation-card-initialized';
 const PANEL_OPEN_CLASS = 'is-open';
 const PANEL_INLINE_CLASS = 'navigation-card__hidden--inline';
-const EXPANDED_LABEL = 'Dölj';
 const PANEL_MAX_HEIGHT_CSS_VAR = '--navigation-card-panel-max-height';
 
 const syncPanelHeight = (panel) => {
@@ -31,8 +30,12 @@ const syncButtonLabel = (button, isExpanded) => {
             '';
     }
 
-    const expandedLabel = button.dataset.navigationCardExpandedLabel ?? EXPANDED_LABEL;
-    const expandedAriaLabel = button.dataset.navigationCardExpandedAriaLabel ?? expandedLabel;
+    const expandedLabel =
+        button.dataset.navigationCardExpandedLabel ??
+        button.dataset.navigationCardCollapsedLabel;
+    const expandedAriaLabel =
+        button.dataset.navigationCardExpandedAriaLabel ??
+        button.dataset.navigationCardCollapsedAriaLabel;
 
     label.textContent = isExpanded
         ? expandedLabel
