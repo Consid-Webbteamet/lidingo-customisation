@@ -6,10 +6,19 @@ const TOGGLE_LABEL_SELECTOR = '.navigation-card__toggle-label';
 const INITIALIZED_ATTRIBUTE = 'data-navigation-card-initialized';
 const PANEL_OPEN_CLASS = 'is-open';
 const PANEL_INLINE_CLASS = 'navigation-card__hidden--inline';
+const EXPANDED_LABEL = 'Dölj';
 const PANEL_MAX_HEIGHT_CSS_VAR = '--navigation-card-panel-max-height';
+const CLOSE_DELAY_MS = 380;
 
 const syncPanelHeight = (panel) => {
     panel.style.setProperty(PANEL_MAX_HEIGHT_CSS_VAR, `${panel.scrollHeight}px`);
+};
+
+const clearPendingClose = (panel) => {
+    if (typeof panel.__navigationCardCloseTimeout === 'number') {
+        window.clearTimeout(panel.__navigationCardCloseTimeout);
+        panel.__navigationCardCloseTimeout = null;
+    }
 };
 
 const syncButtonLabel = (button, isExpanded) => {
@@ -23,30 +32,11 @@ const syncButtonLabel = (button, isExpanded) => {
         button.dataset.navigationCardCollapsedLabel = label.textContent?.trim() ?? '';
     }
 
-    if (!button.dataset.navigationCardCollapsedAriaLabel) {
-        button.dataset.navigationCardCollapsedAriaLabel =
-            button.getAttribute('aria-label')?.trim() ||
-            button.dataset.navigationCardCollapsedLabel ||
-            '';
-    }
-
-    const expandedLabel =
-        button.dataset.navigationCardExpandedLabel ??
-        button.dataset.navigationCardCollapsedLabel;
-    const expandedAriaLabel =
-        button.dataset.navigationCardExpandedAriaLabel ??
-        button.dataset.navigationCardCollapsedAriaLabel;
+    const expandedLabel = button.dataset.navigationCardExpandedLabel ?? EXPANDED_LABEL;
 
     label.textContent = isExpanded
         ? expandedLabel
         : button.dataset.navigationCardCollapsedLabel;
-
-    button.setAttribute(
-        'aria-label',
-        isExpanded
-            ? expandedAriaLabel
-            : button.dataset.navigationCardCollapsedAriaLabel,
-    );
 };
 
 const openPanel = (button, panel) => {
@@ -56,9 +46,9 @@ const openPanel = (button, panel) => {
         cancelAnimationFrame(queuedFrame);
     }
 
+    clearPendingClose(panel);
+    panel.hidden = false;
     syncPanelHeight(panel);
-    panel.removeAttribute('aria-hidden');
-    panel.inert = false;
     button.setAttribute('aria-expanded', 'true');
     syncButtonLabel(button, true);
     panel.__navigationCardToggleFrame = requestAnimationFrame(() => {
@@ -76,10 +66,16 @@ const closePanel = (button, panel) => {
     }
 
     panel.classList.remove(PANEL_OPEN_CLASS);
-    panel.setAttribute('aria-hidden', 'true');
-    panel.inert = true;
     button.setAttribute('aria-expanded', 'false');
     syncButtonLabel(button, false);
+    clearPendingClose(panel);
+    panel.__navigationCardCloseTimeout = window.setTimeout(() => {
+        if (button.getAttribute('aria-expanded') !== 'true') {
+            panel.hidden = true;
+        }
+
+        panel.__navigationCardCloseTimeout = null;
+    }, CLOSE_DELAY_MS);
 };
 
 const toggleCard = (button, panel) => {
@@ -113,17 +109,15 @@ const initCard = (card) => {
 
     card.setAttribute(INITIALIZED_ATTRIBUTE, 'true');
     const isExpanded = button.getAttribute('aria-expanded') === 'true';
-    panel.hidden = false;
-    syncPanelHeight(panel);
-    panel.classList.toggle(PANEL_OPEN_CLASS, isExpanded);
-    panel.inert = !isExpanded;
-    syncButtonLabel(button, isExpanded);
 
-    if (!isExpanded) {
-        panel.setAttribute('aria-hidden', 'true');
-    } else {
-        panel.removeAttribute('aria-hidden');
+    panel.hidden = !isExpanded;
+
+    if (isExpanded) {
+        syncPanelHeight(panel);
     }
+
+    panel.classList.toggle(PANEL_OPEN_CLASS, isExpanded);
+    syncButtonLabel(button, isExpanded);
 
     button.addEventListener('click', () => {
         toggleCard(button, panel);
