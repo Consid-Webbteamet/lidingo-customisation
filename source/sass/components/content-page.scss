@@ -120,6 +120,14 @@
     }
   }
 
+  .c-segment.c-segment--full-width {
+    padding: 2rem;
+
+    .o-container {
+      padding: 0;
+    }
+  }
+
   @include breakpoint-up($breakpoint-lg) {
     &__grid {
       column-gap: 3rem;
