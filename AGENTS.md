@@ -34,6 +34,7 @@
 - The Vite dev server is pinned to `http://localhost:5173`; keep the origin and HMR settings aligned in `vite.config.js` if you change local tooling.
 - Use `npm run watch` for continuous production-build output without dev server/HMR.
 - Keep local development on HTTP when using the Vite dev server.
+- Admin assets are disabled by default; enable `lidingo_customisation/should_load_admin` when you need to validate admin CSS/JS locally.
 - In local HTTP development mode (`WP_ENV=development` with `home_url()` on `http://`), the plugin strips `upgrade-insecure-requests` and `block-all-mixed-content` CSP directives even when the Vite dev server is off.
 - If the Vite dev server is unreachable, the plugin falls back to built `dist/` assets.
 - Use a mobile-first approach when working with responsive styles and breakpoints.
