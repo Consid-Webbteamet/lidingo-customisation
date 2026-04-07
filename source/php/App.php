@@ -6,6 +6,7 @@ namespace LidingoCustomisation;
 
 use LidingoCustomisation\AcfFields\ArchivePageFields;
 use LidingoCustomisation\AcfFields\HeroFields;
+use LidingoCustomisation\AcfFields\ModularityTocFields;
 use LidingoCustomisation\AcfFields\OngoingWorkDateFields;
 use LidingoCustomisation\AcfFields\ServiceInfoArchivePageFields;
 use LidingoCustomisation\Archives\ArchiveLayout;
@@ -33,6 +34,7 @@ class App
     private CspHandler $cspHandler;
     private ArchivePageFields $archivePageFields;
     private HeroFields $heroFields;
+    private ModularityTocFields $modularityTocFields;
     private OngoingWorkDateFields $ongoingWorkDateFields;
     private ServiceInfoArchivePageFields $serviceInfoArchivePageFields;
     private HeroSearchOverrides $heroSearchOverrides;
@@ -64,6 +66,7 @@ class App
         $this->cspHandler = new CspHandler($this->devServer);
         $this->archivePageFields = new ArchivePageFields();
         $this->heroFields = new HeroFields();
+        $this->modularityTocFields = new ModularityTocFields();
         $this->ongoingWorkDateFields = new OngoingWorkDateFields();
         $this->serviceInfoArchivePageFields = new ServiceInfoArchivePageFields();
         $this->heroSearchOverrides = new HeroSearchOverrides();
@@ -95,6 +98,7 @@ class App
         add_filter('/Modularity/externalViewPath', [$this, 'addModularityExternalViewPaths']);
         $this->archivePageFields->addHooks();
         $this->heroFields->addHooks();
+        $this->modularityTocFields->addHooks();
         $this->ongoingWorkDateFields->addHooks();
         $this->serviceInfoArchivePageFields->addHooks();
         $this->heroSearchOverrides->addHooks();
