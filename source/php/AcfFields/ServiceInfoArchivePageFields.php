@@ -27,6 +27,16 @@ class ServiceInfoArchivePageFields
             'title' => __('Driftinformation: externa aktörer', 'lidingo-customisation'),
             'fields' => [
                 [
+                    'key' => 'field_lidingo_service_info_current_link_help',
+                    'label' => __('Länk till aktuella driftstörningar', 'lidingo-customisation'),
+                    'type' => 'message',
+                    'message' => sprintf(
+                        __('Använd driftinformationssidans URL med %s när en hero ska länka till bara aktuella/pågående driftstörningar.', 'lidingo-customisation'),
+                        '<code>?service_info_status=current</code>'
+                    ),
+                    'new_lines' => 'wpautop',
+                ],
+                [
                     'key' => 'field_lidingo_service_info_external_section_title',
                     'label' => __('Rubrik för externa aktörer', 'lidingo-customisation'),
                     'name' => self::FIELD_NAME_EXTERNAL_SECTION_TITLE,

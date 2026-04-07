@@ -13,6 +13,7 @@ class ServiceInfoArchive
 {
     private const POST_TYPE = 'service_information';
     private const TEMPLATE_SLUG = 'archive-post-type.blade.php';
+    private const STATUS_QUERY_PARAMETER = 'service_info_status';
 
     private string $viewPath;
 
@@ -48,6 +49,7 @@ class ServiceInfoArchive
 
         $archivePage = $this->getArchivePage();
         $archivePageId = $archivePage instanceof WP_Post ? (int) $archivePage->ID : 0;
+        $selectedStatus = $this->getSelectedStatus();
 
         if ($archivePage instanceof WP_Post) {
             $viewData['archiveLayoutTitle'] = $this->getArchiveTitle($archivePage, $viewData);
@@ -68,7 +70,7 @@ class ServiceInfoArchive
         $viewData['archiveLayoutResetUrl'] = $archivePage instanceof WP_Post
             ? (string) get_permalink($archivePage)
             : home_url('/');
-        $viewData['archiveLayoutHasActiveFilters'] = false;
+        $viewData['archiveLayoutHasActiveFilters'] = $selectedStatus !== null;
         $viewData['archiveLayoutYearOptions'] = [];
         $viewData['archiveLayoutSelectedYear'] = null;
         $viewData['archiveLayoutYearParameterName'] = '';
@@ -79,27 +81,35 @@ class ServiceInfoArchive
         $viewData['getParentColumnClasses'] = $viewData['getParentColumnClasses'] ?? static fn(): array => ['o-grid-12'];
 
         $viewData['serviceInfoArchiveEnabled'] = true;
-        $viewData['serviceInfoArchiveSections'] = $this->getSections();
+        $viewData['serviceInfoArchiveSections'] = $this->getSections($selectedStatus);
         $viewData['serviceInfoArchiveExternalSectionTitle'] = $this->getExternalSectionTitle($archivePage);
-        $viewData['serviceInfoArchiveExternalItems'] = $this->getExternalItems($archivePage);
+        $viewData['serviceInfoArchiveExternalItems'] = $selectedStatus === null
+            ? $this->getExternalItems($archivePage)
+            : [];
 
         return $viewData;
     }
 
-    private function getSections(): array
+    private function getSections(?string $selectedStatus = null): array
     {
-        return [
-            [
+        $sections = [
+            ServiceInfoStatus::STATUS_CURRENT => [
                 'title' => __('Aktuella driftstörningar', 'lidingo-customisation'),
                 'emptyText' => __('Det finns inga aktuella driftstörningar just nu.', 'lidingo-customisation'),
                 'items' => $this->getItemsForSection(ServiceInfoStatus::STATUS_CURRENT),
             ],
-            [
+            ServiceInfoStatus::STATUS_PLANNED => [
                 'title' => __('Planerade driftstörningar', 'lidingo-customisation'),
                 'emptyText' => __('Det finns inga planerade driftstörningar just nu.', 'lidingo-customisation'),
                 'items' => $this->getItemsForSection(ServiceInfoStatus::STATUS_PLANNED),
             ],
         ];
+
+        if ($selectedStatus !== null) {
+            return isset($sections[$selectedStatus]) ? [$sections[$selectedStatus]] : [];
+        }
+
+        return array_values($sections);
     }
 
     private function getItemsForSection(string $status): array
@@ -212,6 +222,21 @@ class ServiceInfoArchive
         }
 
         return __('Driftstörningar i system som sköts av andra aktörer', 'lidingo-customisation');
+    }
+
+    private function getSelectedStatus(): ?string
+    {
+        $value = $_GET[self::STATUS_QUERY_PARAMETER] ?? '';
+
+        if (!is_string($value) || $value === '') {
+            return null;
+        }
+
+        return match (sanitize_key((string) wp_unslash($value))) {
+            'current', 'ongoing', 'pagaende' => ServiceInfoStatus::STATUS_CURRENT,
+            'planned', 'planerade' => ServiceInfoStatus::STATUS_PLANNED,
+            default => null,
+        };
     }
 
     private function getArchivePage(): ?WP_Post
