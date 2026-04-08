@@ -29,6 +29,7 @@
 @use "./components/pagination";
 @use "./components/event-schema-card";
 @use "./components/single-event";
+@use "./components/single-service-info";
 @use "typography";
 
 :root.lidingo-customisation-loaded {
