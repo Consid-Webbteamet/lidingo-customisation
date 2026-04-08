@@ -41,7 +41,6 @@
     }
 
     &__icon-image {
-      display: block;
       width: 3.28125rem;
       height: 2.86075rem;
       object-fit: contain;
@@ -49,24 +48,17 @@
 
     &__title {
       margin: 0;
-      color: $text-1000;
-      font-size: var(--h1-font-size);
-      font-family: var(--font-family-heading);
-      font-weight: var(--font-weight-bold);
-      line-height: var(--h1-line-height);
     }
 
     &__date {
       margin: 0;
       border-top: 1px solid $color-primary-500;
       border-bottom: 1px solid $color-primary-500;
-      color: $text-1000;
       padding: 1rem 0;
     }
 
     &__content {
       margin-top: 1.5rem;
-      color: $text-1000;
 
       > *:first-child {
         margin-top: 0;
