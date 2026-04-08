@@ -38,8 +38,13 @@
       align-items: center;
       justify-content: center;
       flex: 0 0 auto;
-      font-size: 3.125rem;
-      line-height: 1;
+    }
+
+    &__icon-image {
+      display: block;
+      width: 3.28125rem;
+      height: 2.86075rem;
+      object-fit: contain;
     }
 
     &__title {
@@ -82,10 +87,54 @@
       min-height: 1px;
     }
 
+    &__aside-inner {
+      > *:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    &__related {
+      margin-top: 2.5rem;
+    }
+
+    &__related-heading {
+      margin-bottom: 1rem;
+      color: $text-1000;
+      font-family: var(--font-family-heading);
+      font-size: var(--h2-font-size);
+      font-weight: var(--font-weight-bold);
+      line-height: var(--h2-line-height);
+    }
+
+    &__related-subheading {
+      margin-bottom: 1rem;
+      color: $text-1000;
+      font-family: var(--font-family-heading);
+      font-size: var(--h3-font-size, 2rem);
+      font-weight: var(--font-weight-bold);
+      line-height: var(--h3-line-height, 1.25);
+    }
+
+    &__related-items {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .c-service-info-archive__card-link {
+        background-color: $color-primary-50;
+      }
+
+      .c-service-info-archive__icon-shell {
+        background-color: $color-white;
+      }
+    }
+
     @media (min-width: $breakpoint-lg) {
-      &__grid {
-        grid-template-columns: minmax(0, 50rem) minmax(0, 35rem);
-        column-gap: 2.5rem;
+      &--has-sidebar {
+        .c-service-info-single__grid {
+          grid-template-columns: minmax(0, 50rem) minmax(0, 35rem);
+          column-gap: 2.5rem;
+        }
       }
     }
   }
