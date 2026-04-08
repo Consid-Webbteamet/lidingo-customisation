@@ -11,6 +11,7 @@ class ArticlePageTemplate
     public const TEMPLATE_NAME = 'Artikelsida';
     public const TEMPLATE_SLUG = 'article-page.blade.php';
     private const SINGLE_TEMPLATE_SLUG = 'single-article.blade.php';
+    private const SERVICE_INFO_SINGLE_TEMPLATE_SLUG = 'single-service_information.blade.php';
     private const DEFAULT_ARTICLE_POST_TYPES = ['post', 'news', 'nyheter'];
 
     private string $viewPath;
@@ -68,6 +69,14 @@ class ArticlePageTemplate
             return $template;
         }
 
+        if (is_singular('service_information')) {
+            $singleServiceInfoTemplate = path_join($this->viewPath, self::SERVICE_INFO_SINGLE_TEMPLATE_SLUG);
+
+            if (file_exists($singleServiceInfoTemplate)) {
+                return $singleServiceInfoTemplate;
+            }
+        }
+
         $singleArticleTemplate = path_join($this->viewPath, self::SINGLE_TEMPLATE_SLUG);
 
         return file_exists($singleArticleTemplate) ? $singleArticleTemplate : $template;
@@ -75,6 +84,15 @@ class ArticlePageTemplate
 
     public function customizeViewData(array $viewData): array
     {
+        if (is_singular('service_information')) {
+            $viewData['hasSideMenu'] = false;
+            $viewData['showSidebars'] = false;
+            $viewData['helperNavBeforeContent'] = false;
+            $viewData['skipToMainContentLink'] = '#main-content';
+
+            return $viewData;
+        }
+
         if (!$this->shouldApplyArticleLayout()) {
             return $viewData;
         }
