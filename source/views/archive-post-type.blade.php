@@ -3,6 +3,9 @@
 @section('helper-navigation')
 @stop
 
+@section('content.below')
+@stop
+
 @section('content')
     @php($hasHeroCopy = !empty($archiveLayoutTitle) || !empty($archiveLayoutLead) || !empty($archiveLayoutContent))
     @php($hasHeroMedia = !empty($archiveLayoutImageHtml))
@@ -32,6 +35,5 @@
             @includeFirst($archiveTypeTemplates)
         @endelement
 
-        @includeIf('partials.sidebar', ['id' => 'content-area', 'classes' => ['o-grid']])
     </div>
 @stop

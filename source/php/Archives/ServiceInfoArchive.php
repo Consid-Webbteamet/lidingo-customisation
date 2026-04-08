@@ -78,7 +78,25 @@ class ServiceInfoArchive
         $viewData['archiveLayoutUsesDateBadge'] = false;
         $viewData['filterConfig'] = $viewData['filterConfig'] ?? null;
         $viewData['id'] = $viewData['id'] ?? 'service-info-archive';
-        $viewData['getParentColumnClasses'] = $viewData['getParentColumnClasses'] ?? static fn(): array => ['o-grid-12'];
+        $getParentColumnClasses = $viewData['getParentColumnClasses'] ?? null;
+        $viewData['getParentColumnClasses'] = static function () use ($getParentColumnClasses): array {
+            $classes = ['o-grid-12'];
+
+            if (is_callable($getParentColumnClasses)) {
+                $resolvedClasses = $getParentColumnClasses();
+
+                if (is_array($resolvedClasses) && !empty($resolvedClasses)) {
+                    $classes = $resolvedClasses;
+                }
+            }
+
+            $classes = array_values(array_filter(
+                $classes,
+                static fn($class): bool => is_string($class) && trim($class) !== '' && $class !== 'u-margin__bottom--12'
+            ));
+
+            return !empty($classes) ? $classes : ['o-grid-12'];
+        };
 
         $viewData['serviceInfoArchiveEnabled'] = true;
         $viewData['serviceInfoArchiveSections'] = $this->getSections();
@@ -154,7 +172,9 @@ class ServiceInfoArchive
     {
         $terms = get_the_terms($post->ID, 'service_category');
         $firstTerm = is_array($terms) ? reset($terms) : false;
-        $icon = is_object($firstTerm) ? get_field('icon', 'service_category_' . $firstTerm->term_id) : '';
+        $iconAttachmentId = is_object($firstTerm)
+            ? $this->normalizeAttachmentId(get_field('icon', 'service_category_' . $firstTerm->term_id))
+            : 0;
 
         return [
             'title' => get_the_title($post->ID),
@@ -163,7 +183,7 @@ class ServiceInfoArchive
                 (string) get_field('start_date', $post->ID),
                 (string) get_field('end_date', $post->ID)
             ),
-            'icon' => is_string($icon) ? $icon : '',
+            'iconImageHtml' => $this->getIconImageHtml($iconAttachmentId),
         ];
     }
 
@@ -192,15 +212,59 @@ class ServiceInfoArchive
             }
 
             $description = isset($item['description']) && is_string($item['description']) ? trim($item['description']) : '';
-            $icon = isset($item['icon']) && is_string($item['icon']) ? $item['icon'] : '';
+            $iconAttachmentId = $this->normalizeAttachmentId($item['icon'] ?? null);
 
             return [
                 'title' => $title,
                 'description' => $description,
                 'link' => $url,
-                'icon' => $icon,
+                'iconImageHtml' => $this->getIconImageHtml($iconAttachmentId),
             ];
         }, $items)));
+    }
+
+    private function normalizeAttachmentId(mixed $value): int
+    {
+        if (is_numeric($value)) {
+            $attachmentId = (int) $value;
+
+            return $attachmentId > 0 ? $attachmentId : 0;
+        }
+
+        if (is_array($value) && isset($value['ID']) && is_numeric($value['ID'])) {
+            $attachmentId = (int) $value['ID'];
+
+            return $attachmentId > 0 ? $attachmentId : 0;
+        }
+
+        if (is_object($value) && isset($value->ID) && is_numeric($value->ID)) {
+            $attachmentId = (int) $value->ID;
+
+            return $attachmentId > 0 ? $attachmentId : 0;
+        }
+
+        return 0;
+    }
+
+    private function getIconImageHtml(int $attachmentId): string
+    {
+        if ($attachmentId <= 0) {
+            return '';
+        }
+
+        $imageHtml = wp_get_attachment_image(
+            $attachmentId,
+            'thumbnail',
+            false,
+            [
+                'class' => 'c-service-info-archive__icon-image',
+                'alt' => '',
+                'loading' => 'lazy',
+                'decoding' => 'async',
+            ]
+        );
+
+        return is_string($imageHtml) ? $imageHtml : '';
     }
 
     private function getExternalSectionTitle(?WP_Post $archivePage): string

@@ -9,6 +9,8 @@ use LidingoCustomisation\AcfFields\HeroFields;
 use LidingoCustomisation\AcfFields\ModularityTocFields;
 use LidingoCustomisation\AcfFields\OngoingWorkDateFields;
 use LidingoCustomisation\AcfFields\ServiceInfoArchivePageFields;
+use LidingoCustomisation\AcfFields\ServiceInfoCategoryIconFields;
+use LidingoCustomisation\AcfFields\ServiceInfoSingleSidebarFields;
 use LidingoCustomisation\Archives\ArchiveLayout;
 use LidingoCustomisation\Archives\OngoingWorkArchive;
 use LidingoCustomisation\Archives\ServiceInfoArchive;
@@ -38,6 +40,8 @@ class App
     private ModularityTocFields $modularityTocFields;
     private OngoingWorkDateFields $ongoingWorkDateFields;
     private ServiceInfoArchivePageFields $serviceInfoArchivePageFields;
+    private ServiceInfoCategoryIconFields $serviceInfoCategoryIconFields;
+    private ServiceInfoSingleSidebarFields $serviceInfoSingleSidebarFields;
     private HeroSearchOverrides $heroSearchOverrides;
     private PostsDateOverrides $postsDateOverrides;
     private SectionFullHeadingOverrides $sectionFullHeadingOverrides;
@@ -71,6 +75,8 @@ class App
         $this->modularityTocFields = new ModularityTocFields();
         $this->ongoingWorkDateFields = new OngoingWorkDateFields();
         $this->serviceInfoArchivePageFields = new ServiceInfoArchivePageFields();
+        $this->serviceInfoCategoryIconFields = new ServiceInfoCategoryIconFields();
+        $this->serviceInfoSingleSidebarFields = new ServiceInfoSingleSidebarFields();
         $this->heroSearchOverrides = new HeroSearchOverrides();
         $this->postsDateOverrides = new PostsDateOverrides();
         $this->sectionFullHeadingOverrides = new SectionFullHeadingOverrides();
@@ -105,6 +111,8 @@ class App
         $this->modularityTocFields->addHooks();
         $this->ongoingWorkDateFields->addHooks();
         $this->serviceInfoArchivePageFields->addHooks();
+        $this->serviceInfoCategoryIconFields->addHooks();
+        $this->serviceInfoSingleSidebarFields->addHooks();
         $this->heroSearchOverrides->addHooks();
         $this->postsDateOverrides->addHooks();
         $this->sectionFullHeadingOverrides->addHooks();
