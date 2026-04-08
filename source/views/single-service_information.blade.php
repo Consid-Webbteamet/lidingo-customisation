@@ -27,7 +27,7 @@
     @if (!empty($serviceInfoSidebarSelectedIds))
         @php($serviceInfoSidebarQuery = new \WP_Query([
             'post_type' => 'service_information',
-            'post_status' => 'publish',
+            'post_status' => ['publish', 'future'],
             'post__in' => $serviceInfoSidebarSelectedIds,
             'orderby' => 'post__in',
             'posts_per_page' => count($serviceInfoSidebarSelectedIds),
