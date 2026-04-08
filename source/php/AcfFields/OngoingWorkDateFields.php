@@ -8,11 +8,13 @@ class OngoingWorkDateFields
 {
     private const POST_TYPE = 'pagaende-arbeten';
 
+    /** Register ongoing work date field hooks. */
     public function addHooks(): void
     {
         add_action('acf/init', [$this, 'registerFieldGroup']);
     }
 
+    /** Register the ongoing work date fields. */
     public function registerFieldGroup(): void
     {
         if (!function_exists('acf_add_local_field_group')) {

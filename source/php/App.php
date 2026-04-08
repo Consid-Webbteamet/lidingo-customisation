@@ -88,6 +88,7 @@ class App
         $this->addHooks();
     }
 
+    /** Register plugin hooks and subcomponents. */
     private function addHooks(): void
     {
         add_action('wp_head', [$this, 'printFrontendStylesheet'], 1001);
@@ -123,6 +124,7 @@ class App
         }
     }
 
+    /** Print the frontend stylesheet. */
     public function printFrontendStylesheet(): void
     {
         if (is_admin() || !$this->shouldLoadFrontend()) {
@@ -132,6 +134,7 @@ class App
         $this->assetRenderer->printFrontendStylesheet();
     }
 
+    /** Print the frontend script. */
     public function printFrontendScript(): void
     {
         if (is_admin() || !$this->shouldLoadFrontend()) {
@@ -141,6 +144,7 @@ class App
         $this->assetRenderer->printFrontendScript();
     }
 
+    /** Print the admin stylesheet. */
     public function printAdminStylesheet(): void
     {
         if (!is_admin() || !$this->shouldLoadAdminAssets()) {
@@ -150,6 +154,7 @@ class App
         $this->assetRenderer->printAdminStylesheet();
     }
 
+    /** Print the admin script. */
     public function printAdminScript(): void
     {
         if (!is_admin() || !$this->shouldLoadAdminAssets()) {
@@ -159,6 +164,7 @@ class App
         $this->assetRenderer->printAdminScript();
     }
 
+    /** Show a warning when the manifest is missing. */
     public function renderMissingManifestNotice(): void
     {
         if (!is_admin() || !current_user_can('manage_options') || $this->devServer->shouldUseDevServer()) {
@@ -177,16 +183,19 @@ class App
         );
     }
 
+    /** Add dev server domains to the CSP allowlist. */
     public function addDevServerCspDomains(array $domains): array
     {
         return $this->cspHandler->addDevServerCspDomains($domains);
     }
 
+    /** Remove blocking CSP directives in dev. */
     public function stripDevBlockingCspDirectives(): void
     {
         $this->cspHandler->stripDevBlockingCspDirectives();
     }
 
+    /** Move content notices above the hero on the one-page template. */
     public function adjustContentNoticePlacement(array $viewData): array
     {
         $objectId = get_queried_object_id();
@@ -204,6 +213,7 @@ class App
         return $viewData;
     }
 
+    /** Hide editor templates that should not be available for pages. */
     public function customizeEditorPageTemplates(array $pageTemplates, \WP_Theme $theme, ?\WP_Post $post, string $postType): array
     {
         if ($postType !== 'page') {
@@ -219,6 +229,7 @@ class App
         return $pageTemplates;
     }
 
+    /** Point Modularity to the package-local view overrides. */
     public function addModularityExternalViewPaths(array $paths): array
     {
         $paths['mod-posts'] = LIDINGO_CUSTOMISATION_PATH . 'source/modularity/mod-posts/views';

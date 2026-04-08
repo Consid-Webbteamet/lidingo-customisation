@@ -20,6 +20,7 @@ class SingularEvent extends \Municipio\Controller\Singular
     public const CURRENT_OCCASION_DATE_FORMAT = 'Y-m-d_H:i';
     private const RELATED_EVENTS_MAX_RESULTS = 6;
 
+    /** Build the event view data. */
     public function init()
     {
         parent::init();
@@ -54,6 +55,7 @@ class SingularEvent extends \Municipio\Controller\Singular
         $this->trySetHttpStatusHeader($this->data['eventIsInThePast']);
     }
 
+    /** Build the related posts list data. */
     private function getPostsListData(): array
     {
         $relatedEventIds = $this->getRelatedEventsIds();
@@ -134,6 +136,7 @@ class SingularEvent extends \Municipio\Controller\Singular
             ->getData();
     }
 
+    /** Resolve related event IDs. */
     public function getRelatedEventsIds(): array
     {
         $wpdb = $this->getWpDb();

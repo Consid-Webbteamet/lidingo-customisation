@@ -6,11 +6,13 @@ namespace LidingoCustomisation\Components\Sections;
 
 class SectionFullHeadingOverrides
 {
+    /** Register the section heading override hook. */
     public function addHooks(): void
     {
         add_filter('ComponentLibrary/Component/Typography/Data', [$this, 'disableSectionFullAutopromote'], 20, 1);
     }
 
+    /** Prevent full section titles from being auto-promoted. */
     public function disableSectionFullAutopromote(array $data): array
     {
         $classList = $data['classList'] ?? [];

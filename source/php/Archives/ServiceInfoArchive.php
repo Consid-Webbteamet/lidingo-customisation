@@ -23,12 +23,14 @@ class ServiceInfoArchive
         );
     }
 
+    /** Register service info archive hooks. */
     public function addHooks(): void
     {
         add_filter('template_include', [$this, 'useArchiveTemplate'], 9);
         add_filter('Municipio/Template/viewData', [$this, 'customizeViewData'], 25);
     }
 
+    /** Swap in the custom archive template. */
     public function useArchiveTemplate(string $template): string
     {
         if (!$this->isServiceInfoView()) {
@@ -40,6 +42,7 @@ class ServiceInfoArchive
         return file_exists($archiveTemplate) ? $archiveTemplate : $template;
     }
 
+    /** Build service info archive view data. */
     public function customizeViewData(array $viewData): array
     {
         if (!$this->isServiceInfoView()) {

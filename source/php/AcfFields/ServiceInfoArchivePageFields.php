@@ -10,12 +10,14 @@ class ServiceInfoArchivePageFields
     public const FIELD_NAME_EXTERNAL_SECTION_TITLE = 'lidingo_service_info_external_section_title';
     public const FIELD_NAME_EXTERNAL_ITEMS = 'lidingo_service_info_external_items';
 
+    /** Register service info archive page field hooks. */
     public function addHooks(): void
     {
         add_action('acf/init', [$this, 'registerFieldGroup']);
         add_filter('acf/load_field_group', [$this, 'maybeHideFieldGroup']);
     }
 
+    /** Register the service info archive settings field group. */
     public function registerFieldGroup(): void
     {
         if (!function_exists('acf_add_local_field_group')) {
@@ -95,6 +97,7 @@ class ServiceInfoArchivePageFields
         ]);
     }
 
+    /** Hide the field group unless service info applies. */
     public function maybeHideFieldGroup($fieldGroup)
     {
         if (($fieldGroup['key'] ?? '') !== self::FIELD_GROUP_KEY) {

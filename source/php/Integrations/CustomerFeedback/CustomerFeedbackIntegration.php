@@ -15,6 +15,7 @@ class CustomerFeedbackIntegration
     private const SUMMARY_META_BOX_ID = 'lidingo-customer-feedback-summary';
     private const MANAGED_POST_TYPES = ['page', 'post'];
 
+    /** Register customer feedback hooks. */
     public function addHooks(): void
     {
         add_filter('CustomerFeedback/post_types', [$this, 'filterAllowedPostTypes'], 20, 1);
@@ -22,6 +23,7 @@ class CustomerFeedbackIntegration
         add_action('add_meta_boxes', [$this, 'addSummaryMetaBox'], 20, 2);
     }
 
+    /** Register the feedback toggle field group. */
     public function registerFieldGroup(): void
     {
         if (!function_exists('acf_add_local_field_group')) {
@@ -75,6 +77,7 @@ class CustomerFeedbackIntegration
         ]);
     }
 
+    /** Limit customer feedback to managed post types. */
     public function filterAllowedPostTypes(mixed $allowedPostTypes): array
     {
         $normalizedPostTypes = $this->normalizePostTypes($allowedPostTypes);
@@ -97,6 +100,7 @@ class CustomerFeedbackIntegration
         return array_values(array_unique($normalizedPostTypes));
     }
 
+    /** Add the feedback summary meta box. */
     public function addSummaryMetaBox(string $postType, ?WP_Post $post = null): void
     {
         if (!$this->isManagedPostType($postType)) {
@@ -124,6 +128,7 @@ class CustomerFeedbackIntegration
         );
     }
 
+    /** Render the feedback summary table. */
     public function renderSummaryMetaBox(WP_Post $post): void
     {
         if (!class_exists(Responses::class)) {

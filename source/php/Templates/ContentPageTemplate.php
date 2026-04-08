@@ -20,6 +20,7 @@ class ContentPageTemplate
         );
     }
 
+    /** Register content page template hooks. */
     public function addHooks(): void
     {
         add_action('init', [$this, 'registerTemplate'], 20);
@@ -29,6 +30,7 @@ class ContentPageTemplate
         add_filter('Municipio/Template/viewData', [$this, 'customizeViewData']);
     }
 
+    /** Register the content page template. */
     public function registerTemplate(): void
     {
         if (!class_exists(MunicipioTemplate::class)) {
@@ -42,11 +44,13 @@ class ContentPageTemplate
         );
     }
 
+    /** Enable page excerpts. */
     public function enablePageExcerptSupport(): void
     {
         add_post_type_support('page', 'excerpt');
     }
 
+    /** Add the content template view path. */
     public function addViewPath(array $viewPaths): array
     {
         if (!in_array($this->viewPath, $viewPaths, true)) {
@@ -56,6 +60,7 @@ class ContentPageTemplate
         return $viewPaths;
     }
 
+    /** Add the content template to Gutenberg. */
     public function extendGutenbergTemplates(array $templates): array
     {
         if (!in_array(self::TEMPLATE_SLUG, $templates, true)) {
@@ -65,6 +70,7 @@ class ContentPageTemplate
         return $templates;
     }
 
+    /** Prepare content page view data. */
     public function customizeViewData(array $viewData): array
     {
         if (!$this->isContentPageTemplate()) {

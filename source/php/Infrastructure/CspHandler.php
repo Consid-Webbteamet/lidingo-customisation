@@ -10,6 +10,7 @@ class CspHandler
     {
     }
 
+    /** Add the dev server host to relevant CSP directives. */
     public function addDevServerCspDomains(array $domains): array
     {
         if (!$this->devServer->shouldUseDevServer()) {
@@ -40,6 +41,7 @@ class CspHandler
         return $domains;
     }
 
+    /** Strip CSP directives that block local dev loading. */
     public function stripDevBlockingCspDirectives(): void
     {
         if (!$this->devServer->shouldStripBlockingCspDirectives()) {

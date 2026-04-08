@@ -23,6 +23,7 @@ class ArticlePageTemplate
         );
     }
 
+    /** Register article page template hooks. */
     public function addHooks(): void
     {
         add_action('init', [$this, 'registerTemplate'], 20);
@@ -32,6 +33,7 @@ class ArticlePageTemplate
         add_filter('Municipio/Template/viewData', [$this, 'customizeViewData']);
     }
 
+    /** Register the article page template. */
     public function registerTemplate(): void
     {
         if (!class_exists(MunicipioTemplate::class)) {
@@ -45,6 +47,7 @@ class ArticlePageTemplate
         );
     }
 
+    /** Add the article template view path. */
     public function addViewPath(array $viewPaths): array
     {
         if (!in_array($this->viewPath, $viewPaths, true)) {
@@ -54,6 +57,7 @@ class ArticlePageTemplate
         return $viewPaths;
     }
 
+    /** Add the article template to Gutenberg. */
     public function extendGutenbergTemplates(array $templates): array
     {
         if (!in_array(self::TEMPLATE_SLUG, $templates, true)) {
@@ -63,6 +67,7 @@ class ArticlePageTemplate
         return $templates;
     }
 
+    /** Swap in the custom single template. */
     public function useSingleArticleTemplate(string $template): string
     {
         if (!$this->isArticleSingular()) {
@@ -82,6 +87,7 @@ class ArticlePageTemplate
         return file_exists($singleArticleTemplate) ? $singleArticleTemplate : $template;
     }
 
+    /** Prepare article view data. */
     public function customizeViewData(array $viewData): array
     {
         if (is_singular('service_information')) {

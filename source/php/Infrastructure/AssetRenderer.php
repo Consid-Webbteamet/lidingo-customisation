@@ -18,6 +18,7 @@ class AssetRenderer
     ) {
     }
 
+    /** Print the frontend stylesheet. */
     public function printFrontendStylesheet(): void
     {
         if ($this->devServer->shouldUseDevServer()) {
@@ -37,6 +38,7 @@ class AssetRenderer
         );
     }
 
+    /** Print the frontend script. */
     public function printFrontendScript(): void
     {
         if ($this->devServer->shouldUseDevServer()) {
@@ -57,6 +59,7 @@ class AssetRenderer
         );
     }
 
+    /** Print the admin stylesheet. */
     public function printAdminStylesheet(): void
     {
         if ($this->devServer->shouldUseDevServer()) {
@@ -76,6 +79,7 @@ class AssetRenderer
         );
     }
 
+    /** Print the admin script. */
     public function printAdminScript(): void
     {
         if ($this->devServer->shouldUseDevServer()) {
@@ -96,6 +100,7 @@ class AssetRenderer
         );
     }
 
+    /** Print a dev-server module script tag. */
     private function printDevModuleScript(string $entryPath, string $id): void
     {
         $this->printViteClientScript();
@@ -107,6 +112,7 @@ class AssetRenderer
         );
     }
 
+    /** Print the Vite client script once per request. */
     private function printViteClientScript(): void
     {
         if ($this->hasPrintedViteClient) {
@@ -121,6 +127,7 @@ class AssetRenderer
         );
     }
 
+    /** Log a missing asset entry once. */
     private function logMissingAsset(string $entry): void
     {
         if (isset($this->loggedMissingEntries[$entry])) {

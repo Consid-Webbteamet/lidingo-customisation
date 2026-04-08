@@ -6,11 +6,13 @@ namespace LidingoCustomisation\Components\Posts;
 
 class PostsDateOverrides
 {
+    /** Register the archive date format override. */
     public function addHooks(): void
     {
         add_filter('Municipio/PostObject/getArchiveDateFormat', [$this, 'overrideArchiveDateFormat'], 20, 2);
     }
 
+    /** Prefer the site's date format for archive timestamps. */
     public function overrideArchiveDateFormat(string $format, object $post): string
     {
         unset($post);

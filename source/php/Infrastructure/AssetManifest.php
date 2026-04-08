@@ -20,6 +20,7 @@ class AssetManifest
 
     private ?string $errorMessage = null;
 
+    /** Load and validate the manifest. */
     public function __construct(string $manifestPath, array $requiredEntries = [])
     {
         $this->manifestPath = $manifestPath;
@@ -27,21 +28,25 @@ class AssetManifest
         $this->load();
     }
 
+    /** Report whether the manifest loaded successfully. */
     public function isLoaded(): bool
     {
         return !empty($this->manifest);
     }
 
+    /** Return the current manifest error message. */
     public function getErrorMessage(): ?string
     {
         return $this->errorMessage;
     }
 
+    /** Check whether the manifest contains an entry. */
     public function hasEntry(string $entry): bool
     {
         return $this->getAssetPath($entry) !== null;
     }
 
+    /** Resolve the public asset URL for an entry. */
     public function getAssetUrl(string $entry, string $distUrl): ?string
     {
         $assetPath = $this->getAssetPath($entry);

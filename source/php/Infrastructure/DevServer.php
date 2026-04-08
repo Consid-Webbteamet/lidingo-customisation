@@ -8,6 +8,7 @@ class DevServer
 {
     private ?bool $reachable = null;
 
+    /** Determine whether to use the Vite dev server. */
     public function shouldUseDevServer(): bool
     {
         $enabledByDefault = defined('WP_ENV') && WP_ENV === 'development';
@@ -24,11 +25,13 @@ class DevServer
         return $this->isDevServerReachable();
     }
 
+    /** Determine whether to strip blocking CSP directives. */
     public function shouldStripBlockingCspDirectives(): bool
     {
         return $this->shouldUseDevServer() || $this->isLocalHttpDevelopmentMode();
     }
 
+    /** Return the configured dev server origin. */
     public function getOrigin(): string
     {
         $origin = (string) apply_filters(
@@ -39,6 +42,7 @@ class DevServer
         return rtrim($origin, '/');
     }
 
+    /** Return the dev server host and port. */
     public function getHostWithPort(): ?string
     {
         $parsedOrigin = parse_url($this->getOrigin());
@@ -56,6 +60,7 @@ class DevServer
         return $host;
     }
 
+    /** Return the websocket origin for the dev server. */
     public function getWsOrigin(): ?string
     {
         $parsedOrigin = parse_url($this->getOrigin());

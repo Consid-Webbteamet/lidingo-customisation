@@ -19,6 +19,7 @@ class HeroFields
     ];
     private const DEFAULT_DISPLAY_AS = 'default';
 
+    /** Register hero field hooks. */
     public function addHooks(): void
     {
         foreach (self::HIDDEN_FIELD_NAMES as $fieldName) {
@@ -28,6 +29,7 @@ class HeroFields
         add_filter('acf/load_value/name=mod_hero_display_as', [$this, 'forceDefaultDisplayAs'], 10, 3);
     }
 
+    /** Hide unsupported hero fields. */
     public function hideField($field)
     {
         if (!is_array($field)) {
@@ -41,6 +43,7 @@ class HeroFields
         return false;
     }
 
+    /** Force the default hero display mode. */
     public function forceDefaultDisplayAs($value, $postId, array $field): string
     {
         if (($field['parent'] ?? '') !== self::HERO_FIELD_GROUP_KEY) {

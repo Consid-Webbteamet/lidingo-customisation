@@ -24,6 +24,7 @@ class ArchiveLayout
         );
     }
 
+    /** Register archive layout hooks. */
     public function addHooks(): void
     {
         add_action('init', [$this, 'registerArchiveOrderDirectionFilters'], 20);
@@ -32,6 +33,7 @@ class ArchiveLayout
         add_filter('Municipio/Template/viewData', [$this, 'customizeViewData'], 15);
     }
 
+    /** Normalize archive order direction. */
     public function registerArchiveOrderDirectionFilters(): void
     {
         foreach ($this->getSupportedPostTypes() as $postType) {
@@ -42,6 +44,7 @@ class ArchiveLayout
         }
     }
 
+    /** Add the package-local archive view path. */
     public function addViewPath(array $viewPaths): array
     {
         if (!in_array($this->viewPath, $viewPaths, true)) {
@@ -51,6 +54,7 @@ class ArchiveLayout
         return $viewPaths;
     }
 
+    /** Swap in the custom archive template. */
     public function useArchiveTemplate(string $template): string
     {
         if (!$this->shouldUseArchiveLayout()) {
@@ -62,6 +66,7 @@ class ArchiveLayout
         return file_exists($archiveTemplate) ? $archiveTemplate : $template;
     }
 
+    /** Prepare archive layout view data. */
     public function customizeViewData(array $viewData): array
     {
         if (!$this->shouldUseArchiveLayout()) {

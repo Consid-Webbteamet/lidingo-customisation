@@ -15,12 +15,14 @@ class ServiceInfoIntegration
     private const POST_TYPE = 'service_information';
     private const CRON_HOOK = 'modularity_service_info_unpublish_expired';
 
+    /** Register service info hooks. */
     public function addHooks(): void
     {
         add_filter('wp_get_nav_menu_items', [$this, 'overrideMenuBadge'], 20, 3);
         add_action('init', [$this, 'replaceUnpublishCronHandler'], 20);
     }
 
+    /** Add the current issue badge to the menu item. */
     public function overrideMenuBadge(array $items, mixed $menu, array $args): array
     {
         if (empty($items) || is_admin()) {
@@ -44,6 +46,7 @@ class ServiceInfoIntegration
         return $items;
     }
 
+    /** Replace the default cron callback. */
     public function replaceUnpublishCronHandler(): void
     {
         $this->removeModularityCronCallback();
@@ -53,6 +56,7 @@ class ServiceInfoIntegration
         }
     }
 
+    /** Unpublish expired service info posts. */
     public function handleUnpublishCron(): void
     {
         $this->unpublishExpiredPosts(100);

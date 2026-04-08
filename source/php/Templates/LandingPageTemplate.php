@@ -20,6 +20,7 @@ class LandingPageTemplate
         );
     }
 
+    /** Register landing page template hooks. */
     public function addHooks(): void
     {
         add_action('init', [$this, 'registerTemplate'], 20);
@@ -28,6 +29,7 @@ class LandingPageTemplate
         add_filter('Municipio/Template/viewData', [$this, 'customizeViewData']);
     }
 
+    /** Register the landing page template. */
     public function registerTemplate(): void
     {
         if (!class_exists(MunicipioTemplate::class)) {
@@ -41,6 +43,7 @@ class LandingPageTemplate
         );
     }
 
+    /** Add the landing template view path. */
     public function addViewPath(array $viewPaths): array
     {
         if (!in_array($this->viewPath, $viewPaths, true)) {
@@ -50,6 +53,7 @@ class LandingPageTemplate
         return $viewPaths;
     }
 
+    /** Add the landing template to Gutenberg. */
     public function extendGutenbergTemplates(array $templates): array
     {
         if (!in_array(self::TEMPLATE_SLUG, $templates, true)) {
@@ -59,6 +63,7 @@ class LandingPageTemplate
         return $templates;
     }
 
+    /** Prepare landing page view data. */
     public function customizeViewData(array $viewData): array
     {
         if (!$this->isLandingPageTemplate()) {

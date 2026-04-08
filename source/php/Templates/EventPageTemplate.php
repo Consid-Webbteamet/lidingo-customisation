@@ -17,6 +17,7 @@ class EventPageTemplate
         $this->controllerPath = $controllerPath ?? LIDINGO_CUSTOMISATION_PATH . 'source/php/Overrides/Municipio/Controller/SingularEvent.php';
     }
 
+    /** Register event template hooks. */
     public function addHooks(): void
     {
         spl_autoload_register([$this, 'autoloadSingularEventController'], true, true);
@@ -26,6 +27,7 @@ class EventPageTemplate
         add_filter('Municipio/Template/viewData', [$this, 'customizeViewData'], 20);
     }
 
+    /** Autoload the overridden SingularEvent controller. */
     public function autoloadSingularEventController(string $className): void
     {
         if (
@@ -38,12 +40,14 @@ class EventPageTemplate
         require_once $this->controllerPath;
     }
 
+    /** Re-register the controller autoloader first. */
     public function prioritizeSingularEventControllerAutoloader(): void
     {
         spl_autoload_unregister([$this, 'autoloadSingularEventController']);
         spl_autoload_register([$this, 'autoloadSingularEventController'], true, true);
     }
 
+    /** Use the package controller for singular events. */
     public function useSingularEventControllerPath(string $controllerPath): string
     {
         if (
@@ -57,6 +61,7 @@ class EventPageTemplate
         return $this->controllerPath;
     }
 
+    /** Add the event template view path. */
     public function addViewPath(array $viewPaths): array
     {
         if (!is_singular('evenemang')) {
@@ -70,6 +75,7 @@ class EventPageTemplate
         return $viewPaths;
     }
 
+    /** Hide sidebars and helper navigation. */
     public function customizeViewData(array $viewData): array
     {
         if (!is_singular('evenemang')) {

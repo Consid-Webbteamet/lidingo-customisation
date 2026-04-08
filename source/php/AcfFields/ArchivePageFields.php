@@ -12,6 +12,7 @@ class ArchivePageFields
     public const LOCATION_RULE_PARAM = 'lidingo_archive_page';
     public const LOCATION_RULE_VALUE = 'assigned_archive_page';
 
+    /** Register archive page field hooks. */
     public function addHooks(): void
     {
         add_action('acf/init', [$this, 'registerFieldGroup']);
@@ -21,6 +22,7 @@ class ArchivePageFields
         add_filter('acf/location/rule_match/' . self::LOCATION_RULE_PARAM, [$this, 'matchLocationRule'], 10, 3);
     }
 
+    /** Register the archive settings field group. */
     public function registerFieldGroup(): void
     {
         if (!function_exists('acf_add_local_field_group')) {
@@ -70,6 +72,7 @@ class ArchivePageFields
         ]);
     }
 
+    /** Populate the badge taxonomy choices. */
     public function populateBadgeTaxonomyChoices(array $field): array
     {
         $field['choices'] = [];
@@ -109,6 +112,7 @@ class ArchivePageFields
         return $field;
     }
 
+    /** Register the custom ACF location rule type. */
     public function registerLocationRuleType(array $choices): array
     {
         $group = __('Page', 'acf');
@@ -118,6 +122,7 @@ class ArchivePageFields
         return $choices;
     }
 
+    /** Register the custom ACF location rule value. */
     public function registerLocationRuleValues(array $choices): array
     {
         $choices[self::LOCATION_RULE_VALUE] = __('Assigned archive page', 'lidingo-customisation');
@@ -125,6 +130,7 @@ class ArchivePageFields
         return $choices;
     }
 
+    /** Match the custom location rule. */
     public function matchLocationRule(bool $match, array $rule, array $options): bool
     {
         if (!$this->isPageEditScreen($options)) {

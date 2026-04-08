@@ -11,6 +11,7 @@ class ModularityTocFields
         'field_694255833aa84',
     ];
 
+    /** Register hooks that disable the Modularity TOC fields not in use. */
     public function addHooks(): void
     {
         foreach (self::DISABLED_FIELD_KEYS as $fieldKey) {
@@ -20,11 +21,13 @@ class ModularityTocFields
         }
     }
 
+    /** Hide the field in the editor. */
     public function hideField($field)
     {
         return false;
     }
 
+    /** Force the field value to stay disabled. */
     public function forceDisabledValue(): bool
     {
         return false;

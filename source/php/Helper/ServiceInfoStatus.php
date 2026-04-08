@@ -14,6 +14,7 @@ class ServiceInfoStatus
     private const START_DATE_META_KEY = 'start_date';
     private const END_DATE_META_KEY = 'end_date';
 
+    /** Return the number of active service info posts. */
     public static function getCurrentCount(): int
     {
         $query = new \WP_Query([
@@ -28,6 +29,7 @@ class ServiceInfoStatus
         return (int) $query->found_posts;
     }
 
+    /** Build the active service info meta query. */
     public static function getCurrentMetaQuery(?string $now = null): array
     {
         $now = $now ?: current_time('mysql');
@@ -61,6 +63,7 @@ class ServiceInfoStatus
         ];
     }
 
+    /** Build the planned service info meta query. */
     public static function getPlannedMetaQuery(?string $now = null): array
     {
         $now = $now ?: current_time('mysql');
@@ -75,6 +78,7 @@ class ServiceInfoStatus
         ];
     }
 
+    /** Build the completed service info meta query. */
     public static function getCompletedMetaQuery(?string $now = null): array
     {
         $now = $now ?: current_time('mysql');

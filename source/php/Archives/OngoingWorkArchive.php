@@ -18,6 +18,7 @@ class OngoingWorkArchive
     private const YEAR_QUERY_PARAMETER = 'ongoing_work_year';
     private const YEAR_OPTIONS_TRANSIENT = 'lidingo_ongoing_work_year_options';
 
+    /** Register ongoing work archive hooks. */
     public function addHooks(): void
     {
         add_filter('Municipio/Template/viewData', [$this, 'customizeViewData'], 20);
@@ -26,6 +27,7 @@ class OngoingWorkArchive
         add_action('deleted_post', [$this, 'clearYearOptionsCacheOnDelete']);
     }
 
+    /** Build the archive view data and year filter state. */
     public function customizeViewData(array $viewData): array
     {
         if (!$this->isOngoingWorkArchive()) {
@@ -57,6 +59,7 @@ class OngoingWorkArchive
         return $viewData;
     }
 
+    /** Filter archive queries by selected year. */
     public function filterArchivePostsByYear(WP_Query $query): void
     {
         if (
@@ -115,11 +118,13 @@ class OngoingWorkArchive
         $query->set('meta_query', $metaQuery);
     }
 
+    /** Clear cached year options after save. */
     public function clearYearOptionsCache(): void
     {
         delete_transient($this->getYearOptionsTransientKey());
     }
 
+    /** Clear cached year options after delete. */
     public function clearYearOptionsCacheOnDelete(int $postId): void
     {
         if (get_post_type($postId) !== self::POST_TYPE) {
