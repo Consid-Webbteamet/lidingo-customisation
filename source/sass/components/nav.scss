@@ -17,6 +17,7 @@
   ul.c-nav.c-nav--drawer,
   ul.c-nav.c-nav--depth-1 {
     --c-nav-v-background-expanded: #{$color-primary-400};
+    --lidingo-nav-indicator-left: calc(var(--lidingo-nav-indicator-width) / -2);
     background-color: $color-primary-400;
   }
 
