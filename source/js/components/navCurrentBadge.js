@@ -8,6 +8,8 @@ const OWN_TEXT_SELECTOR = ":scope > .c-nav__item-wrapper .c-nav__text";
 const LABEL_COPY_CLASS = "c-nav__label-copy";
 const BADGE_CLASS = "c-nav__current-badge";
 const ACTIVE_BADGE_ITEM_CLASS = "c-nav__item--current-page-badge";
+const CURRENT_PAGE_ATTRIBUTE = "aria-current";
+const CURRENT_PAGE_VALUE = "page";
 const CURRENT_ITEM_CLASS = "is-current";
 const DRAWER_INITIALIZED_ATTRIBUTE =
   "data-lidingo-nav-current-badge-initialized";
@@ -96,8 +98,10 @@ const unwrapLabelCopy = (textElement) => {
 // Remove badge-related classes and markup from a nav item.
 const cleanupItem = (item) => {
   const textElement = getOwnTextElement(item);
+  const link = getOwnLink(item);
 
   item.classList.remove(ACTIVE_BADGE_ITEM_CLASS);
+  link?.removeAttribute(CURRENT_PAGE_ATTRIBUTE);
 
   if (!(textElement instanceof HTMLElement)) {
     return;
@@ -117,12 +121,14 @@ const cleanupItem = (item) => {
 // Add badge-related classes and markup to the selected nav item.
 const decorateItem = (item) => {
   const textElement = getOwnTextElement(item);
+  const link = getOwnLink(item);
 
   if (!(textElement instanceof HTMLElement)) {
     return;
   }
 
   item.classList.add(ACTIVE_BADGE_ITEM_CLASS);
+  link?.setAttribute(CURRENT_PAGE_ATTRIBUTE, CURRENT_PAGE_VALUE);
 
   if (
     !(
