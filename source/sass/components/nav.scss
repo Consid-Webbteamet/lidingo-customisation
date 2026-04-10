@@ -188,7 +188,8 @@
   --badge-background-color: #c86262;
 }
 
-.c-header .s-post-type-service-info-archive .c-nav__text {
+.c-header .s-post-type-service-info-archive .c-nav__text,
+.c-header .s-post-type-nyheter .c-nav__text {
   position: relative;
   display: inline-flex;
   align-items: center;
