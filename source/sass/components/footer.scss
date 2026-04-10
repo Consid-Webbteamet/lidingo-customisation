@@ -9,6 +9,17 @@
     padding-bottom: 6rem;
   }
 
+  .o-container {
+    > .o-grid {
+      gap: 2.5rem;
+      justify-content: space-between;
+
+      @media (min-width: $breakpoint-md) {
+        gap: initial;
+      }
+    }
+  }
+
   h2 {
     position: relative;
     margin-bottom: 1.5rem;
