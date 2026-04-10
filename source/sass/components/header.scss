@@ -127,8 +127,13 @@ body:has(.c-header.is-scrolled) {
     height: 100%;
     gap: 0;
 
-    > div:not(:last-child) {
+    > div:has(.collapsible-search-form),
+    > div:has(.mobile-menu-trigger) {
       height: 100%;
+    }
+
+    .site-language-menu-button {
+      margin-right: 2rem;
     }
 
     .c-button__label-text {
@@ -211,7 +216,8 @@ body:has(.c-header.is-scrolled) {
       }
 
       .c-header__lower-right {
-        > div:not(:last-child),
+        > div:has(.collapsible-search-form),
+        > div:has(.mobile-menu-trigger),
         .collapsible-search-form,
         .collapsible-search-form__trigger-button,
         .mobile-menu-trigger {
