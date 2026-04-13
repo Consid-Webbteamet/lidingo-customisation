@@ -62,6 +62,7 @@ class ServiceInfoIntegration
         $this->unpublishExpiredPosts(100);
     }
 
+    /** Scan service info posts and unpublish items whose deadline has passed. */
     private function unpublishExpiredPosts(int $limit): void
     {
         $query = new \WP_Query([
@@ -105,6 +106,7 @@ class ServiceInfoIntegration
         wp_reset_postdata();
     }
 
+    /** Prefer the explicit unpublish date, then fall back to the end date. */
     private function getDeadlineTimestamp(int $postId): ?int
     {
         $deadlineRaw = $this->getFieldValue('unpublish_date', $postId);
@@ -126,6 +128,7 @@ class ServiceInfoIntegration
         return $dateTime->getTimestamp();
     }
 
+    /** Limit the resulting post status to draft or trash. */
     private function getUnpublishAction(int $postId): string
     {
         $action = $this->getFieldValue('on_unpublish', $postId);
@@ -137,6 +140,7 @@ class ServiceInfoIntegration
         return $action;
     }
 
+    /** Read a field from ACF or fall back to post meta. */
     private function getFieldValue(string $fieldName, int $postId): mixed
     {
         if (function_exists('get_field')) {
@@ -146,6 +150,7 @@ class ServiceInfoIntegration
         return get_post_meta($postId, $fieldName, true);
     }
 
+    /** Remove Modularity's cron handler from the shared hook. */
     private function removeModularityCronCallback(): void
     {
         if (!class_exists(UnpublishExpiredPosts::class)) {
@@ -179,6 +184,7 @@ class ServiceInfoIntegration
         }
     }
 
+    /** Match the service info menu item by type, object, or CSS class. */
     private function isServiceInfoMenuItem(mixed $item): bool
     {
         if (!is_object($item)) {
@@ -199,6 +205,7 @@ class ServiceInfoIntegration
         return in_array('s-post-type-service-info-archive', $item->classes, true);
     }
 
+    /** Remove any previously rendered badge markup before appending a new one. */
     private function stripExistingBadgeMarkup(string $title): string
     {
         $title = preg_replace('/<esi:include\b[^>]*\/>/i', '', $title);

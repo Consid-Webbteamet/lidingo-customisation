@@ -187,6 +187,7 @@ class ServiceInfoArchive
         ];
     }
 
+    /** Map configured external links into renderable archive items. */
     private function getExternalItems(?WP_Post $archivePage): array
     {
         if (!$archivePage instanceof WP_Post) {
@@ -223,6 +224,7 @@ class ServiceInfoArchive
         }, $items)));
     }
 
+    /** Normalize ACF image values to a positive attachment ID. */
     private function normalizeAttachmentId(mixed $value): int
     {
         if (is_numeric($value)) {
@@ -267,6 +269,7 @@ class ServiceInfoArchive
         return is_string($imageHtml) ? $imageHtml : '';
     }
 
+    /** Use the custom external section title when one is configured. */
     private function getExternalSectionTitle(?WP_Post $archivePage): string
     {
         if ($archivePage instanceof WP_Post) {
@@ -280,6 +283,7 @@ class ServiceInfoArchive
         return __('Driftstörningar i system som sköts av andra aktörer', 'lidingo-customisation');
     }
 
+    /** Resolve the archive page from settings or the current page context. */
     private function getArchivePage(): ?WP_Post
     {
         $pageId = $this->getArchivePageId();
@@ -298,6 +302,7 @@ class ServiceInfoArchive
         return $page instanceof WP_Post && $page->post_type === 'page' ? $page : null;
     }
 
+    /** Read the archive page ID from the configured options. */
     private function getArchivePageId(): int
     {
         $pageId = (int) get_option('page_for_' . self::POST_TYPE);
@@ -439,6 +444,7 @@ class ServiceInfoArchive
         return $breadcrumbMenu;
     }
 
+    /** Apply archive overrides on the archive page or its configured page. */
     private function isServiceInfoView(): bool
     {
         if (is_post_type_archive(self::POST_TYPE)) {

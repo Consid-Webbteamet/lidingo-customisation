@@ -118,6 +118,7 @@ class ArchiveLayout
         return is_post_type_archive() && $postType !== null && in_array($postType, $this->getSupportedPostTypes(), true);
     }
 
+    /** Collect public archive-capable post types, plus project overrides. */
     private function getSupportedPostTypes(): array
     {
         $defaultPostTypes = array_values(array_filter(
@@ -164,6 +165,7 @@ class ArchiveLayout
         return !empty($postTypes) ? $postTypes : $defaultPostTypes;
     }
 
+    /** Default unset title-sorted archives to ascending order. */
     private function normalizeArchiveOrderDirection(mixed $value, string $postType): mixed
     {
         if (!$this->isUnsetThemeModValue($value)) {
@@ -177,6 +179,7 @@ class ArchiveLayout
             : $value;
     }
 
+    /** Resolve the current archive post type from the main query. */
     private function getCurrentPostType(): ?string
     {
         $queriedObject = get_queried_object();
@@ -196,6 +199,7 @@ class ArchiveLayout
         return null;
     }
 
+    /** Load the page assigned to the current archive post type. */
     private function getArchivePage(string $postType): ?WP_Post
     {
         $pageId = get_option('page_for_' . $postType);
@@ -391,6 +395,7 @@ class ArchiveLayout
         return is_object($filterConfig) && method_exists($filterConfig, 'getResetUrl') && !empty($filterConfig->getResetUrl());
     }
 
+    /** Resolve the configured badge taxonomy for the current archive. */
     private function getArchiveBadgeTaxonomy(?int $pageId, string $postType): string
     {
         if (!$pageId || $pageId <= 0) {
@@ -434,6 +439,7 @@ class ArchiveLayout
             : '';
     }
 
+    /** Return the date badge or taxonomy badge for archive cards. */
     private function getCardBadgeLabel(PostObjectInterface $post, string $postType, string $taxonomy): string
     {
         if ($this->shouldUseDateBadge($postType)) {
@@ -459,6 +465,7 @@ class ArchiveLayout
         return wp_date(DateFormat::getDateFormat('date'), $timestamp);
     }
 
+    /** Treat empty theme mods as unset values. */
     private function isUnsetThemeModValue(mixed $value): bool
     {
         return in_array($value, [null, false, '', 0, '0'], true);

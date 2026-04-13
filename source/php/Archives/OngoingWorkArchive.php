@@ -298,6 +298,7 @@ class OngoingWorkArchive
         return $breadcrumbMenu;
     }
 
+    /** Read and validate the selected year filter from the request. */
     private function getSelectedYear(): ?int
     {
         $year = isset($_GET[self::YEAR_QUERY_PARAMETER]) ? sanitize_text_field((string) $_GET[self::YEAR_QUERY_PARAMETER]) : '';
@@ -311,6 +312,7 @@ class OngoingWorkArchive
         return $year >= 2000 && $year <= 2100 ? $year : null;
     }
 
+    /** Return the archive URL without the selected year filter. */
     private function getArchiveResetUrl(?WP_Post $page): string
     {
         if ($page instanceof WP_Post) {
@@ -326,6 +328,7 @@ class OngoingWorkArchive
         return is_string($archiveUrl) ? $archiveUrl : home_url('/');
     }
 
+    /** Treat a selected year or resettable filter config as active filters. */
     private function hasActiveFilters(mixed $filterConfig): bool
     {
         if ($this->getSelectedYear() !== null) {
@@ -335,6 +338,7 @@ class OngoingWorkArchive
         return is_object($filterConfig) && method_exists($filterConfig, 'getResetUrl') && !empty($filterConfig->getResetUrl());
     }
 
+    /** Build and cache year filter options from the stored date ranges. */
     private function getYearOptions(): array
     {
         $cachedYears = get_transient($this->getYearOptionsTransientKey());
@@ -388,6 +392,7 @@ class OngoingWorkArchive
         return $years;
     }
 
+    /** Format a post's active date range for the card meta label. */
     private function getDateRangeLabel(PostObjectInterface $post): string
     {
         $postId = $post->getId();
@@ -452,6 +457,7 @@ class OngoingWorkArchive
         return $this->parseDateValue($rawValue);
     }
 
+    /** Parse stored dates using the site timezone and expected formats. */
     private function parseDateValue(string $value): ?DateTimeImmutable
     {
         $timezone = wp_timezone();
@@ -478,6 +484,7 @@ class OngoingWorkArchive
         return wp_date('F Y', $date->getTimestamp(), $date->getTimezone());
     }
 
+    /** Uppercase the first character of localized month labels. */
     private function capitalizeFirstLetter(string $value): string
     {
         if ($value === '') {
