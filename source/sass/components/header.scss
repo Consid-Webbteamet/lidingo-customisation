@@ -8,7 +8,7 @@
 }
 
 body:has(.c-header.is-scrolled) {
-  --header-height: 4.625rem;
+  --header-height: 4rem;
 }
 
 .site-header .collapsible-search-form {
@@ -199,7 +199,9 @@ body:has(.c-header.is-scrolled) {
   }
 
   &.is-scrolled {
+    @media (min-width: $breakpoint-md) {
     height: var(--header-height);
+    }
 
     .collapsible-search-form .collapsible-search-form__form {
       top: 8px;
@@ -250,6 +252,10 @@ body:has(.c-header.is-scrolled) {
 @media (min-width: $ipad-breakpoint) {
   :root {
     --header-height: 7.25rem;
+  }
+
+  body:has(.c-header.is-scrolled) {
+    --header-height: 4.625rem;
   }
 
   .c-header {
