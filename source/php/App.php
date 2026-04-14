@@ -18,6 +18,7 @@ use LidingoCustomisation\Components\HeroSearch\HeroSearchOverrides;
 use LidingoCustomisation\Components\Posts\PostsDateOverrides;
 use LidingoCustomisation\Components\Sections\SectionFullHeadingOverrides;
 use LidingoCustomisation\Integrations\CustomerFeedback\CustomerFeedbackIntegration;
+use LidingoCustomisation\Integrations\RekAi\RekAiIntegration;
 use LidingoCustomisation\Integrations\ServiceInfo\ServiceInfoIntegration;
 use LidingoCustomisation\Infrastructure\AssetRenderer;
 use LidingoCustomisation\Infrastructure\AssetManifest;
@@ -58,6 +59,7 @@ class App
     private LandingPageTemplate $landingPageTemplate;
     private ContentPageTemplate $contentPageTemplate;
     private CustomerFeedbackIntegration $customerFeedbackIntegration;
+    private RekAiIntegration $rekAiIntegration;
     private ServiceInfoIntegration $serviceInfoIntegration;
 
     public function __construct()
@@ -95,6 +97,7 @@ class App
         $this->landingPageTemplate = new LandingPageTemplate();
         $this->contentPageTemplate = new ContentPageTemplate();
         $this->customerFeedbackIntegration = new CustomerFeedbackIntegration();
+        $this->rekAiIntegration = new RekAiIntegration();
         $this->serviceInfoIntegration = new ServiceInfoIntegration();
 
         $this->addHooks();
@@ -133,6 +136,7 @@ class App
         $this->landingPageTemplate->addHooks();
         $this->contentPageTemplate->addHooks();
         $this->customerFeedbackIntegration->addHooks();
+        $this->rekAiIntegration->addHooks();
         $this->serviceInfoIntegration->addHooks();
 
         if (!$this->assetManifest->isLoaded()) {
