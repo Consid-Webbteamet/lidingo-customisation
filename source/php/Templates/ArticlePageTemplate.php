@@ -194,7 +194,7 @@ class ArticlePageTemplate
                         return '';
                     }
 
-                    if (in_array($postType->name, ['page', 'attachment'], true)) {
+                    if (in_array($postType->name, ['page', 'attachment', 'job-listing'], true)) {
                         return '';
                     }
 

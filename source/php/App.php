@@ -27,6 +27,8 @@ use LidingoCustomisation\Search\SearchPage;
 use LidingoCustomisation\Templates\ArticlePageTemplate;
 use LidingoCustomisation\Templates\ContentPageTemplate;
 use LidingoCustomisation\Templates\EventPageTemplate;
+use LidingoCustomisation\Templates\JobListingTemplate;
+use LidingoCustomisation\Templates\JobPostingTemplate;
 use LidingoCustomisation\Templates\LandingPageTemplate;
 
 class App
@@ -51,6 +53,8 @@ class App
     private SearchPage $searchPage;
     private ArticlePageTemplate $articlePageTemplate;
     private EventPageTemplate $eventPageTemplate;
+    private JobListingTemplate $jobListingTemplate;
+    private JobPostingTemplate $jobPostingTemplate;
     private LandingPageTemplate $landingPageTemplate;
     private ContentPageTemplate $contentPageTemplate;
     private CustomerFeedbackIntegration $customerFeedbackIntegration;
@@ -86,6 +90,8 @@ class App
         $this->searchPage = new SearchPage();
         $this->articlePageTemplate = new ArticlePageTemplate();
         $this->eventPageTemplate = new EventPageTemplate();
+        $this->jobListingTemplate = new JobListingTemplate();
+        $this->jobPostingTemplate = new JobPostingTemplate();
         $this->landingPageTemplate = new LandingPageTemplate();
         $this->contentPageTemplate = new ContentPageTemplate();
         $this->customerFeedbackIntegration = new CustomerFeedbackIntegration();
@@ -122,6 +128,8 @@ class App
         $this->searchPage->addHooks();
         $this->articlePageTemplate->addHooks();
         $this->eventPageTemplate->addHooks();
+        $this->jobListingTemplate->addHooks();
+        $this->jobPostingTemplate->addHooks();
         $this->landingPageTemplate->addHooks();
         $this->contentPageTemplate->addHooks();
         $this->customerFeedbackIntegration->addHooks();
@@ -255,6 +263,7 @@ class App
         return (bool) apply_filters('lidingo_customisation/should_load_admin', false);
     }
 
+    /** Load admin assets for the dashboard or the block editor screen. */
     private function shouldLoadAdminAssets(): bool
     {
         return $this->shouldLoadAdmin() || $this->isBlockEditorScreen();

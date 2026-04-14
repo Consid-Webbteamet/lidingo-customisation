@@ -1,0 +1,48 @@
+@use "../tokens" as *;
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+.single-job-listing {
+  --sticky-sidebar-top: calc(var(--header-height, 0px) + 5rem);
+
+  .c-job-sidebar__card {
+    background: transparent;
+  }
+
+  .c-content-page__title {
+    margin-bottom: 2rem;
+  }
+
+  .c-job-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    @include breakpoint-up($breakpoint-lg) {
+      align-self: start;
+    }
+
+    .c-typography.c-typography__variant--meta {
+      font-size: var(--font-size-base);
+    }
+
+    .c-collection .c-collection__content {
+      padding: 0;
+    }
+
+    .c-collection .c-collection__content > *:last-child {
+      margin-bottom: revert;
+    }
+
+    h3 {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .c-job-sidebar__contact-token {
+    display: inline-flex;
+    margin-right: 0.5rem;
+    font-family: "Lidingo Logical", sans-serif;
+    font-weight: 400;
+    line-height: 1;
+  }
+}
