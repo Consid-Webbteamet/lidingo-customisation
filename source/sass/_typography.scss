@@ -22,8 +22,13 @@
   color: $text-1000;
 }
 
+a:visited, .link:visited {
+    color: initial;
+}
+
 h1,
-.h1 {
+.h1,
+.c-typography.c-typography__variant--h1 {
   font-size: var(--h1-font-size, 2.8125rem);
   color: $text-1000;
 }
