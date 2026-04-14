@@ -1,0 +1,33 @@
+@use "../tokens" as *;
+
+.c-table .c-table__body .c-table__line:nth-child(odd) .c-table__column,
+.c-table__table .c-table__body .c-table__line:nth-child(odd) .c-table__column {
+  background-color: $color-primary-50;
+}
+
+.c-table .c-table__body .c-table__line:nth-child(odd):hover .c-table__column,
+.c-table .c-table__body .c-table__line:nth-child(even):hover .c-table__column,
+.c-table__table .c-table__body .c-table__line:nth-child(odd):hover .c-table__column,
+.c-table__table .c-table__body .c-table__line:nth-child(even):hover .c-table__column {
+  background-color: $standard-red-50;
+}
+
+.c-table__column-content {
+  font-size: var(--font-size-base, 1.125rem);
+
+  a.c-link {
+    color: inherit;
+    font-weight: var(--font-weight-base);
+    text-decoration: none;
+
+    &:visited {
+      color: inherit;
+    }
+  }
+}
+
+table th {
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-base);
+
+}
