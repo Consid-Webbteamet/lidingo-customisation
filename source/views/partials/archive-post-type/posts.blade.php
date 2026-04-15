@@ -22,7 +22,7 @@
     @else
         @if ($appearanceConfig->getDesign() === \Municipio\PostsList\Config\AppearanceConfig\PostDesign::TABLE)
             @element(['classList' => ['o-layout-grid--col-span-12']])
-                @include('parts.table')
+                @include('partials.archive-post-type.table')
             @endelement
         @else
             @foreach ($posts as $post)
