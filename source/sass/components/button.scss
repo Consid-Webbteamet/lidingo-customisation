@@ -412,3 +412,21 @@ a.button.button--white:visited:active,
 .link.button.button--white:visited:active {
   color: $color-white;
 }
+
+// Disable Municipio hover/focus overlay tint on filled/outlined buttons.
+.c-button__filled:hover::after,
+.c-button__filled:focus::after,
+.c-button__filled:active::after,
+.c-button__outlined:hover::after,
+.c-button__outlined:focus::after,
+.c-button__outlined:active::after {
+  background: none;
+  opacity: 0;
+}
+
+.c-button__outlined--primary:hover::after,
+.c-button__outlined--primary:focus::after,
+.c-button__outlined--primary:active::after {
+  background: none;
+  opacity: 0;
+}
