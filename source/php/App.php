@@ -110,6 +110,7 @@ class App
         add_action('wp_footer', [$this, 'printFrontendScript'], 1001);
         add_action('admin_head', [$this, 'printAdminStylesheet'], 1001);
         add_action('admin_footer', [$this, 'printAdminScript'], 1001);
+        add_action('login_enqueue_scripts', [$this, 'printLoginStyles'], 1001);
         add_filter('theme_page_templates', [$this, 'customizeEditorPageTemplates'], 20, 4);
         add_filter('WpSecurity/Csp', [$this, 'addDevServerCspDomains'], 10, 1);
         add_filter('Website/HTML/output', [$this, 'stripDevBlockingCspDirectives'], 20, 0);
@@ -182,6 +183,12 @@ class App
         }
 
         $this->assetRenderer->printAdminScript();
+    }
+
+    /** Apply login page background styling. */
+    public function printLoginStyles(): void
+    {
+        echo '<style>body.login{background-color:#002B49;background-image:none;}</style>';
     }
 
     /** Show a warning when the manifest is missing. */
