@@ -1,0 +1,114 @@
+@use "../tokens" as *;
+@use "../components/button" as *;
+
+.modularity-mod-recommend {
+  background: $color-primary-100;
+  padding-block: 4rem;
+
+  .mod-recommend__items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .mod-recommend__items .c-button {
+    @extend .button;
+    @extend .button--big;
+  }
+
+  .mod-recommend__items > a:not(.c-button) {
+    @extend .button;
+    @extend .button--big;
+    @extend .button--secondary;
+  }
+
+  .mod-recommend__items
+    .recommend-linklist__item:not(.recommend-linklist__static-item),
+  .mod-recommend__items
+    > a:not(.recommend-linklist__static-item):not(.c-button) {
+    @extend .button--icon-arrow;
+    @extend .button--big;
+    border-color: $color-primary-500;
+    color: $color-primary-500;
+    background: transparent;
+
+    &::after,
+    &:hover::after,
+    &:focus::after,
+    &:active::after {
+      background: none;
+      opacity: 1;
+    }
+  }
+
+  .mod-recommend__items
+    .recommend-linklist__item:not(.recommend-linklist__static-item).c-button__filled,
+  .mod-recommend__items
+    .recommend-linklist__item:not(
+      .recommend-linklist__static-item
+    ).c-button__filled--primary,
+  .mod-recommend__items
+    .recommend-linklist__item:not(
+      .recommend-linklist__static-item
+    ).c-button__filled--secondary {
+    border-color: $color-primary-500;
+    color: $color-primary-500;
+    background: transparent;
+  }
+
+  .mod-recommend__items .c-button__outlined--primary {
+    border-color: $color-primary-500;
+    color: $color-primary-500;
+    background: transparent;
+  }
+
+  .mod-recommend__items .c-button__outlined--secondary {
+    border-color: $color-secondary-500;
+    color: $color-secondary-500;
+    background: transparent;
+  }
+
+  .mod-recommend__items .c-button__filled--primary {
+    @extend .button--primary;
+    border-color: $color-primary-500;
+    background: $color-primary-500;
+    color: $color-white;
+  }
+
+  .mod-recommend__items .c-button__filled--secondary {
+    border-color: $color-secondary-500;
+    background: $color-secondary-500;
+    color: $color-white;
+  }
+
+  .mod-recommend__items .c-button__filled--default {
+    border-color: $border-dark;
+    background: $color-primary-50;
+    color: $text-1000;
+  }
+
+  .mod-recommend__items .c-button__label,
+  .mod-recommend__items .c-button__label-text {
+    align-items: center;
+    color: inherit;
+    display: inline-flex;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+  }
+
+  .mod-recommend__items .c-button__label-text {
+    gap: 0;
+  }
+}
+
+#sidebar-bottom-sidebar .modularity-mod-recommend {
+  padding-inline: 1rem;
+
+  > .modularity-edit-module,
+  > .module-title,
+  > .mod-recommend__items {
+    margin-inline: auto;
+    max-width: 87.5rem;
+  }
+}
