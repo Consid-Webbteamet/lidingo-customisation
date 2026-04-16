@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
+const devServerCorsOrigin = /^https?:\/\/(?:(?:[^:]+\.)?municipio-deployment\.test|(?:[^:]+\.)?localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$/;
+
 export default defineConfig({
     server: {
         host: 'localhost',
@@ -8,10 +10,7 @@ export default defineConfig({
         strictPort: true,
         origin: 'http://localhost:5173',
         cors: {
-            origin: [
-                'http://municipio-deployment.test',
-                'https://municipio-deployment.test'
-            ]
+            origin: devServerCorsOrigin
         },
         hmr: {
             host: 'localhost',
