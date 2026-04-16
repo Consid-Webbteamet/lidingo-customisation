@@ -185,6 +185,32 @@
     font-family: var(--lead-font-family);
     font-weight: var(--font-weight-bold);
   }
+
+  .c-field--icon .c-field__inner--date {
+    position: relative;
+
+    .c-field__icon {
+      @include icon-weight(400);
+      position: absolute;
+      top: 50%;
+      right: 1rem;
+      left: auto;
+      transform: translateY(-50%);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    input[type="date"] {
+      padding-left: 1rem;
+      padding-right: 3rem;
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      opacity: 0;
+      width: 2.5rem;
+      cursor: pointer;
+    }
+  }
 }
 
 .post-type-archive-evenemang {

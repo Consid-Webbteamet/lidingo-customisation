@@ -30,10 +30,18 @@
         @if ($filterConfig->isDateFilterEnabled())
             <div class="o-grid">
                 <div class="o-grid-12@xs o-grid-6@sm">
-                    @field($getDateFilterFieldArguments()['from'])@endfield
+                    @field([
+                        ...$getDateFilterFieldArguments()['from'],
+                        'icon' => ['icon' => ':kalender:'],
+                    ])
+                    @endfield
                 </div>
                 <div class="o-grid-12@xs o-grid-6@sm">
-                    @field($getDateFilterFieldArguments()['to'])@endfield
+                    @field([
+                        ...$getDateFilterFieldArguments()['to'],
+                        'icon' => ['icon' => ':kalender:'],
+                    ])
+                    @endfield
                 </div>
             </div>
         @endif
