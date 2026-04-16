@@ -29,6 +29,10 @@ class ServiceInfoIntegration
             return $items;
         }
 
+        if (!$this->hasServiceInfoMenuItem($items)) {
+            return $items;
+        }
+
         $count = ServiceInfoStatus::getCurrentCount();
 
         foreach ($items as $item) {
@@ -212,6 +216,18 @@ class ServiceInfoIntegration
         $title = preg_replace('/<span\b[^>]*class=(["\'])[^"\']*service-info-badge[^"\']*\1[^>]*>.*?<\/span>/is', '', $title);
 
         return trim((string) $title);
+    }
+
+    /** Avoid the count query entirely when the current menu has no relevant item. */
+    private function hasServiceInfoMenuItem(array $items): bool
+    {
+        foreach ($items as $item) {
+            if ($this->isServiceInfoMenuItem($item) && isset($item->title) && is_string($item->title)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function renderBadge(int $count): string

@@ -13,10 +13,15 @@ class ServiceInfoStatus
     private const POST_TYPE = 'service_information';
     private const START_DATE_META_KEY = 'start_date';
     private const END_DATE_META_KEY = 'end_date';
+    private static ?int $currentCountCache = null;
 
     /** Return the number of active service info posts. */
     public static function getCurrentCount(): int
     {
+        if (self::$currentCountCache !== null) {
+            return self::$currentCountCache;
+        }
+
         $query = new \WP_Query([
             'post_type' => self::POST_TYPE,
             'post_status' => 'publish',
@@ -26,7 +31,9 @@ class ServiceInfoStatus
             'meta_query' => self::getCurrentMetaQuery(),
         ]);
 
-        return (int) $query->found_posts;
+        self::$currentCountCache = (int) $query->found_posts;
+
+        return self::$currentCountCache;
     }
 
     /** Build the active service info meta query. */

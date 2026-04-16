@@ -91,10 +91,16 @@
 @if (!$hideTitle && !empty($postTitle)) aria-labelledby="{{ 'mod-posts-' . $ID . '-label' }}" @endif>
     @if($posts)
         @foreach ($posts as $post)
-            <div class="{{!empty($post->classList) ? implode(' ', $post->classList) : ''}}"
-            {{!empty($post->attributeList) ? implode(' ', array_map(function($key, $value) {
-                return $key . '=' . $value;
-            }, array_keys($post->attributeList), $post->attributeList)) : '' }}>
+            @php($postClassList = !empty($post->classList) && is_array($post->classList) ? array_values(array_filter(array_map(static fn ($class): string => is_string($class) ? trim($class) : '', $post->classList), static fn (string $class): bool => $class !== '')) : [])
+            @php($postAttributeList = !empty($post->attributeList) && is_array($post->attributeList) ? $post->attributeList : [])
+            <div
+                @class($postClassList)
+                @foreach ($postAttributeList as $attributeKey => $attributeValue)
+                    @if (is_string($attributeKey) && preg_match('/^[A-Za-z_:][A-Za-z0-9:._-]*$/', $attributeKey) === 1 && !is_array($attributeValue) && !is_object($attributeValue))
+                        {{ $attributeKey }}="{{ esc_attr(is_bool($attributeValue) ? ($attributeValue ? 'true' : 'false') : (string) $attributeValue) }}"
+                    @endif
+                @endforeach
+            >
                 @if ($highlight_first_column_as === 'block' && $post->isHighlighted)
                     @block([
                         'heading' => $post->postTitle,
