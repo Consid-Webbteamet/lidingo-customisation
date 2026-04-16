@@ -40,8 +40,19 @@
     }
   }
 
+  &__hero-grid--with-card {
+    @media (min-width: $breakpoint-xl) {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 27.5rem);
+    }
+  }
+
   &__hero-content {
     min-width: 0;
+
+    @media (min-width: $breakpoint-xl) {
+      width: 100%;
+      max-width: 42.5rem;
+    }
   }
 
   &__title {
@@ -121,6 +132,32 @@
     @media (min-width: $breakpoint-lg) {
       height: 21.25rem;
     }
+  }
+
+  &__hero-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding-block: 2.5rem;
+    padding-inline: 2.2rem;
+    background: $standard-red-100;
+
+    @media (min-width: $breakpoint-lg) {
+      max-width: 27.5rem;
+    }
+
+    @media (min-width: $breakpoint-xl) {
+      justify-self: end;
+    }
+  }
+
+  &__hero-card-title {
+    margin: 0;
+    font-family: var(--font-family-heading);
+    font-size: var(--h3-font-size);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--h3-line-height);
   }
 
   &__listing {

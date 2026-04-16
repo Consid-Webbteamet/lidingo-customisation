@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace LidingoCustomisation\Archives;
 
+use LidingoCustomisation\AcfFields\ArchivePageFields;
 use Municipio\Helper\DateFormat;
 use Municipio\PostObject\PostObjectInterface;
 use WP_Post;
@@ -94,6 +95,10 @@ class ArchiveLayout
         $viewData['archiveLayoutImageHtml'] = $this->shouldDisplayArchiveHeroImage($page, $viewData)
             ? $this->getArchiveImageHtml($page)
             : '';
+        $viewData['archiveLayoutHeroAsideCard'] = $this->getArchiveHeroAsideCard($pageId, $postType);
+        if (is_array($viewData['archiveLayoutHeroAsideCard'])) {
+            $viewData['archiveLayoutImageHtml'] = '';
+        }
         $viewData['archiveLayoutResetUrl'] = $this->getArchiveResetUrl($postType, $page);
         $viewData['archiveLayoutHasActiveFilters'] = $this->hasActiveFilters($viewData['filterConfig'] ?? null);
         $viewData['archiveLayoutYearOptions'] = [];
@@ -393,6 +398,40 @@ class ArchiveLayout
     private function hasActiveFilters(mixed $filterConfig): bool
     {
         return is_object($filterConfig) && method_exists($filterConfig, 'getResetUrl') && !empty($filterConfig->getResetUrl());
+    }
+
+    /** Read the optional event archive hero card content from the assigned archive page. */
+    private function getArchiveHeroAsideCard(?int $pageId, string $postType): ?array
+    {
+        if ($postType !== 'evenemang' || !$pageId || $pageId <= 0 || !function_exists('get_field')) {
+            return null;
+        }
+
+        $title = get_field(ArchivePageFields::FIELD_NAME_EVENT_HERO_CARD_TITLE, $pageId);
+        $link = get_field(ArchivePageFields::FIELD_NAME_EVENT_HERO_CARD_LINK, $pageId);
+
+        $title = is_string($title) ? trim(wp_strip_all_tags($title)) : '';
+        $url = is_array($link) && is_string($link['url'] ?? null) ? trim($link['url']) : '';
+        $linkTitle = is_array($link) && is_string($link['title'] ?? null)
+            ? trim(wp_strip_all_tags($link['title']))
+            : '';
+        $target = is_array($link) && is_string($link['target'] ?? null) && $link['target'] !== ''
+            ? $link['target']
+            : '_self';
+
+        if ($title === '' || $url === '' || $linkTitle === '') {
+            return null;
+        }
+
+        return [
+            'title' => $title,
+            'link' => [
+                'url' => esc_url($url),
+                'title' => $linkTitle,
+                'target' => $target,
+                'rel' => $target === '_blank' ? 'noopener noreferrer' : '',
+            ],
+        ];
     }
 
     /** Resolve the configured badge taxonomy for the current archive. */
