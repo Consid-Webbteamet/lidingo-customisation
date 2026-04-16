@@ -228,18 +228,30 @@
 
     .c-field__icon {
       @include icon-weight(400);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.75rem;
+      height: 2.75rem;
       position: absolute;
       top: 50%;
-      right: 1rem;
+      right: 0.5rem;
       left: auto;
       transform: translateY(-50%);
-      pointer-events: none;
+      cursor: pointer;
+      border-radius: 999px;
       z-index: 2;
+
+      &:focus-visible {
+        outline: 2px solid $color-white;
+        outline-offset: 2px;
+        box-shadow: 0 0 0 2px $border-marine-darkest;
+      }
     }
 
     input[type="date"] {
       padding-left: 1rem;
-      padding-right: 3rem;
+      padding-right: 3.5rem;
     }
 
     input[type="date"]::-webkit-calendar-picker-indicator {

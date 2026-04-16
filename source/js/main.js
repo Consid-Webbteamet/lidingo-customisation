@@ -3,6 +3,7 @@
  */
 
 import initNavCurrentBadge from './components/navCurrentBadge';
+import initDateFieldPicker from './components/dateFieldPicker';
 import initNavHoverIndicator from './components/navHoverIndicator';
 import initNavigationCard from './components/navigationCard';
 import initScrolledHeaderState from './components/scrolledHeader';
@@ -15,6 +16,7 @@ if (import.meta.env.DEV) {
 
 document.addEventListener('DOMContentLoaded', () => {
     document.documentElement.classList.add('lidingo-customisation-loaded');
+    initDateFieldPicker();
     initNavCurrentBadge();
     initNavHoverIndicator();
     initNavigationCard();
