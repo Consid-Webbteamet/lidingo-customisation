@@ -6,3 +6,27 @@ body.page-template-landing-page-blade,
 body.page-template-landing-page-blade-php {
   background-color: $color-primary-50;
 }
+
+body.lidingo-full-page-background {
+  min-height: 100vh;
+  background-color: $border-marine-darkest;
+  background-image:
+    linear-gradient(
+      rgba($border-marine-darkest, 0.2),
+      rgba($border-marine-darkest, 0.7)
+    ),
+    var(--lidingo-full-page-background-image);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  .site-wrapper {
+    min-height: 100vh;
+    background-color: transparent;
+  }
+
+  .c-header,
+  .c-footer {
+    background-color: transparent;
+  }
+}

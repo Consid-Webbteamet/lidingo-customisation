@@ -111,6 +111,7 @@ class App
         add_action('admin_head', [$this, 'printAdminStylesheet'], 1001);
         add_action('admin_footer', [$this, 'printAdminScript'], 1001);
         add_action('login_enqueue_scripts', [$this, 'printLoginStyles'], 1001);
+        add_filter('body_class', [$this, 'addFrontendBodyClasses'], 20, 1);
         add_filter('theme_page_templates', [$this, 'customizeEditorPageTemplates'], 20, 4);
         add_filter('WpSecurity/Csp', [$this, 'addDevServerCspDomains'], 10, 1);
         add_filter('Website/HTML/output', [$this, 'stripDevBlockingCspDirectives'], 20, 0);
@@ -153,6 +154,7 @@ class App
         }
 
         $this->assetRenderer->printFrontendStylesheet();
+        $this->printFullPageBackgroundStyles();
     }
 
     /** Print the frontend script. */
@@ -189,6 +191,43 @@ class App
     public function printLoginStyles(): void
     {
         echo '<style>body.login{background-color:#002B49;background-image:none;}</style>';
+    }
+
+    /** Add body classes used by frontend page-level styling. */
+    public function addFrontendBodyClasses(array $classes): array
+    {
+        if (!$this->shouldUseFullPageBackground()) {
+            return $classes;
+        }
+
+        $classes[] = 'lidingo-full-page-background';
+
+        return array_values(array_unique($classes));
+    }
+
+    /** Print inline CSS variables for the full-page background image. */
+    private function printFullPageBackgroundStyles(): void
+    {
+        if (!$this->shouldUseFullPageBackground()) {
+            return;
+        }
+
+        $objectId = get_queried_object_id();
+
+        if (!is_int($objectId) || $objectId <= 0) {
+            return;
+        }
+
+        $backgroundImage = get_the_post_thumbnail_url($objectId, 'full');
+
+        if (!is_string($backgroundImage) || $backgroundImage === '') {
+            return;
+        }
+
+        printf(
+            '<style id="lidingo-customisation-full-page-background">body.lidingo-full-page-background{--lidingo-full-page-background-image:url("%s");}</style>',
+            esc_url_raw($backgroundImage)
+        );
     }
 
     /** Show a warning when the manifest is missing. */
@@ -267,6 +306,48 @@ class App
     private function shouldLoadFrontend(): bool
     {
         return (bool) apply_filters('lidingo_customisation/should_load_frontend', true);
+    }
+
+    /** Determine whether the current page should use a full-page background image. */
+    private function shouldUseFullPageBackground(): bool
+    {
+        $objectId = get_queried_object_id();
+
+        if (!is_int($objectId) || $objectId <= 0) {
+            return false;
+        }
+
+        $templateSlug = get_page_template_slug($objectId);
+        $allowedTemplates = [
+            'one-page.blade.php',
+            LandingPageTemplate::TEMPLATE_SLUG,
+        ];
+
+        if (!is_front_page() && !in_array($templateSlug, $allowedTemplates, true)) {
+            return false;
+        }
+
+        if (!$this->hasStepQueryParam()) {
+            return false;
+        }
+
+        return has_post_thumbnail($objectId);
+    }
+
+    /** Detect Event plugin step URLs like ?45-step=1 in a domain-agnostic way. */
+    private function hasStepQueryParam(): bool
+    {
+        foreach (array_keys($_GET) as $queryKey) {
+            if (!is_string($queryKey)) {
+                continue;
+            }
+
+            if (preg_match('/^\d+-step$/', $queryKey) === 1) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function shouldLoadAdmin(): bool
