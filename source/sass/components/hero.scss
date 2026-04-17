@@ -9,6 +9,19 @@
     }
   }
 
+  // Prefer the 768px image variant on mobile.
+  @media (max-width: #{$breakpoint-md - 0.02px}) {
+    .c-image.c-image--container-query {
+      .c-image__image[class*="c-image--item-"][class$="-425"] {
+        display: none !important;
+      }
+
+      .c-image__image[class*="c-image--item-"][class$="-768"] {
+        display: block !important;
+      }
+    }
+  }
+
   &.c-hero.c-hero--normal {
     min-height: 17.25rem;
     max-height: 21.25rem;
