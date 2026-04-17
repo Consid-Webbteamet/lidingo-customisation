@@ -94,8 +94,9 @@
     color: $text-800;
   }
 
-  .c-image img {
-    margin-block: 2.5rem;
+  .c-image,
+  .wp-block-image {
+    margin-block: 2rem;
   }
 
   &__aside {

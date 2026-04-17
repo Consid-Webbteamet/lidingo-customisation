@@ -69,4 +69,11 @@
       object-fit: cover;
     }
   }
+
+  &__content {
+    .c-image,
+    .wp-block-image {
+      margin-block: 2rem;
+    }
+  }
 }

@@ -78,18 +78,19 @@ body.block-editor-page {
   }
 
   .editor-styles-wrapper .wp-block-list {
-    margin-top: 0;
+    margin-top: 1rem;
     margin-bottom: var(--lidingo-editor-paragraph-gap);
-    padding-inline-start: 1.5rem;
+    padding-inline-start: 2rem;
   }
 
   .editor-styles-wrapper .wp-block-list ul,
   .editor-styles-wrapper .wp-block-list ol {
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+    padding-inline-start: 1.75rem;
   }
 
   .editor-styles-wrapper li + li {
-    margin-top: 0.35rem;
+    margin-top: 0.6rem;
   }
 }
