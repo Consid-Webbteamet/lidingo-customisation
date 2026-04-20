@@ -34,7 +34,7 @@ class ArchiveLayout
         add_filter('Municipio/Template/viewData', [$this, 'customizeViewData'], 15);
     }
 
-    /** Normalize archive order direction. */
+    /** Register archive order direction filters. */
     public function registerArchiveOrderDirectionFilters(): void
     {
         foreach ($this->getSupportedPostTypes() as $postType) {
@@ -220,6 +220,7 @@ class ArchiveLayout
             : null;
     }
 
+    /** Resolve the archive title from the assigned page or archive metadata. */
     private function getArchiveTitle(string $postType, ?WP_Post $page, array $viewData): string
     {
         if ($page instanceof WP_Post) {
@@ -241,6 +242,7 @@ class ArchiveLayout
             : '';
     }
 
+    /** Resolve the archive lead from the assigned page or archive metadata. */
     private function getArchiveLead(?WP_Post $page, array $viewData): string
     {
         if ($page instanceof WP_Post) {
@@ -258,6 +260,7 @@ class ArchiveLayout
         return '';
     }
 
+    /** Return the assigned archive page content when available. */
     private function getArchiveContent(?WP_Post $page): string
     {
         if (!$page instanceof WP_Post) {
@@ -273,6 +276,7 @@ class ArchiveLayout
         return (string) apply_filters('the_content', $content);
     }
 
+    /** Render the archive page featured image when present. */
     private function getArchiveImageHtml(?WP_Post $page): string
     {
         if (!$page instanceof WP_Post) {
@@ -299,6 +303,7 @@ class ArchiveLayout
         return is_string($imageHtml) ? $imageHtml : '';
     }
 
+    /** Respect per-page archive settings before rendering the hero image. */
     private function shouldDisplayArchiveHeroImage(?WP_Post $page, array $viewData): bool
     {
         if ($page instanceof WP_Post) {
@@ -328,6 +333,7 @@ class ArchiveLayout
         return true;
     }
 
+    /** Merge the assigned page breadcrumb trail into the archive view data. */
     private function getBreadcrumbMenu(array $viewData, ?int $pageId): array
     {
         $breadcrumbMenu = is_array($viewData['breadcrumbMenu'] ?? null)
@@ -380,6 +386,7 @@ class ArchiveLayout
         return $breadcrumbMenu;
     }
 
+    /** Return the archive reset URL, falling back to the post type archive. */
     private function getArchiveResetUrl(string $postType, ?WP_Post $page): string
     {
         if ($page instanceof WP_Post) {
@@ -395,6 +402,7 @@ class ArchiveLayout
         return is_string($archiveUrl) ? $archiveUrl : home_url('/');
     }
 
+    /** Treat a resettable filter config as an active archive filter. */
     private function hasActiveFilters(mixed $filterConfig): bool
     {
         return is_object($filterConfig) && method_exists($filterConfig, 'getResetUrl') && !empty($filterConfig->getResetUrl());
@@ -464,6 +472,7 @@ class ArchiveLayout
             : '';
     }
 
+    /** Resolve the badge label from the first matching term. */
     private function getBadgeLabel(PostObjectInterface $post, string $taxonomy): string
     {
         if ($taxonomy === '') {
@@ -488,11 +497,13 @@ class ArchiveLayout
         return $this->getBadgeLabel($post, $taxonomy);
     }
 
+    /** Use published dates as badges for news-style archive cards. */
     private function shouldUseDateBadge(string $postType): bool
     {
         return in_array($postType, self::DATE_BADGE_POST_TYPES, true);
     }
 
+    /** Format the post's published date for the archive badge. */
     private function getPublishedDateLabel(PostObjectInterface $post): string
     {
         $timestamp = $post->getPublishedTime();

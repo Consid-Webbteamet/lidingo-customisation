@@ -172,6 +172,7 @@ class SingularEvent extends \Municipio\Controller\Singular
         return array_map(fn($post) => (int) $post->ID, $results ?? []);
     }
 
+    /** Populate the localized labels used by the event template. */
     private function populateLanguageObject(): void
     {
         $this->data['lang']->description = $this->wpService->__('Description', 'municipio');
@@ -190,6 +191,7 @@ class SingularEvent extends \Municipio\Controller\Singular
         $this->data['lang']->relatedEventsTitle = $this->wpService->__('Related events', 'municipio');
     }
 
+    /** Send a 410 response for past events when applicable. */
     private function trySetHttpStatusHeader(bool $eventIsInThePast): void
     {
         if ($eventIsInThePast) {
@@ -197,6 +199,7 @@ class SingularEvent extends \Municipio\Controller\Singular
         }
     }
 
+    /** Parse the optional event date override from the request. */
     private function tryGetCurrentDateFromGetParam(): ?DateTime
     {
         $startDateParam = $_GET[self::CURRENT_OCCASION_GET_PARAM] ?? null;
@@ -208,6 +211,7 @@ class SingularEvent extends \Municipio\Controller\Singular
         return DateTime::createFromFormat(self::CURRENT_OCCASION_DATE_FORMAT, $startDateParam) ?: null;
     }
 
+    /** Return the shared wpdb instance used for related-event queries. */
     private function getWpDb(): \wpdb
     {
         return \Municipio\Helper\Wpdb::get();

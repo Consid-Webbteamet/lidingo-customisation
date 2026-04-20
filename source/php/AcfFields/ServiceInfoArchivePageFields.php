@@ -112,6 +112,7 @@ class ServiceInfoArchivePageFields
             : false;
     }
 
+    /** Resolve the current page ID from the editor request context. */
     private function getCurrentPageId(): int
     {
         $postId = filter_input(INPUT_GET, 'post', FILTER_VALIDATE_INT);
@@ -131,6 +132,7 @@ class ServiceInfoArchivePageFields
         return is_object($post) && !empty($post->ID) ? (int) $post->ID : 0;
     }
 
+    /** Find the post type assigned to the current archive page. */
     private function getAssignedArchivePostType(int $pageId): ?string
     {
         if ($pageId <= 0) {
@@ -168,6 +170,7 @@ class ServiceInfoArchivePageFields
         return null;
     }
 
+    /** Check whether the current page is the service info archive page. */
     private function isServiceInfoPage(int $pageId): bool
     {
         if ($pageId <= 0) {

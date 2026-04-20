@@ -58,6 +58,7 @@ class AssetManifest
         return trailingslashit($distUrl) . ltrim($assetPath, '/');
     }
 
+    /** Resolve the built asset path for a manifest entry. */
     private function getAssetPath(string $entry): ?string
     {
         if (!$this->isLoaded()) {
@@ -77,6 +78,7 @@ class AssetManifest
         return $entryData['file'];
     }
 
+    /** Load and validate the manifest JSON from disk. */
     private function load(): void
     {
         if (!file_exists($this->manifestPath)) {

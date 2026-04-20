@@ -108,6 +108,7 @@ class ServiceInfoArchive
         return $viewData;
     }
 
+    /** Build the static section list for current and planned items. */
     private function getSections(): array
     {
         return [
@@ -124,6 +125,7 @@ class ServiceInfoArchive
         ];
     }
 
+    /** Query and format posts for a single archive section. */
     private function getItemsForSection(string $status): array
     {
         $query = new \WP_Query($this->getQueryArgumentsForStatus($status));
@@ -142,6 +144,7 @@ class ServiceInfoArchive
         return $items;
     }
 
+    /** Build the query arguments for a specific service info status. */
     private function getQueryArgumentsForStatus(string $status): array
     {
         $metaKey = 'start_date';
@@ -170,6 +173,7 @@ class ServiceInfoArchive
         ];
     }
 
+    /** Format a service info post for the archive card list. */
     private function formatPost(WP_Post $post): array
     {
         $terms = get_the_terms($post->ID, 'service_category');
@@ -250,6 +254,7 @@ class ServiceInfoArchive
         return 0;
     }
 
+    /** Resolve the archive card icon image when one is configured. */
     private function getIconImageHtml(int $attachmentId): string
     {
         if ($attachmentId <= 0) {
@@ -316,6 +321,7 @@ class ServiceInfoArchive
         return $pageId > 0 ? $pageId : 0;
     }
 
+    /** Resolve the archive title from the assigned page or view data. */
     private function getArchiveTitle(?WP_Post $page, array $viewData): string
     {
         if ($page instanceof WP_Post) {
@@ -331,6 +337,7 @@ class ServiceInfoArchive
             : '';
     }
 
+    /** Resolve the archive lead from the assigned page or view data. */
     private function getArchiveLead(?WP_Post $page, array $viewData): string
     {
         if ($page instanceof WP_Post) {
@@ -346,6 +353,7 @@ class ServiceInfoArchive
             : '';
     }
 
+    /** Return the assigned archive page content when available. */
     private function getArchiveContent(?WP_Post $page): string
     {
         if (!$page instanceof WP_Post || $page->post_content === '') {
@@ -355,6 +363,7 @@ class ServiceInfoArchive
         return (string) apply_filters('the_content', $page->post_content);
     }
 
+    /** Respect the archive page featured image toggle. */
     private function shouldDisplayArchiveHeroImage(?WP_Post $page): bool
     {
         if (!$page instanceof WP_Post) {
@@ -368,6 +377,7 @@ class ServiceInfoArchive
         return (bool) get_post_meta($page->ID, 'post_single_show_featured_image', true);
     }
 
+    /** Render the archive page featured image when present. */
     private function getArchiveImageHtml(?WP_Post $page): string
     {
         if (!$page instanceof WP_Post) {
@@ -394,6 +404,7 @@ class ServiceInfoArchive
         return is_string($imageHtml) ? $imageHtml : '';
     }
 
+    /** Build the archive breadcrumb trail from the assigned page. */
     private function getBreadcrumbMenu(array $viewData, int $pageId): array
     {
         $breadcrumbMenu = is_array($viewData['breadcrumbMenu'] ?? null)
@@ -446,7 +457,7 @@ class ServiceInfoArchive
         return $breadcrumbMenu;
     }
 
-    /** Apply archive overrides on the archive page or its configured page. */
+    /** Detect the service info archive view on the archive page or configured page. */
     private function isServiceInfoView(): bool
     {
         if (is_post_type_archive(self::POST_TYPE)) {

@@ -27,6 +27,7 @@ class RekAiIntegration
         echo "<script>document.cookie='rekblock=1; max-age=60; SameSite=None; Secure';window.rek_blocksaveview=true;</script>\n";
     }
 
+    /** Detect whether view tracking should be blocked in this environment. */
     private function shouldBlockViewData(): bool
     {
         if (!function_exists('get_field') || !get_field('rekai_enable', 'options')) {
@@ -46,6 +47,7 @@ class RekAiIntegration
         return !$this->isProductionEnvironment();
     }
 
+    /** Treat any non-production environment as test mode. */
     private function isProductionEnvironment(): bool
     {
         if (defined('WP_ENV') && is_string(WP_ENV)) {

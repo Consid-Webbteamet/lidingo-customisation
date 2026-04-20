@@ -81,6 +81,7 @@ class DevServer
         return $wsScheme . '://' . $host;
     }
 
+    /** Probe the dev server client endpoint once per request. */
     private function isDevServerReachable(): bool
     {
         if ($this->reachable !== null) {
@@ -106,6 +107,7 @@ class DevServer
         return $this->reachable;
     }
 
+    /** Detect local HTTP development mode without the dev server. */
     private function isLocalHttpDevelopmentMode(): bool
     {
         if (!defined('WP_ENV') || WP_ENV !== 'development') {

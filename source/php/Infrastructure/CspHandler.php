@@ -73,6 +73,7 @@ class CspHandler
         }
     }
 
+    /** Read the current Content-Security-Policy header value. */
     private function getContentSecurityPolicyHeaderValue(): ?string
     {
         foreach (headers_list() as $header) {
@@ -86,6 +87,7 @@ class CspHandler
         return null;
     }
 
+    /** Merge CSP values while skipping empty and none entries. */
     private function mergeCspDirectiveValues(array $currentValues, array $valuesToAppend): array
     {
         $merged = [];

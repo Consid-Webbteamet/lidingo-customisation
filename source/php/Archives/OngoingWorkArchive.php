@@ -213,6 +213,7 @@ class OngoingWorkArchive
         return is_post_type_archive(self::POST_TYPE);
     }
 
+    /** Mark the post as completed once its deadline has passed. */
     private function maybeSetCompletedStatus(int $postId): void
     {
         if (
@@ -238,6 +239,7 @@ class OngoingWorkArchive
         wp_set_object_terms($postId, [(int) $completedTerm->term_id], self::STATUS_TAXONOMY, false);
     }
 
+    /** Check whether the status taxonomy and completion term are available. */
     private function canUpdateStatuses(): bool
     {
         if (!taxonomy_exists(self::STATUS_TAXONOMY) || !is_object_in_taxonomy(self::POST_TYPE, self::STATUS_TAXONOMY)) {
@@ -247,6 +249,7 @@ class OngoingWorkArchive
         return get_term_by('slug', self::COMPLETED_TERM_SLUG, self::STATUS_TAXONOMY) !== false;
     }
 
+    /** Read the auto-completion toggle from post meta. */
     private function isAutoCompletionEnabled(int $postId): bool
     {
         $value = get_post_meta($postId, self::AUTO_COMPLETE_META_KEY, true);
@@ -254,6 +257,7 @@ class OngoingWorkArchive
         return in_array($value, ['1', 1, true], true);
     }
 
+    /** Resolve the timestamp that should trigger completion. */
     private function getCompletionDeadlineTimestamp(int $postId): ?int
     {
         $endDateTime = $this->getPostDateValue($postId, self::END_DATE_TIME_META_KEY);
@@ -271,6 +275,7 @@ class OngoingWorkArchive
         return $endDate->modify('+1 day')->getTimestamp();
     }
 
+    /** Resolve the archive page assigned to the ongoing work post type. */
     private function getArchivePage(): ?WP_Post
     {
         $pageId = get_option('page_for_' . self::POST_TYPE);
@@ -286,6 +291,7 @@ class OngoingWorkArchive
             : null;
     }
 
+    /** Resolve the archive title from the assigned page or archive metadata. */
     private function getArchiveTitle(?WP_Post $page, array $viewData): string
     {
         if ($page instanceof WP_Post) {
@@ -307,6 +313,7 @@ class OngoingWorkArchive
             : '';
     }
 
+    /** Resolve the archive lead from the assigned page or archive metadata. */
     private function getArchiveLead(?WP_Post $page, array $viewData): string
     {
         if ($page instanceof WP_Post) {
@@ -324,6 +331,7 @@ class OngoingWorkArchive
         return '';
     }
 
+    /** Return the assigned archive page content when available. */
     private function getArchiveContent(?WP_Post $page): string
     {
         if (!$page instanceof WP_Post) {
@@ -339,6 +347,7 @@ class OngoingWorkArchive
         return (string) apply_filters('the_content', $content);
     }
 
+    /** Render the archive page featured image when present. */
     private function getArchiveImageHtml(?WP_Post $page): string
     {
         if (!$page instanceof WP_Post) {
@@ -365,6 +374,7 @@ class OngoingWorkArchive
         return is_string($imageHtml) ? $imageHtml : '';
     }
 
+    /** Respect per-page archive settings before rendering the hero image. */
     private function shouldDisplayArchiveHeroImage(?WP_Post $page): bool
     {
         if (!$page instanceof WP_Post) {
@@ -378,6 +388,7 @@ class OngoingWorkArchive
         return (bool) get_post_meta($page->ID, 'post_single_show_featured_image', true);
     }
 
+    /** Merge the assigned page breadcrumb trail into the archive view data. */
     private function getBreadcrumbMenu(array $viewData, ?int $pageId): array
     {
         $breadcrumbMenu = is_array($viewData['breadcrumbMenu'] ?? null)
@@ -558,6 +569,7 @@ class OngoingWorkArchive
         );
     }
 
+    /** Detect whether the query targets ongoing work posts. */
     private function queryTargetsOngoingWorkPosts(WP_Query $query): bool
     {
         $postType = $query->get('post_type');
@@ -569,6 +581,7 @@ class OngoingWorkArchive
         return $postType === self::POST_TYPE;
     }
 
+    /** Detect whether the current query is for the ongoing work archive. */
     private function isArchiveQueryForOngoingWork(WP_Query $query): bool
     {
         if ((bool) $query->is_post_type_archive(self::POST_TYPE)) {
@@ -578,6 +591,7 @@ class OngoingWorkArchive
         return $this->queryTargetsOngoingWorkPosts($query);
     }
 
+    /** Read a stored date field and parse it in the site timezone. */
     private function getPostDateValue(int $postId, string $metaKey): ?DateTimeImmutable
     {
         $rawValue = get_post_meta($postId, $metaKey, true);
@@ -623,6 +637,7 @@ class OngoingWorkArchive
         return null;
     }
 
+    /** Format a date as localized month and year. */
     private function formatMonthYear(DateTimeImmutable $date): string
     {
         return wp_date('F Y', $date->getTimestamp(), $date->getTimezone());
@@ -642,6 +657,7 @@ class OngoingWorkArchive
         return ucfirst($value);
     }
 
+    /** Build the cache key for the year filter options transient. */
     private function getYearOptionsTransientKey(): string
     {
         return self::YEAR_OPTIONS_TRANSIENT . '_' . get_current_blog_id();

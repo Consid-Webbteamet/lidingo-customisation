@@ -174,6 +174,7 @@ class CustomerFeedbackIntegration
         echo '</div>';
     }
 
+    /** Resolve the current post from the admin or singular context. */
     private function getContextPost(): ?WP_Post
     {
         if (is_admin()) {
@@ -197,6 +198,7 @@ class CustomerFeedbackIntegration
         return $post instanceof WP_Post ? $post : null;
     }
 
+    /** Resolve the current post ID in the admin editor context. */
     private function getAdminPostId(): int
     {
         $postId = filter_input(INPUT_GET, 'post', FILTER_VALIDATE_INT);
@@ -216,11 +218,13 @@ class CustomerFeedbackIntegration
         return $post instanceof WP_Post ? (int) $post->ID : 0;
     }
 
+    /** Check whether the post type is managed by the integration. */
     private function isManagedPostType(?string $postType): bool
     {
         return is_string($postType) && in_array($postType, self::MANAGED_POST_TYPES, true);
     }
 
+    /** Read the enabled flag from ACF or post meta. */
     private function isEnabledForPost(int $postId): bool
     {
         if ($postId <= 0) {
@@ -234,6 +238,7 @@ class CustomerFeedbackIntegration
         return (bool) get_post_meta($postId, self::FIELD_NAME_ENABLED, true);
     }
 
+    /** Normalize the allowed post type list to strings. */
     private function normalizePostTypes(mixed $allowedPostTypes): array
     {
         if (empty($allowedPostTypes)) {

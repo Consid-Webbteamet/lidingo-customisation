@@ -252,7 +252,7 @@ class ArchivePageFields
             : false;
     }
 
-    /** Determine whether the badge taxonomy field is relevant for the archive. */
+    /** Hide the badge taxonomy field when the archive never uses it. */
     private function shouldHideBadgeTaxonomyField(string $postType): bool
     {
         if (in_array($postType, self::DATE_BADGE_POST_TYPES, true)) {
@@ -310,6 +310,7 @@ class ArchivePageFields
             : $isAssignedArchivePage;
     }
 
+    /** Detect whether the current request is the page editor. */
     private function isPageEditScreen(array $options): bool
     {
         if (isset($options['post_type']) && $options['post_type'] !== 'page') {
@@ -335,6 +336,7 @@ class ArchivePageFields
         return true;
     }
 
+    /** Resolve the current page ID from the editor request context. */
     private function getCurrentPageId(): int
     {
         $postId = filter_input(INPUT_GET, 'post', FILTER_VALIDATE_INT);
@@ -354,6 +356,7 @@ class ArchivePageFields
         return is_object($post) && !empty($post->ID) ? (int) $post->ID : 0;
     }
 
+    /** Find the post type assigned to the current archive page. */
     private function getAssignedArchivePostType(int $pageId): ?string
     {
         $postTypes = get_post_types(
