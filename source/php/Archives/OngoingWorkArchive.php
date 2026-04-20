@@ -15,6 +15,11 @@ class OngoingWorkArchive
     private const POST_TYPE = 'pagaende-arbeten';
     private const START_DATE_META_KEY = 'ongoing_work_start_date';
     private const END_DATE_META_KEY = 'ongoing_work_end_date';
+    private const END_DATE_TIME_META_KEY = 'ongoing_work_end_date_time';
+    private const AUTO_COMPLETE_META_KEY = 'ongoing_work_has_end_time';
+    private const STATUS_TAXONOMY = 'status';
+    private const COMPLETED_TERM_SLUG = 'slutfort';
+    private const STATUS_UPDATE_CRON_HOOK = 'lidingo_customisation_ongoing_work_status_update';
     private const YEAR_QUERY_PARAMETER = 'ongoing_work_year';
     private const YEAR_OPTIONS_TRANSIENT = 'lidingo_ongoing_work_year_options';
 
@@ -24,7 +29,10 @@ class OngoingWorkArchive
         add_filter('Municipio/Template/viewData', [$this, 'customizeViewData'], 20);
         add_action('pre_get_posts', [$this, 'filterArchivePostsByYear']);
         add_action('save_post_' . self::POST_TYPE, [$this, 'clearYearOptionsCache']);
+        add_action('acf/save_post', [$this, 'updatePostStatusAfterAcfSave'], 20);
         add_action('deleted_post', [$this, 'clearYearOptionsCacheOnDelete']);
+        add_action('init', [$this, 'scheduleStatusUpdateCron']);
+        add_action(self::STATUS_UPDATE_CRON_HOOK, [$this, 'updateCompletedPostStatuses']);
     }
 
     /** Build the archive view data and year filter state. */
@@ -134,9 +142,133 @@ class OngoingWorkArchive
         $this->clearYearOptionsCache();
     }
 
+    /** Ensure the hourly status update cron exists. */
+    public function scheduleStatusUpdateCron(): void
+    {
+        if (!wp_next_scheduled(self::STATUS_UPDATE_CRON_HOOK)) {
+            wp_schedule_event(time(), 'hourly', self::STATUS_UPDATE_CRON_HOOK);
+        }
+    }
+
+    /** Update the post status after ACF has saved the latest field values. */
+    public function updatePostStatusAfterAcfSave(mixed $postId): void
+    {
+        if (!is_numeric($postId)) {
+            return;
+        }
+
+        $postId = (int) $postId;
+        $post = get_post($postId);
+
+        if (!$post instanceof WP_Post || $post->post_type !== self::POST_TYPE || $post->post_status !== 'publish') {
+            return;
+        }
+
+        $this->maybeSetCompletedStatus($postId);
+    }
+
+    /** Update all eligible ongoing work posts via cron. */
+    public function updateCompletedPostStatuses(): void
+    {
+        if (!$this->canUpdateStatuses()) {
+            return;
+        }
+
+        $postIds = get_posts([
+            'post_type' => self::POST_TYPE,
+            'post_status' => 'publish',
+            'posts_per_page' => -1,
+            'fields' => 'ids',
+            'no_found_rows' => true,
+            'update_post_meta_cache' => false,
+            'update_post_term_cache' => false,
+            'meta_query' => [
+                [
+                    'key' => self::AUTO_COMPLETE_META_KEY,
+                    'value' => '1',
+                    'compare' => '=',
+                ],
+            ],
+            'tax_query' => [
+                [
+                    'taxonomy' => self::STATUS_TAXONOMY,
+                    'field' => 'slug',
+                    'terms' => [self::COMPLETED_TERM_SLUG],
+                    'operator' => 'NOT IN',
+                ],
+            ],
+        ]);
+
+        if (!is_array($postIds) || empty($postIds)) {
+            return;
+        }
+
+        foreach ($postIds as $postId) {
+            $this->maybeSetCompletedStatus((int) $postId);
+        }
+    }
+
     private function isOngoingWorkArchive(): bool
     {
         return is_post_type_archive(self::POST_TYPE);
+    }
+
+    private function maybeSetCompletedStatus(int $postId): void
+    {
+        if (
+            !$this->canUpdateStatuses()
+            || has_term(self::COMPLETED_TERM_SLUG, self::STATUS_TAXONOMY, $postId)
+            || !$this->isAutoCompletionEnabled($postId)
+        ) {
+            return;
+        }
+
+        $deadlineTimestamp = $this->getCompletionDeadlineTimestamp($postId);
+
+        if ($deadlineTimestamp === null || $deadlineTimestamp > current_datetime()->getTimestamp()) {
+            return;
+        }
+
+        $completedTerm = get_term_by('slug', self::COMPLETED_TERM_SLUG, self::STATUS_TAXONOMY);
+
+        if (!is_object($completedTerm) || empty($completedTerm->term_id)) {
+            return;
+        }
+
+        wp_set_object_terms($postId, [(int) $completedTerm->term_id], self::STATUS_TAXONOMY, false);
+    }
+
+    private function canUpdateStatuses(): bool
+    {
+        if (!taxonomy_exists(self::STATUS_TAXONOMY) || !is_object_in_taxonomy(self::POST_TYPE, self::STATUS_TAXONOMY)) {
+            return false;
+        }
+
+        return get_term_by('slug', self::COMPLETED_TERM_SLUG, self::STATUS_TAXONOMY) !== false;
+    }
+
+    private function isAutoCompletionEnabled(int $postId): bool
+    {
+        $value = get_post_meta($postId, self::AUTO_COMPLETE_META_KEY, true);
+
+        return in_array($value, ['1', 1, true], true);
+    }
+
+    private function getCompletionDeadlineTimestamp(int $postId): ?int
+    {
+        $endDateTime = $this->getPostDateValue($postId, self::END_DATE_TIME_META_KEY);
+
+        if ($endDateTime instanceof DateTimeImmutable) {
+            return $endDateTime->getTimestamp();
+        }
+
+        $endDate = $this->getPostDateValue($postId, self::END_DATE_META_KEY);
+
+        if (!$endDate instanceof DateTimeImmutable) {
+            return null;
+        }
+
+        return $endDate->modify('+1 day')->getTimestamp();
     }
 
     private function getArchivePage(): ?WP_Post
@@ -373,7 +505,7 @@ class OngoingWorkArchive
                 continue;
             }
 
-            $endDate = $this->getPostDateValue((int) $postId, self::END_DATE_META_KEY);
+            $endDate = $this->getPostEndDateValue((int) $postId);
             $startYear = (int) $startDate->format('Y');
             $endYear = $endDate instanceof DateTimeImmutable ? (int) $endDate->format('Y') : $startYear;
 
@@ -407,7 +539,7 @@ class OngoingWorkArchive
             return '';
         }
 
-        $endDate = $this->getPostDateValue($postId, self::END_DATE_META_KEY);
+        $endDate = $this->getPostEndDateValue($postId);
 
         if ($endDate instanceof DateTimeImmutable && $endDate < $startDate) {
             $endDate = null;
@@ -457,6 +589,18 @@ class OngoingWorkArchive
         return $this->parseDateValue($rawValue);
     }
 
+    /** Prefer the explicit end date and time when it exists. */
+    private function getPostEndDateValue(int $postId): ?DateTimeImmutable
+    {
+        $endDateTime = $this->getPostDateValue($postId, self::END_DATE_TIME_META_KEY);
+
+        if ($endDateTime instanceof DateTimeImmutable) {
+            return $endDateTime;
+        }
+
+        return $this->getPostDateValue($postId, self::END_DATE_META_KEY);
+    }
+
     /** Parse stored dates using the site timezone and expected formats. */
     private function parseDateValue(string $value): ?DateTimeImmutable
     {
@@ -466,7 +610,7 @@ class OngoingWorkArchive
             $timezone = new DateTimeZone('Europe/Stockholm');
         }
 
-        $formats = ['!Ymd', '!Y-m-d'];
+        $formats = ['!Ymd', '!Y-m-d', '!Y-m-d H:i:s', '!Y-m-d H:i'];
 
         foreach ($formats as $format) {
             $date = DateTimeImmutable::createFromFormat($format, $value, $timezone);

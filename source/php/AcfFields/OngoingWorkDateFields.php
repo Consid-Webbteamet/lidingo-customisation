@@ -7,6 +7,9 @@ namespace LidingoCustomisation\AcfFields;
 class OngoingWorkDateFields
 {
     private const POST_TYPE = 'pagaende-arbeten';
+    private const FIELD_KEY_START_DATE = 'field_lidingo_ongoing_work_start_date';
+    private const FIELD_KEY_END_DATE = 'field_lidingo_ongoing_work_end_date';
+    private const FIELD_KEY_HAS_END_TIME = 'field_lidingo_ongoing_work_has_end_time';
 
     /** Register ongoing work date field hooks. */
     public function addHooks(): void
@@ -26,7 +29,7 @@ class OngoingWorkDateFields
             'title' => __('Datum', 'lidingo-customisation'),
             'fields' => [
                 [
-                    'key' => 'field_lidingo_ongoing_work_start_date',
+                    'key' => self::FIELD_KEY_START_DATE,
                     'label' => __('Startdatum', 'lidingo-customisation'),
                     'name' => 'ongoing_work_start_date',
                     'type' => 'date_picker',
@@ -37,15 +40,57 @@ class OngoingWorkDateFields
                     'first_day' => 1,
                 ],
                 [
-                    'key' => 'field_lidingo_ongoing_work_end_date',
+                    'key' => self::FIELD_KEY_END_DATE,
                     'label' => __('Slutdatum', 'lidingo-customisation'),
                     'name' => 'ongoing_work_end_date',
                     'type' => 'date_picker',
-                    'instructions' => __('Valfritt', 'lidingo-customisation'),
+                    'instructions' => __('Om "Ändra status till slutförd automatiskt?" är aktiverat ändras status till Slutförd när slutdatumet har passerat. Om bara datum anges sker ändringen först när dagen har passerat.', 'lidingo-customisation'),
                     'required' => 0,
                     'display_format' => 'Y-m-d',
                     'return_format' => 'Ymd',
                     'first_day' => 1,
+                ],
+                [
+                    'key' => self::FIELD_KEY_HAS_END_TIME,
+                    'label' => __('Ändra status till slutförd automatiskt?', 'lidingo-customisation'),
+                    'name' => 'ongoing_work_has_end_time',
+                    'type' => 'true_false',
+                    'instructions' => __('Kommer ändra status till Slutförd när slutdatum har paserat.', 'lidingo-customisation'),
+                    'required' => 0,
+                    'ui' => 1,
+                    'default_value' => 0,
+                    'conditional_logic' => [
+                        [
+                            [
+                                'field' => self::FIELD_KEY_END_DATE,
+                                'operator' => '!=empty',
+                            ],
+                        ],
+                    ],
+                ],
+                [
+                    'key' => 'field_lidingo_ongoing_work_end_date_time',
+                    'label' => __('Slutfört datum och tid', 'lidingo-customisation'),
+                    'name' => 'ongoing_work_end_date_time',
+                    'type' => 'date_time_picker',
+                    'instructions' => __('Valfritt. Om du anger en tid här ändras status till Slutförd automatiskt vid den tidpunkten. Annars sker ändringen först när slutdatumet har passerat.', 'lidingo-customisation'),
+                    'required' => 0,
+                    'display_format' => 'Y-m-d H:i',
+                    'return_format' => 'Y-m-d H:i:s',
+                    'first_day' => 1,
+                    'conditional_logic' => [
+                        [
+                            [
+                                'field' => self::FIELD_KEY_END_DATE,
+                                'operator' => '!=empty',
+                            ],
+                            [
+                                'field' => self::FIELD_KEY_HAS_END_TIME,
+                                'operator' => '==',
+                                'value' => '1',
+                            ],
+                        ],
+                    ],
                 ],
             ],
             'location' => [
