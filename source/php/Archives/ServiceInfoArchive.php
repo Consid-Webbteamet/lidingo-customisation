@@ -76,6 +76,7 @@ class ServiceInfoArchive
         $viewData['archiveLayoutYearParameterName'] = '';
         $viewData['archiveLayoutCardMetaIcon'] = '';
         $viewData['archiveLayoutUsesDateBadge'] = false;
+        $viewData['archiveLayoutBadgeTaxonomy'] = '';
         $viewData['filterConfig'] = $viewData['filterConfig'] ?? null;
         $viewData['id'] = $viewData['id'] ?? 'service-info-archive';
         $getParentColumnClasses = $viewData['getParentColumnClasses'] ?? null;
@@ -102,6 +103,7 @@ class ServiceInfoArchive
         $viewData['serviceInfoArchiveSections'] = $this->getSections();
         $viewData['serviceInfoArchiveExternalSectionTitle'] = $this->getExternalSectionTitle($archivePage);
         $viewData['serviceInfoArchiveExternalItems'] = $this->getExternalItems($archivePage);
+        $viewData['getArchiveCardBadgeLabel'] = static fn($post): string => '';
 
         return $viewData;
     }

@@ -11,6 +11,7 @@ class ArchivePageFields
     private const FIELD_KEY_EVENT_HERO_CARD_SECTION = 'field_lidingo_event_archive_hero_card_section';
     private const FIELD_KEY_EVENT_HERO_CARD_SECTION_END = 'field_lidingo_event_archive_hero_card_section_end';
     private const DATE_BADGE_POST_TYPES = ['news', 'nyheter'];
+    private const SERVICE_INFO_ARCHIVE_POST_TYPE = 'service_information';
     public const FIELD_NAME_BADGE_TAXONOMY = 'lidingo_archive_badge_taxonomy';
     public const FIELD_NAME_EVENT_HERO_CARD_TITLE = 'lidingo_event_archive_hero_card_title';
     public const FIELD_NAME_EVENT_HERO_CARD_LINK = 'lidingo_event_archive_hero_card_link';
@@ -206,6 +207,7 @@ class ArchivePageFields
         }
 
         return in_array($postType, self::DATE_BADGE_POST_TYPES, true)
+            || $postType === self::SERVICE_INFO_ARCHIVE_POST_TYPE
             ? false
             : $fieldGroup;
     }
@@ -254,6 +256,10 @@ class ArchivePageFields
     private function shouldHideBadgeTaxonomyField(string $postType): bool
     {
         if (in_array($postType, self::DATE_BADGE_POST_TYPES, true)) {
+            return true;
+        }
+
+        if ($postType === self::SERVICE_INFO_ARCHIVE_POST_TYPE) {
             return true;
         }
 
