@@ -110,14 +110,10 @@ class ServiceInfoIntegration
         wp_reset_postdata();
     }
 
-    /** Prefer the explicit unpublish date, then fall back to the end date. */
+    /** Read the explicit unpublish date from raw post meta. */
     private function getDeadlineTimestamp(int $postId): ?int
     {
-        $deadlineRaw = $this->getFieldValue('unpublish_date', $postId);
-
-        if (!is_string($deadlineRaw) || trim($deadlineRaw) === '') {
-            $deadlineRaw = $this->getFieldValue('end_date', $postId);
-        }
+        $deadlineRaw = get_post_meta($postId, 'unpublish_date', true);
 
         if (!is_string($deadlineRaw) || trim($deadlineRaw) === '') {
             return null;
