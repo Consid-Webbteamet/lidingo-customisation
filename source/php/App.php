@@ -27,6 +27,8 @@ use LidingoCustomisation\Infrastructure\DevServer;
 use LidingoCustomisation\Search\SearchPage;
 use LidingoCustomisation\Templates\ArticlePageTemplate;
 use LidingoCustomisation\Templates\ContentPageTemplate;
+use LidingoCustomisation\Templates\ContentPageWithTocBootstrap;
+use LidingoCustomisation\Templates\ContentPageWithTocTemplate;
 use LidingoCustomisation\Templates\EventPageTemplate;
 use LidingoCustomisation\Templates\JobListingTemplate;
 use LidingoCustomisation\Templates\JobPostingTemplate;
@@ -58,6 +60,8 @@ class App
     private JobPostingTemplate $jobPostingTemplate;
     private LandingPageTemplate $landingPageTemplate;
     private ContentPageTemplate $contentPageTemplate;
+    private ContentPageWithTocTemplate $contentPageWithTocTemplate;
+    private ContentPageWithTocBootstrap $contentPageWithTocBootstrap;
     private CustomerFeedbackIntegration $customerFeedbackIntegration;
     private RekAiIntegration $rekAiIntegration;
     private ServiceInfoIntegration $serviceInfoIntegration;
@@ -96,6 +100,8 @@ class App
         $this->jobPostingTemplate = new JobPostingTemplate();
         $this->landingPageTemplate = new LandingPageTemplate();
         $this->contentPageTemplate = new ContentPageTemplate();
+        $this->contentPageWithTocTemplate = new ContentPageWithTocTemplate();
+        $this->contentPageWithTocBootstrap = new ContentPageWithTocBootstrap();
         $this->customerFeedbackIntegration = new CustomerFeedbackIntegration();
         $this->rekAiIntegration = new RekAiIntegration();
         $this->serviceInfoIntegration = new ServiceInfoIntegration();
@@ -137,6 +143,8 @@ class App
         $this->jobPostingTemplate->addHooks();
         $this->landingPageTemplate->addHooks();
         $this->contentPageTemplate->addHooks();
+        $this->contentPageWithTocTemplate->addHooks();
+        $this->contentPageWithTocBootstrap->addHooks();
         $this->customerFeedbackIntegration->addHooks();
         $this->rekAiIntegration->addHooks();
         $this->serviceInfoIntegration->addHooks();
