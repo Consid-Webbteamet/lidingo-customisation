@@ -126,6 +126,7 @@ class App
         add_filter('Website/HTML/output', [$this, 'stripDevBlockingCspDirectives'], 20, 0);
         add_filter('Municipio/Template/viewData', [$this, 'adjustContentNoticePlacement'], 20, 1);
         add_filter('/Modularity/externalViewPath', [$this, 'addModularityExternalViewPaths']);
+        add_filter('register_taxonomy_args', [$this, 'showPostTypeTaxonomiesInEditor'], 20, 3);
         $this->archivePageFields->addHooks();
         $this->heroFields->addHooks();
         $this->modularityTocFields->addHooks();
@@ -313,6 +314,60 @@ class App
         $paths['mod-posts'] = LIDINGO_CUSTOMISATION_PATH . 'source/modularity/mod-posts/views';
 
         return $paths;
+    }
+
+    /** Expose post type taxonomies in the block editor document sidebar. */
+    public function showPostTypeTaxonomiesInEditor(array $args, string $taxonomy, $objectType): array
+    {
+        if (empty($args['show_ui']) || !$this->isEditorPostTypeTaxonomy($objectType)) {
+            return $args;
+        }
+
+        $args['show_in_rest'] = true;
+
+        return $args;
+    }
+
+    private function isEditorPostTypeTaxonomy($objectType): bool
+    {
+        $postTypes = is_array($objectType) ? $objectType : [$objectType];
+
+        foreach ($postTypes as $postType) {
+            if (!is_string($postType)) {
+                continue;
+            }
+
+            $postType = sanitize_key($postType);
+
+            if ($postType === '' || $this->isInternalPostType($postType)) {
+                continue;
+            }
+
+            $postTypeObject = get_post_type_object($postType);
+
+            if ($postTypeObject === null || !empty($postTypeObject->show_in_rest)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function isInternalPostType(string $postType): bool
+    {
+        if (str_starts_with($postType, 'mod-') || str_starts_with($postType, 'acf-') || str_starts_with($postType, 'wp_')) {
+            return true;
+        }
+
+        return in_array($postType, [
+            'attachment',
+            'custom_css',
+            'customize_changeset',
+            'nav_menu_item',
+            'oembed_cache',
+            'revision',
+            'user_request',
+        ], true);
     }
 
     private function shouldLoadFrontend(): bool
