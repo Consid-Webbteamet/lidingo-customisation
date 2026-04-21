@@ -7,6 +7,7 @@ namespace LidingoCustomisation;
 use LidingoCustomisation\AcfFields\ArchivePageFields;
 use LidingoCustomisation\AcfFields\HeroFields;
 use LidingoCustomisation\AcfFields\ModularityTocFields;
+use LidingoCustomisation\AcfFields\NewsDisplayFields;
 use LidingoCustomisation\AcfFields\OngoingWorkDateFields;
 use LidingoCustomisation\AcfFields\ServiceInfoArchivePageFields;
 use LidingoCustomisation\AcfFields\ServiceInfoCategoryIconFields;
@@ -43,6 +44,7 @@ class App
     private ArchivePageFields $archivePageFields;
     private HeroFields $heroFields;
     private ModularityTocFields $modularityTocFields;
+    private NewsDisplayFields $newsDisplayFields;
     private OngoingWorkDateFields $ongoingWorkDateFields;
     private ServiceInfoArchivePageFields $serviceInfoArchivePageFields;
     private ServiceInfoCategoryIconFields $serviceInfoCategoryIconFields;
@@ -83,6 +85,7 @@ class App
         $this->archivePageFields = new ArchivePageFields();
         $this->heroFields = new HeroFields();
         $this->modularityTocFields = new ModularityTocFields();
+        $this->newsDisplayFields = new NewsDisplayFields();
         $this->ongoingWorkDateFields = new OngoingWorkDateFields();
         $this->serviceInfoArchivePageFields = new ServiceInfoArchivePageFields();
         $this->serviceInfoCategoryIconFields = new ServiceInfoCategoryIconFields();
@@ -126,6 +129,7 @@ class App
         $this->archivePageFields->addHooks();
         $this->heroFields->addHooks();
         $this->modularityTocFields->addHooks();
+        $this->newsDisplayFields->addHooks();
         $this->ongoingWorkDateFields->addHooks();
         $this->serviceInfoArchivePageFields->addHooks();
         $this->serviceInfoCategoryIconFields->addHooks();
