@@ -99,6 +99,18 @@
     object-position: center;
   }
 
+  @media (max-width: #{$breakpoint-md - 0.02px}) {
+    .c-image.c-image--container-query {
+      .c-image__image[class*="c-image--item-"][class$="-425"] {
+        display: none !important;
+      }
+
+      .c-image__image[class*="c-image--item-"][class$="-768"] {
+        display: block !important;
+      }
+    }
+  }
+
   .ls-mosiac__content {
     display: flex;
     flex-direction: column;
