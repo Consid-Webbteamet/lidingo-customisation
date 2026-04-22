@@ -1,0 +1,21 @@
+@use "../tokens" as *;
+
+.c-page-filter {
+  &__helper,
+  &__intro {
+    width: 100%;
+    max-width: var(--content-page-width);
+  }
+
+  &__intro {
+    margin-bottom: 2rem;
+  }
+
+  &__listing {
+    margin-top: 2rem;
+  }
+
+  .c-content-page__content > *:last-child {
+    margin-bottom: 0;
+  }
+}

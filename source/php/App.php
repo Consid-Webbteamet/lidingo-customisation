@@ -9,6 +9,7 @@ use LidingoCustomisation\AcfFields\HeroFields;
 use LidingoCustomisation\AcfFields\ModularityTocFields;
 use LidingoCustomisation\AcfFields\NewsDisplayFields;
 use LidingoCustomisation\AcfFields\OngoingWorkDateFields;
+use LidingoCustomisation\AcfFields\PageFilterFields;
 use LidingoCustomisation\AcfFields\ServiceInfoArchivePageFields;
 use LidingoCustomisation\AcfFields\ServiceInfoCategoryIconFields;
 use LidingoCustomisation\AcfFields\ServiceInfoSingleSidebarFields;
@@ -34,6 +35,7 @@ use LidingoCustomisation\Templates\EventPageTemplate;
 use LidingoCustomisation\Templates\JobListingTemplate;
 use LidingoCustomisation\Templates\JobPostingTemplate;
 use LidingoCustomisation\Templates\LandingPageTemplate;
+use LidingoCustomisation\Templates\PageFilterTemplate;
 
 class App
 {
@@ -46,6 +48,7 @@ class App
     private ModularityTocFields $modularityTocFields;
     private NewsDisplayFields $newsDisplayFields;
     private OngoingWorkDateFields $ongoingWorkDateFields;
+    private PageFilterFields $pageFilterFields;
     private ServiceInfoArchivePageFields $serviceInfoArchivePageFields;
     private ServiceInfoCategoryIconFields $serviceInfoCategoryIconFields;
     private ServiceInfoSingleSidebarFields $serviceInfoSingleSidebarFields;
@@ -61,6 +64,7 @@ class App
     private JobListingTemplate $jobListingTemplate;
     private JobPostingTemplate $jobPostingTemplate;
     private LandingPageTemplate $landingPageTemplate;
+    private PageFilterTemplate $pageFilterTemplate;
     private ContentPageTemplate $contentPageTemplate;
     private ContentPageWithTocTemplate $contentPageWithTocTemplate;
     private ContentPageWithTocBootstrap $contentPageWithTocBootstrap;
@@ -87,6 +91,7 @@ class App
         $this->modularityTocFields = new ModularityTocFields();
         $this->newsDisplayFields = new NewsDisplayFields();
         $this->ongoingWorkDateFields = new OngoingWorkDateFields();
+        $this->pageFilterFields = new PageFilterFields();
         $this->serviceInfoArchivePageFields = new ServiceInfoArchivePageFields();
         $this->serviceInfoCategoryIconFields = new ServiceInfoCategoryIconFields();
         $this->serviceInfoSingleSidebarFields = new ServiceInfoSingleSidebarFields();
@@ -102,6 +107,7 @@ class App
         $this->jobListingTemplate = new JobListingTemplate();
         $this->jobPostingTemplate = new JobPostingTemplate();
         $this->landingPageTemplate = new LandingPageTemplate();
+        $this->pageFilterTemplate = new PageFilterTemplate();
         $this->contentPageTemplate = new ContentPageTemplate();
         $this->contentPageWithTocTemplate = new ContentPageWithTocTemplate();
         $this->contentPageWithTocBootstrap = new ContentPageWithTocBootstrap();
@@ -131,6 +137,7 @@ class App
         $this->modularityTocFields->addHooks();
         $this->newsDisplayFields->addHooks();
         $this->ongoingWorkDateFields->addHooks();
+        $this->pageFilterFields->addHooks();
         $this->serviceInfoArchivePageFields->addHooks();
         $this->serviceInfoCategoryIconFields->addHooks();
         $this->serviceInfoSingleSidebarFields->addHooks();
@@ -146,6 +153,7 @@ class App
         $this->jobListingTemplate->addHooks();
         $this->jobPostingTemplate->addHooks();
         $this->landingPageTemplate->addHooks();
+        $this->pageFilterTemplate->addHooks();
         $this->contentPageTemplate->addHooks();
         $this->contentPageWithTocTemplate->addHooks();
         $this->contentPageWithTocBootstrap->addHooks();

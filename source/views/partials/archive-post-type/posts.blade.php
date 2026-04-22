@@ -13,7 +13,7 @@
             @notice([
                 'type' => 'info',
                 'message' => [
-                    'text' => $lang->noResult ?? 'No results found',
+                    'text' => $pageFilterNoResultsText ?? ($lang->noResult ?? 'No results found'),
                     'size' => 'md'
                 ]
             ])

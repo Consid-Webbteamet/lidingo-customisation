@@ -12,7 +12,7 @@
         @form([
             'validation' => false,
             'method' => 'GET',
-            'action' => '?q=form_component' . ($filterConfig->getAnchor() ? '#' . $filterConfig->getAnchor() . '_id' : '')
+            'action' => $archiveLayoutFilterFormAction ?? '?q=form_component' . ($filterConfig->getAnchor() ? '#' . $filterConfig->getAnchor() . '_id' : '')
         ])
 
         @if ($filterConfig->isTextSearchEnabled())
