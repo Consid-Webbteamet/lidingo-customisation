@@ -84,5 +84,5 @@
         'addToRightSidebarClassList' => ['c-event-page__aside'],
     ])
 
-    @includeWhen($postsListData['posts'] ?? false, 'partials.schema.event.related-posts')
+    @includeWhen($postsListData['posts'] ?? false, 'partials.schema.event.related-posts-lidingo')
 @stop

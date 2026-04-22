@@ -254,7 +254,19 @@
     }
   }
 
-  .c-datebadge {
+  .c-event-page__related-posts {
+    margin-top: 2rem;
+    background-color: $standard-red-50;
+    box-shadow: $shadow-sm;
+    color: $text-1000;
+
+    .c-event-page__related-posts-title {
+      color: $color-secondary-500;
+    }
+  }
+
+  .c-event-page__hero .c-datebadge,
+  .c-event-page__header .c-datebadge {
     .c-datebadge__container {
       align-items: center;
       background-color: $standard-red-100;

@@ -2,7 +2,8 @@
 @use "../abstracts/variables" as *;
 
 [data-posts-list-attributes*='"postType":"evenemang"'],
-.post-type-archive-evenemang .c-post-type-archive__posts {
+.post-type-archive-evenemang .c-post-type-archive__posts,
+.single-evenemang .c-event-page__related-posts {
   .c-segment {
     position: relative;
 

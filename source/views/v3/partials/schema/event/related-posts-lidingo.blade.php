@@ -1,0 +1,24 @@
+@element([
+    'classList' => [
+        'c-event-page__related-posts',
+        'u-padding__x--3',
+        'u-padding__y--5',
+        'u-padding__x--8@md',
+        'u-padding__y--8@md',
+        'u-padding__x--8@lg',
+        'u-padding__y--8@lg',
+        'u-padding__x--8@xl',
+        'u-padding__y--8@xl',
+        'u-rounded--16',
+    ],
+])
+    @typography([
+        'element' => 'h2',
+        'variant' => 'h2',
+        'classList' => ['c-event-page__related-posts-title', 'u-margin__bottom--2'],
+    ])
+        {!! $lang->relatedEventsTitle !!}
+    @endtypography
+
+    @include('posts-list', $postsListData)
+@endelement
