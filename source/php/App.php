@@ -125,6 +125,7 @@ class App
         add_filter('WpSecurity/Csp', [$this, 'addDevServerCspDomains'], 10, 1);
         add_filter('Website/HTML/output', [$this, 'stripDevBlockingCspDirectives'], 20, 0);
         add_filter('Municipio/Template/viewData', [$this, 'adjustContentNoticePlacement'], 20, 1);
+        add_filter('Municipio/Template/viewData', [$this, 'adjustPostTypeArchiveBreadcrumb'], 30, 1);
         add_filter('/Modularity/externalViewPath', [$this, 'addModularityExternalViewPaths']);
         $this->archivePageFields->addHooks();
         $this->heroFields->addHooks();
@@ -287,6 +288,83 @@ class App
         }
 
         $viewData['renderContentNoticesBeforeHero'] = true;
+
+        return $viewData;
+    }
+
+    /** Build breadcrumbs from the assigned archive page for mapped post type singles. */
+    public function adjustPostTypeArchiveBreadcrumb(array $viewData): array
+    {
+        if (!is_singular()) {
+            return $viewData;
+        }
+
+        $postType = get_post_type();
+
+        if (!is_string($postType) || in_array($postType, ['page', 'attachment'], true)) {
+            return $viewData;
+        }
+
+        $archivePageId = (int) get_option('page_for_' . $postType);
+
+        if ($archivePageId <= 0) {
+            return $viewData;
+        }
+
+        $objectId = get_queried_object_id();
+
+        if (!is_int($objectId) || $objectId <= 0) {
+            return $viewData;
+        }
+
+        $breadcrumbMenu = is_array($viewData['breadcrumbMenu'] ?? null)
+            ? $viewData['breadcrumbMenu']
+            : [];
+        $existingItems = array_values(is_array($breadcrumbMenu['items'] ?? null) ? $breadcrumbMenu['items'] : []);
+        $items = [];
+
+        if (!empty($existingItems[0]) && is_array($existingItems[0])) {
+            $items[] = $existingItems[0];
+        } else {
+            $items[] = [
+                'label' => __('Home', 'municipio'),
+                'href' => home_url('/'),
+                'current' => false,
+                'icon' => 'home',
+            ];
+        }
+
+        $frontPageId = (int) get_option('page_on_front');
+        $ancestorIds = array_reverse(array_filter(array_map('intval', get_post_ancestors($archivePageId))));
+
+        foreach ($ancestorIds as $ancestorId) {
+            if ($ancestorId <= 0 || $ancestorId === $frontPageId) {
+                continue;
+            }
+
+            $items[] = [
+                'label' => get_the_title($ancestorId) ?: __('Untitled page', 'municipio'),
+                'href' => get_permalink($ancestorId),
+                'current' => false,
+                'icon' => 'chevron_right',
+            ];
+        }
+
+        $items[] = [
+            'label' => get_the_title($archivePageId) ?: __('Untitled page', 'municipio'),
+            'href' => get_permalink($archivePageId),
+            'current' => false,
+            'icon' => 'chevron_right',
+        ];
+
+        $items[] = [
+            'label' => get_the_title($objectId) ?: __('Untitled page', 'municipio'),
+            'current' => true,
+            'icon' => 'chevron_right',
+        ];
+
+        $breadcrumbMenu['items'] = $items;
+        $viewData['breadcrumbMenu'] = $breadcrumbMenu;
 
         return $viewData;
     }

@@ -10,6 +10,7 @@ class ContentPageWithTocTemplate
 {
     public const TEMPLATE_NAME = 'Undersida med innehållsförteckning';
     public const TEMPLATE_SLUG = 'content-page-with-toc.blade.php';
+    private const DEFAULT_TEMPLATE_POST_TYPES = ['page', 'grundskola'];
 
     private string $viewPath;
 
@@ -41,14 +42,16 @@ class ContentPageWithTocTemplate
         MunicipioTemplate::add(
             __(self::TEMPLATE_NAME, 'lidingo-customisation'),
             path_join($this->viewPath, self::TEMPLATE_SLUG),
-            ['page']
+            $this->getTemplatePostTypes()
         );
     }
 
-    /** Enable page excerpts. */
+    /** Enable excerpts for supported template post types. */
     public function enablePageExcerptSupport(): void
     {
-        add_post_type_support('page', 'excerpt');
+        foreach ($this->getTemplatePostTypes() as $postType) {
+            add_post_type_support($postType, 'excerpt');
+        }
     }
 
     /** Add the template view path. */
@@ -126,5 +129,24 @@ class ContentPageWithTocTemplate
         }
 
         return get_page_template_slug($objectId) === self::TEMPLATE_SLUG;
+    }
+
+    private function getTemplatePostTypes(): array
+    {
+        $postTypes = apply_filters(
+            'lidingo_customisation/page_template_post_types',
+            self::DEFAULT_TEMPLATE_POST_TYPES
+        );
+
+        if (!is_array($postTypes)) {
+            return self::DEFAULT_TEMPLATE_POST_TYPES;
+        }
+
+        $postTypes = array_values(array_filter(
+            array_map(static fn($postType): string => is_string($postType) ? sanitize_key($postType) : '', $postTypes),
+            static fn(string $postType): bool => $postType !== ''
+        ));
+
+        return !empty($postTypes) ? $postTypes : self::DEFAULT_TEMPLATE_POST_TYPES;
     }
 }

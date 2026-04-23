@@ -139,7 +139,24 @@ class ArticlePageTemplate
 
     private function isArticleSingular(): bool
     {
+        if ($this->hasCustomPageTemplate()) {
+            return false;
+        }
+
         return is_singular($this->getArticlePostTypes());
+    }
+
+    private function hasCustomPageTemplate(): bool
+    {
+        $objectId = get_queried_object_id();
+
+        if (!is_int($objectId) || $objectId <= 0) {
+            return false;
+        }
+
+        $template = get_page_template_slug($objectId);
+
+        return is_string($template) && $template !== '' && $template !== 'default';
     }
 
     private function getArticlePostTypes(): array
