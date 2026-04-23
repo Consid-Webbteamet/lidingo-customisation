@@ -72,9 +72,8 @@
                 @button([
                     ...$getFilterFormSubmitButtonArguments(),
                     'text' => __('Filtrera', 'lidingo-customisation'),
-                    'icon' => ':förbjudet:',
                     'color' => 'primary',
-                    'classList' => ['u-display--block@xs', 'u-width--100@xs'],
+                    'classList' => ['c-post-type-archive__filter-submit', 'u-display--block@xs', 'u-width--100@xs'],
                 ])
                 @endbutton
             </div>
