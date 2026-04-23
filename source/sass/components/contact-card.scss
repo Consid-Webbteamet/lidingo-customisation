@@ -65,3 +65,24 @@
     }
   }
 }
+
+.modularity-mod-contact-card,
+.block-modularity-mod-contact-card,
+.modularity-mod-section-full .c-segment__text,
+.block-modularity-mod-section-full .c-segment__text,
+.modularity-mod-manual-input,
+.block-modularity-mod-manual-input,
+.modularity-mod-manualinput,
+.block-modularity-mod-manualinput {
+  a[data-external-link]::after {
+    content: "";
+    display: inline-block;
+    width: 0.9em;
+    height: 0.9em;
+    margin-left: 0.35rem;
+    vertical-align: -0.08em;
+    background: currentColor;
+    mask: url("../assets/externlank.svg") center / contain no-repeat;
+    -webkit-mask: url("../assets/externlank.svg") center / contain no-repeat;
+  }
+}

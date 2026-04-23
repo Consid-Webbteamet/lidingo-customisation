@@ -9,6 +9,7 @@ import initNavigationCard from './components/navigationCard';
 import initScrolledHeaderState from './components/scrolledHeader';
 import initModularityTocDeduplicate from './components/modularityTocDeduplicate';
 import initModularityTocOffset from './components/modularityTocOffset';
+import initExternalLinks from './components/externalLinks';
 
 if (import.meta.env.DEV) {
     import('../sass/style.scss');
@@ -23,4 +24,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrolledHeaderState();
     initModularityTocDeduplicate();
     initModularityTocOffset();
+    initExternalLinks();
 });
