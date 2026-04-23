@@ -13,7 +13,6 @@ class ArticlePageTemplate
     private const SINGLE_TEMPLATE_SLUG = 'single-article.blade.php';
     private const SERVICE_INFO_SINGLE_TEMPLATE_SLUG = 'single-service_information.blade.php';
     private const DEFAULT_ARTICLE_POST_TYPES = ['post', 'news', 'nyheter'];
-    private const DEFAULT_PAGE_TEMPLATE_POST_TYPES = ['page', 'grundskola'];
 
     private string $viewPath;
 
@@ -44,7 +43,7 @@ class ArticlePageTemplate
         MunicipioTemplate::add(
             __(self::TEMPLATE_NAME, 'lidingo-customisation'),
             path_join($this->viewPath, self::TEMPLATE_SLUG),
-            ['page']
+            PageTemplatePostTypes::get()
         );
     }
 
@@ -135,7 +134,7 @@ class ArticlePageTemplate
             return false;
         }
 
-        return is_page() && get_page_template_slug($objectId) === self::TEMPLATE_SLUG;
+        return get_page_template_slug($objectId) === self::TEMPLATE_SLUG;
     }
 
     private function isArticleSingular(): bool
@@ -151,7 +150,7 @@ class ArticlePageTemplate
     {
         $postType = get_post_type();
 
-        return is_string($postType) && in_array($postType, $this->getPageTemplatePostTypes(), true);
+        return is_string($postType) && in_array($postType, PageTemplatePostTypes::get(), true);
     }
 
     private function hasCustomPageTemplate(): bool
@@ -196,28 +195,6 @@ class ArticlePageTemplate
         ));
 
         return !empty($postTypes) ? $postTypes : $defaultPostTypes;
-    }
-
-    private function getPageTemplatePostTypes(): array
-    {
-        $postTypes = apply_filters(
-            'lidingo_customisation/page_template_post_types',
-            self::DEFAULT_PAGE_TEMPLATE_POST_TYPES
-        );
-
-        if (!is_array($postTypes)) {
-            return self::DEFAULT_PAGE_TEMPLATE_POST_TYPES;
-        }
-
-        $postTypes = array_values(array_filter(
-            array_map(
-                static fn($postType) => is_string($postType) ? sanitize_key($postType) : '',
-                $postTypes
-            ),
-            static fn(string $postType) => $postType !== ''
-        ));
-
-        return !empty($postTypes) ? $postTypes : self::DEFAULT_PAGE_TEMPLATE_POST_TYPES;
     }
 
     private function getArchivePostTypes(): array
