@@ -150,7 +150,17 @@ class ArticlePageTemplate
     {
         $postType = get_post_type();
 
-        return is_string($postType) && in_array($postType, PageTemplatePostTypes::get(), true);
+        if (!is_string($postType) || $postType === '') {
+            return false;
+        }
+
+        if (in_array($postType, PageTemplatePostTypes::get(), true)) {
+            return true;
+        }
+
+        $postTypeObject = get_post_type_object($postType);
+
+        return is_object($postTypeObject) && !empty($postTypeObject->hierarchical);
     }
 
     private function hasCustomPageTemplate(): bool

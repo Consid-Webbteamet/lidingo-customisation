@@ -34,6 +34,7 @@ use LidingoCustomisation\Templates\EventPageTemplate;
 use LidingoCustomisation\Templates\JobListingTemplate;
 use LidingoCustomisation\Templates\JobPostingTemplate;
 use LidingoCustomisation\Templates\LandingPageTemplate;
+use LidingoCustomisation\Templates\PageTemplatePostTypes;
 
 class App
 {
@@ -120,6 +121,7 @@ class App
         add_action('admin_head', [$this, 'printAdminStylesheet'], 1001);
         add_action('admin_footer', [$this, 'printAdminScript'], 1001);
         add_action('login_enqueue_scripts', [$this, 'printLoginStyles'], 1001);
+        add_action('init', [$this, 'enablePageTemplateSupports'], 20);
         add_filter('body_class', [$this, 'addFrontendBodyClasses'], 20, 1);
         add_filter('theme_page_templates', [$this, 'customizeEditorPageTemplates'], 20, 4);
         add_filter('WpSecurity/Csp', [$this, 'addDevServerCspDomains'], 10, 1);
@@ -204,6 +206,14 @@ class App
     public function printLoginStyles(): void
     {
         echo '<style>body.login{background-color:#002B49;background-image:none;}</style>';
+    }
+
+    /** Enable page template UI and parent/order controls on supported post types. */
+    public function enablePageTemplateSupports(): void
+    {
+        foreach (PageTemplatePostTypes::get() as $postType) {
+            add_post_type_support($postType, 'page-attributes');
+        }
     }
 
     /** Add body classes used by frontend page-level styling. */

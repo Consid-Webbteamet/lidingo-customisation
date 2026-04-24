@@ -374,18 +374,21 @@ class OngoingWorkArchive
         return is_string($imageHtml) ? $imageHtml : '';
     }
 
-    /** Respect per-page archive settings before rendering the hero image. */
+    /** Respect the archive page featured image toggle when it has been set. */
     private function shouldDisplayArchiveHeroImage(?WP_Post $page): bool
     {
         if (!$page instanceof WP_Post) {
             return true;
         }
 
-        if (function_exists('get_field')) {
-            return (bool) get_field('post_single_show_featured_image', $page->ID);
+        $thumbnailId = get_post_thumbnail_id($page);
+        $hasFeaturedImage = is_numeric($thumbnailId) && (int) $thumbnailId > 0;
+
+        if (metadata_exists('post', $page->ID, 'post_single_show_featured_image')) {
+            return (bool) get_post_meta($page->ID, 'post_single_show_featured_image', true);
         }
 
-        return (bool) get_post_meta($page->ID, 'post_single_show_featured_image', true);
+        return $hasFeaturedImage;
     }
 
     /** Merge the assigned page breadcrumb trail into the archive view data. */

@@ -9,12 +9,14 @@ use Municipio\Helper\DateFormat;
 use Municipio\PostObject\PostObjectInterface;
 use WP_Post;
 use WP_Post_Type;
+use WP_Query;
 
 class ArchiveLayout
 {
     public const TEMPLATE_SLUG = 'archive-post-type.blade.php';
     public const BADGE_TAXONOMY_FIELD_NAME = 'lidingo_archive_badge_taxonomy';
     private const DATE_BADGE_POST_TYPES = ['news', 'nyheter'];
+    private const HERO_IMAGE_EXCLUDED_POST_TYPES = ['evenemang'];
 
     private string $viewPath;
 
@@ -29,9 +31,66 @@ class ArchiveLayout
     public function addHooks(): void
     {
         add_action('init', [$this, 'registerArchiveOrderDirectionFilters'], 20);
+        add_action('pre_get_posts', [$this, 'filterHierarchicalArchivePosts']);
         add_filter('Municipio/viewPaths', [$this, 'addViewPath']);
         add_filter('template_include', [$this, 'useArchiveTemplate'], 9);
         add_filter('Municipio/Template/viewData', [$this, 'customizeViewData'], 15);
+    }
+
+    /** Limit hierarchical post type archives to top-level posts only. */
+    public function filterHierarchicalArchivePosts(WP_Query $query): void
+    {
+        if (
+            is_admin()
+            || !$query->is_main_query()
+            || !$query->is_post_type_archive()
+        ) {
+            return;
+        }
+
+        $postType = $this->resolveArchivePostType($query);
+        if ($postType === null) {
+            return;
+        }
+
+        $postTypeObject = get_post_type_object($postType);
+
+        if (
+            !$postTypeObject instanceof WP_Post_Type
+            || empty($postTypeObject->hierarchical)
+            || !in_array($postType, $this->getSupportedPostTypes(), true)
+        ) {
+            return;
+        }
+
+        $query->set('post_parent', 0);
+    }
+
+    /** Resolve the archive post type even when the query var is absent from custom rewrites. */
+    private function resolveArchivePostType(WP_Query $query): ?string
+    {
+        $postType = $query->get('post_type');
+
+        if (is_array($postType)) {
+            $postType = reset($postType);
+        }
+
+        if (is_string($postType) && $postType !== '') {
+            return sanitize_key($postType);
+        }
+
+        $currentPostType = $this->getCurrentPostType();
+        if (is_string($currentPostType) && $currentPostType !== '') {
+            return $currentPostType;
+        }
+
+        foreach ($this->getSupportedPostTypes() as $supportedPostType) {
+            if ((bool) $query->is_post_type_archive($supportedPostType)) {
+                return $supportedPostType;
+            }
+        }
+
+        return null;
     }
 
     /** Register archive order direction filters. */
@@ -303,15 +362,24 @@ class ArchiveLayout
         return is_string($imageHtml) ? $imageHtml : '';
     }
 
-    /** Respect per-page archive settings before rendering the hero image. */
+    /** Respect the archive page featured image toggle except on excluded archives. */
     private function shouldDisplayArchiveHeroImage(?WP_Post $page, array $viewData): bool
     {
+        $postType = $this->getCurrentPostType();
+
+        if (is_string($postType) && in_array($postType, self::HERO_IMAGE_EXCLUDED_POST_TYPES, true)) {
+            return false;
+        }
+
         if ($page instanceof WP_Post) {
-            if (function_exists('get_field')) {
-                return (bool) get_field('post_single_show_featured_image', $page->ID);
+            $thumbnailId = get_post_thumbnail_id($page);
+            $hasFeaturedImage = is_numeric($thumbnailId) && (int) $thumbnailId > 0;
+
+            if (metadata_exists('post', $page->ID, 'post_single_show_featured_image')) {
+                return (bool) get_post_meta($page->ID, 'post_single_show_featured_image', true);
             }
 
-            return (bool) get_post_meta($page->ID, 'post_single_show_featured_image', true);
+            return $hasFeaturedImage;
         }
 
         $appearanceConfig = $viewData['appearanceConfig'] ?? null;
