@@ -42,9 +42,12 @@ class ArchiveLayout
     {
         if (
             is_admin()
-            || !$query->is_main_query()
-            || !$query->is_post_type_archive()
+            || !is_post_type_archive()
         ) {
+            return;
+        }
+
+        if ($this->isExplicitPostLookupQuery($query)) {
             return;
         }
 
@@ -64,6 +67,26 @@ class ArchiveLayout
         }
 
         $query->set('post_parent', 0);
+    }
+
+    /** Leave explicitly targeted queries alone and only constrain archive-style lists. */
+    private function isExplicitPostLookupQuery(WP_Query $query): bool
+    {
+        foreach (['p', 'page_id', 'pagename', 'name', 'post_name__in', 'post__in'] as $queryVar) {
+            $value = $query->get($queryVar);
+
+            if (is_array($value) && !empty($value)) {
+                return true;
+            }
+
+            if (!is_array($value) && $value !== null && $value !== '' && $value !== 0 && $value !== '0') {
+                return true;
+            }
+        }
+
+        $postParent = $query->get('post_parent');
+
+        return $postParent !== null && $postParent !== '';
     }
 
     /** Resolve the archive post type even when the query var is absent from custom rewrites. */
