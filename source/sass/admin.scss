@@ -3,6 +3,7 @@
  */
 
 @use "./tokens/colors" as *;
+@use "./components/card" as card;
 @use "./components/card-news-grid" as card-news-grid;
 @use "./components/event-schema-card" as event-schema-card;
 @use "./components/mosiac" as mosaic;
@@ -20,6 +21,7 @@ body.block-editor-page {
     color: $text-1000;
     line-height: 1.6;
 
+    @include card.top-card-styles;
     @include card-news-grid.card-news-grid-styles;
     @include event-schema-card.event-schema-card-styles(".js-async-posts");
     @include mosaic.mosaic-styles;
@@ -41,6 +43,12 @@ body.block-editor-page {
   .editor-styles-wrapper
     .block-editor-block-list__layout.is-root-container
     > .wp-block.ls-card-news-grid:not([data-align="full"]) {
+    width: min(100%, 68rem);
+  }
+
+  .editor-styles-wrapper
+    .block-editor-block-list__layout.is-root-container
+    > .wp-block.ls-top-cards:not([data-align="full"]) {
     width: min(100%, 68rem);
   }
 

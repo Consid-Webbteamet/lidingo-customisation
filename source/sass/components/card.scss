@@ -1,33 +1,68 @@
 @use "../tokens" as *;
 @use "../abstracts/variables" as *;
 
-/* front-page cards over hero */
-.ls-top-cards {
-  margin-top: -1.5rem;
+@mixin top-card-styles($selector: ".ls-top-cards") {
+  /* front-page cards over hero */
+  #{$selector} {
+    --ls-top-cards-width: min(calc(100vw - 3rem), 68rem);
 
-  .o-grid {
-    column-gap: 2.5rem;
-    row-gap: 1rem;
+    width: var(--ls-top-cards-width);
+    max-width: none;
+    margin-top: -1.5rem;
+    margin-inline: calc((100% - var(--ls-top-cards-width)) / 2);
 
-    @media (min-width: $breakpoint-md) {
-      row-gap: 1.5rem;
+    @media (min-width: $breakpoint-xl) {
+      --ls-top-cards-width: 100%;
     }
-  }
 
-  .c-card__body {
-    padding: 2rem;
-  }
+    .o-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      column-gap: 2.5rem;
+      row-gap: 1rem;
 
-  .c-group {
-    flex-direction: row-reverse;
-    justify-content: flex-end;
-    gap: 1.5rem;
-  }
+      @media (min-width: $breakpoint-md) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        row-gap: 1.5rem;
+      }
 
-  .c-card__heading,
-  .c-icon {
-    font-size: var(--h4-font-size);
-    color: $color-primary-400;
+      @media (min-width: $breakpoint-lg) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    .o-grid > .c-element {
+      width: 100%;
+      max-width: none;
+      min-width: 0;
+      margin: 0;
+      padding: 0;
+      flex: initial;
+    }
+
+    .c-card__body {
+      padding: 2rem;
+    }
+
+    a.c-card:focus {
+      background-color: $color-white;
+    }
+
+    a.c-card:hover {
+      filter: none;
+    }
+
+    .c-group {
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+      gap: 1.5rem;
+    }
+
+    .c-card__heading,
+    .c-icon {
+      font-size: var(--h4-font-size);
+      color: $color-primary-400;
+    }
   }
 }
 
