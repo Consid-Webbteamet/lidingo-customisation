@@ -1,94 +1,106 @@
 @use "../tokens/colors" as *;
 @use "../abstracts/variables" as *;
 
-[data-posts-list-attributes*='"postType":"evenemang"'],
-.post-type-archive-evenemang .c-post-type-archive__posts,
-.single-evenemang .c-event-page__related-posts {
-  .c-segment {
-    position: relative;
+@mixin event-schema-card-styles(
+  $selector:
+    "[data-posts-list-attributes*='\"postType\":\"evenemang\"'], .post-type-archive-evenemang .c-post-type-archive__posts, .single-evenemang .c-event-page__related-posts"
+) {
+  #{$selector} {
+    .c-segment {
+      position: relative;
 
-    .c-typography.c-typography__variant--meta {
-      font-size: var(--font-size-base);
-    }
+      .c-typography.c-typography__variant--meta {
+        font-size: var(--font-size-base);
+      }
 
-    &--card {
-      .c-segment__content {
-        width: 100%;
+      &--card {
+        .c-segment__content {
+          width: 100%;
+          margin: 0;
+        }
+
+        .c-segment__content-card {
+          color: $text-1000;
+          padding: 1rem 1.5rem 1.5rem;
+          text-decoration: none;
+        }
+      }
+
+      &__floating {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 2;
         margin: 0;
+        pointer-events: none;
       }
 
-      .c-segment__content-card {
-        padding: 1rem 1.5rem 1.5rem;
-      }
-    }
+      &__above-content {
+        color: $text-1000;
 
-    &__floating {
-      position: absolute;
-      top: 0;
-      right: 0;
-      z-index: 2;
-      margin: 0;
-      pointer-events: none;
-    }
-
-    &__above-content {
-      > .c-element.u-margin__bottom--0.u-margin__top--2.u-display--flex.u-flex-direction--column.o-layout-grid--gap-1
-        + .c-element {
-        border: none !important;
-        border-radius: 0 !important;
-        background-color: $standard-red-100;
-
-        span {
-          font-size: var(--caption-font-size);
-        }
-      }
-
-      .c-typography__variant--meta {
-        gap: 0.5rem !important;
-
+        .c-typography,
         .c-icon {
-          font-size: 0;
+          color: inherit;
+        }
 
-          &::after {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-family: "Lidingo Logical", sans-serif;
-            font-size: var(--font-size-base);
-            font-weight: 400;
+        > .c-element.u-margin__bottom--0.u-margin__top--2.u-display--flex.u-flex-direction--column.o-layout-grid--gap-1
+          + .c-element {
+          border: none !important;
+          border-radius: 0 !important;
+          background-color: $standard-red-100;
+
+          span {
+            font-size: var(--caption-font-size);
           }
+        }
 
-          &--location-on::after {
-            content: ":platsnål:";
-          }
+        .c-typography__variant--meta {
+          gap: 0.5rem !important;
 
-          &--event::after {
-            content: ":kalender:";
+          .c-icon {
+            font-size: 0;
+
+            &::after {
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              font-family: "Lidingo Logical", sans-serif;
+              font-size: var(--font-size-base);
+              font-weight: 400;
+            }
+
+            &--location-on::after {
+              content: ":platsnål:";
+            }
+
+            &--event::after {
+              content: ":kalender:";
+            }
           }
         }
       }
     }
-  }
 
-  .c-datebadge {
-    &__container {
-      display: flex;
-      flex-direction: row-reverse;
-      padding-block: 1rem;
-      padding-inline: 2rem;
-      color: $color-secondary-500;
-      background-color: $standard-red-100;
-    }
+    .c-datebadge {
+      &__container {
+        display: flex;
+        flex-direction: row-reverse;
+        padding-block: 1rem;
+        padding-inline: 2rem;
+        color: $color-secondary-500;
+        background-color: $standard-red-100;
+      }
 
-    &__month,
-    &__date {
-      background: transparent;
-    }
+      &__month,
+      &__date {
+        background: transparent;
+      }
 
-    &__month {
-      padding: 0;
-      font-size: var(--font-size-base);
-      text-transform: capitalize;
+      &__month {
+        padding: 0;
+        font-size: var(--font-size-base);
+        text-transform: lowercase;
+      }
     }
   }
 }

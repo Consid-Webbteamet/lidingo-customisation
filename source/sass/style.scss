@@ -12,7 +12,7 @@
 @use "./components/recommend";
 @use "./components/article-page";
 @use "./components/content-page";
-@use "./components/mosiac";
+@use "./components/mosiac" as mosaic;
 @use "./components/navigation-card";
 @use "./components/contact-card";
 @use "./components/shortcuts" as shortcuts;
@@ -28,7 +28,7 @@
 @use "./components/service-info-archive";
 @use "./components/archive-post-type-card";
 @use "./components/pagination";
-@use "./components/event-schema-card";
+@use "./components/event-schema-card" as event-schema-card;
 @use "./components/single-event";
 @use "./components/single-job";
 @use "./components/single-service-info";
@@ -41,6 +41,8 @@
 
 @include shortcuts.shortcuts-styles;
 @include card-news-grid.card-news-grid-styles;
+@include event-schema-card.event-schema-card-styles;
+@include mosaic.mosaic-styles;
 
 .sr-only {
   @include sr-only;

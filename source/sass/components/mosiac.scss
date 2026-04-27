@@ -2,7 +2,8 @@
 @use "../abstracts/variables" as *;
 @use "../components/button" as *;
 
-.modularity-mod-mosaic {
+@mixin mosaic-styles($selector: ".modularity-mod-mosaic") {
+  #{$selector} {
   /* Wrapper */
   --mosiac-max-width: 120rem;
   --mosiac-gap: 0.5rem;
@@ -533,5 +534,6 @@
     .ls-mosiac__image-wrapper {
       aspect-ratio: 16 / 9;
     }
+  }
   }
 }
