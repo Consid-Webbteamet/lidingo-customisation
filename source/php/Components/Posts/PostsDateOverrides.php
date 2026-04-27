@@ -50,6 +50,7 @@ class PostsDateOverrides
         return $resolvedTimestamp ?? $timestamp;
     }
 
+    /** Resolve the Visma publish start date from job listing meta as a Unix timestamp. */
     private function resolveJobListingPublishTimestamp(object $post): ?int
     {
         if (!method_exists($post, 'getPostType') || !method_exists($post, 'getId')) {

@@ -78,6 +78,7 @@ class LandingPageTemplate
         return $viewData;
     }
 
+    /** Detect the landing page template on the current queried object. */
     private function isLandingPageTemplate(): bool
     {
         $objectId = get_queried_object_id();

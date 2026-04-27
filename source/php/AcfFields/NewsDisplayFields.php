@@ -38,6 +38,7 @@ class NewsDisplayFields
         return $this->isNewsPostId($postId) ? false : $value;
     }
 
+    /** Detect whether the current editor request targets a news post type. */
     private function isNewsEditorContext(): bool
     {
         $postType = $this->getCurrentEditorPostType();
@@ -45,6 +46,7 @@ class NewsDisplayFields
         return is_string($postType) && in_array($postType, self::NEWS_POST_TYPES, true);
     }
 
+    /** Resolve the edited post type from the screen object or the current request. */
     private function getCurrentEditorPostType(): ?string
     {
         $screen = function_exists('get_current_screen') ? get_current_screen() : null;
@@ -68,6 +70,7 @@ class NewsDisplayFields
         return null;
     }
 
+    /** Read the edited post ID from the classic or block editor request payload. */
     private function getEditorPostId(): int
     {
         if (isset($_GET['post']) && is_numeric($_GET['post'])) {
@@ -81,6 +84,7 @@ class NewsDisplayFields
         return 0;
     }
 
+    /** Check whether a given post ID belongs to one of the configured news post types. */
     private function isNewsPostId($postId): bool
     {
         if (!is_numeric($postId)) {

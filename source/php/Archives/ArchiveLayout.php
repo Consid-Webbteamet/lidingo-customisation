@@ -198,6 +198,7 @@ class ArchiveLayout
         return $viewData;
     }
 
+    /** Apply the custom archive layout only on supported public post type archives. */
     private function shouldUseArchiveLayout(): bool
     {
         $postType = $this->getCurrentPostType();

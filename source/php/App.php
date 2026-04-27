@@ -461,6 +461,7 @@ class App
         return $this->shouldLoadAdmin() || $this->isBlockEditorScreen();
     }
 
+    /** Detect the block editor screen without assuming the screen API is always loaded. */
     private function isBlockEditorScreen(): bool
     {
         if (!function_exists('get_current_screen')) {

@@ -119,6 +119,7 @@ class ContentPageWithTocTemplate
         return is_array($pageOptions) ? $pageOptions : $options;
     }
 
+    /** Detect the content page with TOC template on the current queried object. */
     private function isTemplateActive(): bool
     {
         $objectId = get_queried_object_id();

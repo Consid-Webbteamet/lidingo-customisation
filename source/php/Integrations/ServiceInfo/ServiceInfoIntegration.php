@@ -226,6 +226,7 @@ class ServiceInfoIntegration
         return false;
     }
 
+    /** Render the menu badge markup for the current number of active issues. */
     private function renderBadge(int $count): string
     {
         return sprintf(

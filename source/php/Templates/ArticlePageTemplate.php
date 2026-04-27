@@ -121,11 +121,13 @@ class ArticlePageTemplate
         return $viewData;
     }
 
+    /** Apply the article layout on the dedicated page template and matching single views. */
     private function shouldApplyArticleLayout(): bool
     {
         return $this->isArticlePageTemplate() || $this->isArticleSingular();
     }
 
+    /** Detect the dedicated article page template on the current queried object. */
     private function isArticlePageTemplate(): bool
     {
         $objectId = get_queried_object_id();
@@ -137,6 +139,7 @@ class ArticlePageTemplate
         return get_page_template_slug($objectId) === self::TEMPLATE_SLUG;
     }
 
+    /** Limit the shared article layout to supported singles without their own page template. */
     private function isArticleSingular(): bool
     {
         if ($this->hasCustomPageTemplate() || $this->isPageTemplatePostTypeSingular()) {
@@ -146,6 +149,7 @@ class ArticlePageTemplate
         return is_singular($this->getArticlePostTypes());
     }
 
+    /** Exclude hierarchical page-template post types from the shared article single layout. */
     private function isPageTemplatePostTypeSingular(): bool
     {
         $postType = get_post_type();
@@ -163,6 +167,7 @@ class ArticlePageTemplate
         return is_object($postTypeObject) && !empty($postTypeObject->hierarchical);
     }
 
+    /** Detect when the current object already uses an explicit custom page template. */
     private function hasCustomPageTemplate(): bool
     {
         $objectId = get_queried_object_id();
@@ -176,6 +181,7 @@ class ArticlePageTemplate
         return is_string($template) && $template !== '' && $template !== 'default';
     }
 
+    /** Resolve the post types that should share the article single layout. */
     private function getArticlePostTypes(): array
     {
         // Keep the shared article layout for the explicit defaults and auto-include
@@ -207,6 +213,7 @@ class ArticlePageTemplate
         return !empty($postTypes) ? $postTypes : $defaultPostTypes;
     }
 
+    /** Collect public archive-enabled post types that should inherit the article layout. */
     private function getArchivePostTypes(): array
     {
         $postTypes = get_post_types(

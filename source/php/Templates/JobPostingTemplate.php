@@ -15,11 +15,13 @@ class JobPostingTemplate
         );
     }
 
+    /** Register job posting view hooks. */
     public function addHooks(): void
     {
         add_filter('Municipio/viewPaths', [$this, 'addViewPath']);
     }
 
+    /** Prepend the v3 view path when rendering a single job listing. */
     public function addViewPath(array $viewPaths): array
     {
         if (!is_singular('job-listing')) {
@@ -33,4 +35,3 @@ class JobPostingTemplate
         return $viewPaths;
     }
 }
-

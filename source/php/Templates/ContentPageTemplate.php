@@ -96,6 +96,7 @@ class ContentPageTemplate
         return $viewData;
     }
 
+    /** Detect the content page template on the current queried object. */
     private function isContentPageTemplate(): bool
     {
         $objectId = get_queried_object_id();

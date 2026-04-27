@@ -29,6 +29,7 @@ class ContentPageWithTocBootstrap
     /** Prevent recursive bootstrap runs triggered by internal updates. */
     private array $activePostIds = [];
 
+    /** Register one-time TOC bootstrap hooks for the editor. */
     public function addHooks(): void
     {
         add_action('wp_after_insert_post', [$this, 'bootstrap'], 20, 4);
@@ -62,6 +63,7 @@ class ContentPageWithTocBootstrap
         );
     }
 
+    /** Only bootstrap real page saves that use the TOC template and have not been processed yet. */
     private function shouldBootstrap(int $postId, WP_Post $post): bool
     {
         if ($post->post_type !== 'page') {
@@ -87,6 +89,7 @@ class ContentPageWithTocBootstrap
         return true;
     }
 
+    /** Prepend the mobile TOC block when the content does not already contain one. */
     private function ensureMobileTocBlock(WP_Post $post): bool
     {
         $blocks = parse_blocks((string) $post->post_content);
@@ -105,6 +108,7 @@ class ContentPageWithTocBootstrap
         return !($updatedPostId instanceof \WP_Error);
     }
 
+    /** Create and attach a desktop TOC module in the right sidebar when it is missing. */
     private function ensureDesktopTocModule(int $postId): bool
     {
         $moduleSidebars = get_post_meta($postId, 'modularity-modules', true);
@@ -152,6 +156,7 @@ class ContentPageWithTocBootstrap
         return update_post_meta($postId, 'modularity-modules', $moduleSidebars) !== false;
     }
 
+    /** Default the right sidebar hook to before content when no hook has been chosen. */
     private function ensureRightSidebarHookBefore(int $postId): bool
     {
         $sidebarOptions = get_post_meta($postId, 'modularity-sidebar-options', true);
@@ -170,6 +175,7 @@ class ContentPageWithTocBootstrap
         return update_post_meta($postId, 'modularity-sidebar-options', $sidebarOptions) !== false;
     }
 
+    /** Recursively detect whether any parsed block is already a TOC block. */
     private function blocksContainToc(array $blocks): bool
     {
         foreach ($blocks as $block) {
@@ -185,6 +191,7 @@ class ContentPageWithTocBootstrap
         return false;
     }
 
+    /** Build the default mobile TOC block payload inserted into post content. */
     private function buildMobileTocBlock(): array
     {
         return [
@@ -214,6 +221,7 @@ class ContentPageWithTocBootstrap
         ];
     }
 
+    /** Persist an ACF field value and verify that its field-key reference was stored. */
     private function updateModuleField(string $fieldKey, mixed $value, int $postId): bool
     {
         $fieldName = $this->fieldNameFromKey($fieldKey);
@@ -228,6 +236,7 @@ class ContentPageWithTocBootstrap
         return get_post_meta($postId, '_' . $fieldName, true) === $fieldKey;
     }
 
+    /** Map the supported TOC field keys to their stored meta field names. */
     private function fieldNameFromKey(string $fieldKey): ?string
     {
         return match ($fieldKey) {
@@ -240,6 +249,7 @@ class ContentPageWithTocBootstrap
         };
     }
 
+    /** Detect whether the sidebar module list already contains a TOC module entry. */
     private function sidebarContainsTocModule(mixed $sidebarModules): bool
     {
         if (!is_array($sidebarModules)) {
@@ -259,11 +269,13 @@ class ContentPageWithTocBootstrap
         return false;
     }
 
+    /** Generate a Modularity sidebar array key for a newly inserted module. */
     private function generateSidebarModuleKey(): string
     {
         return str_replace('-', '', wp_generate_uuid4());
     }
 
+    /** Queue a short-lived admin notice for the current user after bootstrap failures. */
     private function queueAdminNotice(string $message): void
     {
         $userId = get_current_user_id();

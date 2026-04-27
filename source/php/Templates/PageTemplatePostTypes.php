@@ -9,6 +9,7 @@ class PageTemplatePostTypes
     private const FALLBACK_POST_TYPES = ['page'];
     private const EXCLUDED_POST_TYPES = ['attachment'];
 
+    /** Return the sanitized post types that may use custom page templates. */
     public static function get(): array
     {
         $defaultPostTypes = self::getDefaultPostTypes();
@@ -29,6 +30,7 @@ class PageTemplatePostTypes
         return !empty($postTypes) ? $postTypes : $defaultPostTypes;
     }
 
+    /** Collect hierarchical public editor post types, excluding unsupported defaults. */
     private static function getDefaultPostTypes(): array
     {
         $postTypes = get_post_types(
