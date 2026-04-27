@@ -3,6 +3,7 @@
  */
 
 @use "./tokens/colors" as *;
+@use "./components/card-news-grid" as card-news-grid;
 @use "./components/shortcuts" as shortcuts;
 
 :root.lidingo-customisation-admin-loaded {
@@ -13,9 +14,11 @@ body.block-editor-page {
   .editor-styles-wrapper {
     --lidingo-editor-content-max-width: 680px;
     --lidingo-editor-paragraph-gap: 1.5rem;
+    background-color: $color-primary-50;
     color: $text-1000;
     line-height: 1.6;
 
+    @include card-news-grid.card-news-grid-styles;
     @include shortcuts.shortcuts-styles;
   }
 
@@ -29,6 +32,12 @@ body.block-editor-page {
     width: calc(min(100%, var(--lidingo-editor-content-max-width)) + 3rem);
     margin-left: auto !important;
     margin-right: auto !important;
+  }
+
+  .editor-styles-wrapper
+    .block-editor-block-list__layout.is-root-container
+    > .wp-block.ls-card-news-grid:not([data-align="full"]) {
+    width: min(100%, 68rem);
   }
 
   .editor-styles-wrapper .editor-post-title,

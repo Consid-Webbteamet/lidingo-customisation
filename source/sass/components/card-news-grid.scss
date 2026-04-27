@@ -3,251 +3,263 @@
 @use "../abstracts/variables" as *;
 @use "../components/button" as *;
 
-.modularity-mod-posts.ls-card-news-grid {
-  .c-typography__variant--h2 {
-    margin-bottom: 1.5rem;
-    @extend .title-underline;
-  }
+@mixin card-news-grid-styles(
+  $selector: ".modularity-mod-posts.ls-card-news-grid"
+) {
+  #{$selector} {
+    .c-typography__variant--h2 {
+      margin-bottom: 1.5rem;
+      @extend .title-underline;
+    }
 
-  .c-button__filled--primary {
-    @extend .button;
-    @extend .button--ghost;
-    @extend .button--big;
+    .c-button__filled--primary {
+      @extend .button;
+      @extend .button--ghost;
+      @extend .button--big;
 
-    .c-button__label {
-      display: inline-flex;
-      align-items: center;
+      .c-button__label {
+        display: inline-flex;
+        align-items: center;
+        color: $text-1000;
+      }
+
+      .c-button__label-text {
+        display: inline-flex;
+        align-items: center;
+        gap: 1rem;
+
+        &::after {
+          content: ":höger:";
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          font-family: "Lidingo Logical", sans-serif;
+          font-weight: 400;
+        }
+      }
+    }
+
+    // All cards in the aktuellt grid
+    .c-card {
+      filter: none;
       color: $text-1000;
     }
 
-    .c-button__label-text {
-      display: inline-flex;
-      align-items: center;
-      gap: 1rem;
+    a.c-card:focus {
+      background-color: $color-white;
+    }
 
-      &::after {
-        content: ":höger:";
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-family: "Lidingo Logical", sans-serif;
-        font-weight: 400;
+    .c-card__heading {
+      font-size: var(--h4-font-size);
+    }
+
+    .c-card__body {
+      padding-inline: 1.5rem;
+      padding-top: 1rem;
+      padding-bottom: 1.5rem;
+    }
+
+    .c-card__date {
+      .c-icon {
+        display: none;
       }
     }
-  }
 
-  // All cards in the aktuellt grid
-  .c-card {
-    filter: none;
-    color: $text-1000;
-  }
+    > .o-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: 1rem;
 
-  .c-card__heading {
-    font-size: var(--h4-font-size);
-  }
-
-  .c-card__body {
-    padding-inline: 1.5rem;
-    padding-top: 1rem;
-    padding-bottom: 1.5rem;
-  }
-
-  .c-card__date {
-    .c-icon {
-      display: none;
-    }
-  }
-
-  > .o-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    row-gap: 1rem;
-
-    // All card wrappers in the grid
-    > .o-grid-4\@md[data-js-item-id] {
-      display: block;
-      inline-size: 100%;
-      width: 100%;
-      min-width: 0;
-      max-width: none;
-      margin: 0;
-      padding: 0;
-      flex: initial;
-
-      > .c-card,
-      > .c-card > .c-card__paint-container {
+      // All card wrappers in the grid
+      > .o-grid-4\@md[data-js-item-id] {
+        display: block;
+        inline-size: 100%;
         width: 100%;
         min-width: 0;
         max-width: none;
-      }
-    }
-
-    > [data-js-item-id] {
-      width: 100%;
-      min-width: 0;
-      max-width: none;
-
-      // Cards 1-2: larger feature cards with image and pinned date badge
-      &:nth-child(-n + 2) {
-        .c-card--has-image {
-          display: flex;
-          flex-direction: column;
-          height: auto;
-          container-type: normal;
-
-          .c-card__paint-container {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            flex-wrap: nowrap;
-            height: auto;
-          }
-
-          .c-card__image-container {
-            width: 100%;
-            height: auto;
-            aspect-ratio: 2 / 1;
-          }
-
-          .c-card__image,
-          .c-image__image-wrapper,
-          .c-card__body,
-          .c-card__image-container + .c-card__body {
-            width: 100%;
-            height: 100%;
-            max-width: none;
-            flex-basis: auto;
-          }
-
-          .c-card__date {
-            position: absolute;
-            top: 0;
-            right: 0;
-            z-index: 1;
-            margin: 0;
-            font-size: 1.125rem;
-            padding-block: 1rem;
-            padding-inline: 2rem;
-            background-color: $standard-yellow-500;
-            color: $color-white;
-          }
-        }
-      }
-    }
-
-    // Card 3: adds the extra mobile gap below card 2
-    > [data-js-item-id]:nth-child(3) {
-      margin-top: 1rem;
-    }
-
-    // Cards 3-5: compact list cards without image/content area
-    > [data-js-item-id]:nth-child(n + 3):nth-child(-n + 5) {
-      .c-card {
-        display: block;
-        aspect-ratio: auto;
-        min-height: 0;
-        height: 100%;
-        padding-top: 0;
-      }
-
-      .c-card__paint-container {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-      }
-
-      .c-card__image-container,
-      .c-card__content {
-        display: none;
-      }
-
-      .c-card__body {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.25rem;
-      }
-
-      .c-card__heading-container,
-      .c-card__heading,
-      .c-card__date {
         margin: 0;
-      }
+        padding: 0;
+        flex: initial;
 
-      .c-group {
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;
-        gap: 0;
-      }
-
-      .c-card__date {
-        order: -1;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-size: 0.875rem;
-        color: $text-500;
-
-        .c-icon {
-          font-size: 1rem;
+        > .c-card,
+        > .c-card > .c-card__paint-container {
+          width: 100%;
+          min-width: 0;
+          max-width: none;
         }
-
-        .c-date {
-          color: inherit;
-        }
-      }
-    }
-
-    @media screen and (min-width: 56em) {
-      grid-template-columns:
-        minmax(18rem, 1.2fr)
-        minmax(18rem, 1.2fr)
-        minmax(16rem, 0.9fr);
-      grid-template-rows: repeat(3, minmax(0, 1fr));
-      column-gap: 2.5rem;
-      justify-content: start;
-
-      @media screen and (min-width: $breakpoint-xl) {
-        grid-template-columns: repeat(2, minmax(0, 27.5rem)) 27.5rem;
-      }
-
-      > .o-grid-4\@md[data-js-item-id] {
-        justify-self: stretch;
-        align-self: stretch;
       }
 
       > [data-js-item-id] {
-        // Card 1: feature card in the left column
-        &:nth-child(1) {
-          grid-column: 1;
-          grid-row: 1 / 4;
+        width: 100%;
+        min-width: 0;
+        max-width: none;
+
+        // Cards 1-2: larger feature cards with image and pinned date badge
+        &:nth-child(-n + 2) {
+          .c-card--has-image {
+            display: flex;
+            flex-direction: column;
+            height: auto;
+            container-type: normal;
+
+            .c-card__paint-container {
+              position: relative;
+              display: flex;
+              flex-direction: column;
+              flex-wrap: nowrap;
+              height: auto;
+            }
+
+            .c-card__image-container {
+              width: 100%;
+              height: auto;
+              aspect-ratio: 2 / 1;
+            }
+
+            .c-card__image,
+            .c-image__image-wrapper,
+            .c-card__body,
+            .c-card__image-container + .c-card__body {
+              width: 100%;
+              height: 100%;
+              max-width: none;
+              flex-basis: auto;
+            }
+
+            .c-card__date {
+              position: absolute;
+              top: 0;
+              right: 0;
+              z-index: 1;
+              margin: 0;
+              font-size: 1.125rem;
+              padding-block: 1rem;
+              padding-inline: 2rem;
+              background-color: $standard-yellow-500;
+              color: $color-white;
+            }
+          }
+        }
+      }
+
+      // Card 3: adds the extra mobile gap below card 2
+      > [data-js-item-id]:nth-child(3) {
+        margin-top: 1rem;
+      }
+
+      // Cards 3-5: compact list cards without image/content area
+      > [data-js-item-id]:nth-child(n + 3):nth-child(-n + 5) {
+        .c-card {
+          display: block;
+          aspect-ratio: auto;
+          min-height: 0;
+          height: 100%;
+          padding-top: 0;
         }
 
-        // Card 2: feature card in the middle column
-        &:nth-child(2) {
-          grid-column: 2;
-          grid-row: 1 / 4;
+        .c-card__paint-container {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
         }
 
-        // Card 3: first compact list card in the right column
-        &:nth-child(3) {
-          grid-column: 3;
-          grid-row: 1;
-          margin-top: 0;
+        .c-card__image-container,
+        .c-card__content {
+          display: none;
         }
 
-        // Card 4: second compact list card in the right column
-        &:nth-child(4) {
-          grid-column: 3;
-          grid-row: 2;
+        .c-card__body {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.25rem;
         }
 
-        // Card 5: third compact list card in the right column
-        &:nth-child(5) {
-          grid-column: 3;
-          grid-row: 3;
+        .c-card__heading-container,
+        .c-card__heading,
+        .c-card__date {
+          margin: 0;
         }
+
+        .c-group {
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: flex-start;
+          gap: 0;
+        }
+
+        .c-card__date {
+          order: -1;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-size: 0.875rem;
+          color: $text-500;
+          text-transform: uppercase;
+
+          .c-icon {
+            font-size: 1rem;
+          }
+
+          .c-date {
+            color: inherit;
+          }
+        }
+      }
+
+      @media screen and (min-width: 56em) {
+        grid-template-columns:
+          minmax(18rem, 1.2fr)
+          minmax(18rem, 1.2fr)
+          minmax(16rem, 0.9fr);
+        grid-template-rows: repeat(3, minmax(0, 1fr));
+        column-gap: 1rem;
+        justify-content: start;
+
+        @media screen and (min-width: $breakpoint-xl) {
+          grid-template-columns: repeat(2, minmax(0, 27.5rem)) 27.5rem;
+        }
+
+        > .o-grid-4\@md[data-js-item-id] {
+          justify-self: stretch;
+          align-self: stretch;
+        }
+
+        > [data-js-item-id] {
+          // Card 1: feature card in the left column
+          &:nth-child(1) {
+            grid-column: 1;
+            grid-row: 1 / 4;
+          }
+
+          // Card 2: feature card in the middle column
+          &:nth-child(2) {
+            grid-column: 2;
+            grid-row: 1 / 4;
+          }
+
+          // Card 3: first compact list card in the right column
+          &:nth-child(3) {
+            grid-column: 3;
+            grid-row: 1;
+            margin-top: 0;
+          }
+
+          // Card 4: second compact list card in the right column
+          &:nth-child(4) {
+            grid-column: 3;
+            grid-row: 2;
+          }
+
+          // Card 5: third compact list card in the right column
+          &:nth-child(5) {
+            grid-column: 3;
+            grid-row: 3;
+          }
+        }
+      }
+      @media screen and (min-width: $breakpoint-xl) {
+        column-gap: 2.5rem;
       }
     }
   }

@@ -7,7 +7,7 @@
 @use "./components/footer";
 @use "./components/search-results";
 @use "./components/card";
-@use "./components/card-news-grid";
+@use "./components/card-news-grid" as card-news-grid;
 @use "./components/button";
 @use "./components/recommend";
 @use "./components/article-page";
@@ -40,6 +40,7 @@
 }
 
 @include shortcuts.shortcuts-styles;
+@include card-news-grid.card-news-grid-styles;
 
 .sr-only {
   @include sr-only;

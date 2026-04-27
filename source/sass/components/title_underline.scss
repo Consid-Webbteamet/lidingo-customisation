@@ -2,13 +2,14 @@
 
 .title-underline {
   position: relative;
+  max-width: max-content;
 
   &::after {
     content: "";
     position: absolute;
     bottom: -1rem;
     left: 0;
-    width: 14rem;
+    width: 178%;
     height: 0.125rem;
     background-color: $standard-yellow-500;
   }
@@ -16,13 +17,14 @@
 
 .title-underline-light {
   position: relative;
+  max-width: max-content;
 
   &::after {
     content: "";
     position: absolute;
     bottom: -1rem;
     left: 0;
-    width: 14rem;
+    width: 139%;
     height: 0.125rem;
     background-color: $standard-red-100;
   }
