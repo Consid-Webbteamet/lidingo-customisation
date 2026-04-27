@@ -3,6 +3,7 @@
  */
 
 @use "./tokens/colors" as *;
+@use "./components/shortcuts" as shortcuts;
 
 :root.lidingo-customisation-admin-loaded {
   --lidingo-customisation-admin-ready: 1;
@@ -14,6 +15,8 @@ body.block-editor-page {
     --lidingo-editor-paragraph-gap: 1.5rem;
     color: $text-1000;
     line-height: 1.6;
+
+    @include shortcuts.shortcuts-styles;
   }
 
   .editor-styles-wrapper .is-root-container {

@@ -15,7 +15,7 @@
 @use "./components/mosiac";
 @use "./components/navigation-card";
 @use "./components/contact-card";
-@use "./components/shortcuts";
+@use "./components/shortcuts" as shortcuts;
 @use "./components/nav";
 @use "./components/page-backgrounds";
 @use "./components/hero";
@@ -38,6 +38,8 @@
 :root.lidingo-customisation-loaded {
   --lidingo-customisation-ready: 1;
 }
+
+@include shortcuts.shortcuts-styles;
 
 .sr-only {
   @include sr-only;

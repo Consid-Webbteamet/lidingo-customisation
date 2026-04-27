@@ -2,131 +2,136 @@
 @use "../mixins" as *;
 @use "../abstracts/variables" as *;
 
-.modularity-mod-hitta-direkt {
-  padding-block: 4rem;
-
-  @media (min-width: $breakpoint-md) {
-    padding-block: 9rem;
-  }
-
-  .shortcuts {
-    --find-directly-circle-size: 9.375rem;
-    --find-directly-icon-width: 4.625rem;
-    --find-directly-icon-height: 4.75rem;
-    --find-directly-initials-size: 4rem;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem;
-
-    @include icon-weight(400);
+@mixin shortcuts-styles($selector: ".modularity-mod-hitta-direkt") {
+  #{$selector} {
+    padding-block: 4rem;
 
     @media (min-width: $breakpoint-md) {
-      align-items: flex-start;
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: 3rem;
+      padding-block: 9rem;
     }
 
-    @media (min-width: $breakpoint-xl) {
-      flex-wrap: nowrap;
-      gap: 5rem;
-    }
+    .shortcuts {
+      --find-directly-circle-size: 9.375rem;
+      --find-directly-icon-width: 4.625rem;
+      --find-directly-icon-height: 4.75rem;
+      --find-directly-initials-size: 4rem;
 
-    @media (min-width: $breakpoint-2xl) {
-      gap: 7rem;
-    }
-
-    &__item {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 0.75rem;
-      width: var(--find-directly-circle-size);
-      color: $text-1000;
-      text-align: center;
-      text-decoration: none;
-
-      &:hover .shortcuts__label,
-      &:focus-visible .shortcuts__label,
-      &:hover .shortcuts__list,
-      &:focus-visible .shortcuts__list {
-        text-decoration: underline;
-      }
-    }
-
-    &__circle {
-      width: var(--find-directly-circle-size);
-      height: var(--find-directly-circle-size);
-      display: inline-flex;
-      align-items: center;
       justify-content: center;
-      border-radius: 50%;
-      background-color: $standard-blue-700;
-      box-shadow: 0 0.25rem 0.25rem rgb(0 0 0 / 0.05);
+      align-items: center;
+      gap: 2rem;
 
-      &--orange {
-        background-color: $standard-yellow-700;
+      @include icon-weight(400);
+
+      @media (min-width: $breakpoint-md) {
+        align-items: flex-start;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 3rem;
       }
 
-      &--red {
-        background-color: $standard-red-700;
+      @media (min-width: $breakpoint-xl) {
+        flex-wrap: nowrap;
+        gap: 5rem;
       }
 
-      &--green {
-        background-color: $standard-green-700;
+      @media (min-width: $breakpoint-2xl) {
+        gap: 7rem;
       }
 
-      &--purple {
-        background-color: $standard-purple-700;
+      &__item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+        width: var(--find-directly-circle-size);
+        color: $text-1000;
+        text-align: center;
+        text-decoration: none;
+
+        &:hover .shortcuts__label,
+        &:focus-visible .shortcuts__label,
+        &:hover .shortcuts__list,
+        &:focus-visible .shortcuts__list {
+          text-decoration: underline;
+        }
       }
 
-      &--blue {
+      &__circle {
+        width: var(--find-directly-circle-size);
+        height: var(--find-directly-circle-size);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
         background-color: $standard-blue-700;
+        box-shadow: 0 0.25rem 0.25rem rgb(0 0 0 / 0.05);
+
+        &--orange {
+          background-color: $standard-yellow-700;
+        }
+
+        &--red {
+          background-color: $standard-red-700;
+        }
+
+        &--green {
+          background-color: $standard-green-700;
+        }
+
+        &--purple {
+          background-color: $standard-purple-700;
+        }
+
+        &--blue {
+          background-color: $standard-blue-700;
+        }
       }
-    }
 
-    &__icon {
-      width: var(--find-directly-icon-width);
-      height: var(--find-directly-icon-height);
-      color: $color-white;
+      &__icon {
+        width: var(--find-directly-icon-width);
+        height: var(--find-directly-icon-height);
+        color: $color-white;
 
-      &::after {
-        font-size: var(--find-directly-icon-width);
+        &::after {
+          font-size: var(--find-directly-icon-width);
+        }
       }
-    }
 
-    &__initials {
-      color: rgb(255 255 255 / 0.8);
-      font-family: var(--font-family-base);
-      font-size: var(--find-directly-initials-size);
-      font-weight: 400;
-      line-height: 1.2;
-      text-transform: uppercase;
-    }
+      &__initials {
+        color: rgb(255 255 255 / 0.8);
+        font-family: var(--font-family-base);
+        font-size: var(--find-directly-initials-size);
+        font-weight: 400;
+        line-height: 1.2;
+        text-transform: uppercase;
+      }
 
-    &__label {
-      color: $text-1000;
-      font-size: 1.375rem;
-      font-family: var(--font-family-heading);
-      font-weight: var(--font-weight-bold);
-    }
+      &__label {
+        align-self: center;
+        color: $text-1000;
+        font-size: 1.375rem;
+        font-family: var(--font-family-heading);
+        font-weight: var(--font-weight-bold);
+        width: max-content;
+        max-width: none;
+      }
 
-    &__list {
-      align-self: center;
-      width: max-content;
-      max-width: none;
-      margin: 0;
-      padding-left: 1.3125rem;
-      text-align: left;
-      text-decoration: none;
-    }
+      &__list {
+        align-self: center;
+        width: max-content;
+        max-width: none;
+        margin: 0;
+        padding-left: 1.3125rem;
+        text-align: left;
+        text-decoration: none;
+      }
 
-    &__list-item {
-      font-size: 0.875rem;
-      margin-top: 0;
+      &__list-item {
+        font-size: 0.875rem;
+        margin-top: 0;
+      }
     }
   }
 }
