@@ -113,12 +113,18 @@
     }
   }
 
-  #hero-search-form__submit {
+  #hero-search-form__submit,
+  #hero-search-form__submit .c-button {
     flex: 0 0 3.75rem;
     width: 3.75rem;
+    max-width: 3.75rem;
+    inline-size: 3.75rem;
+    max-inline-size: 3.75rem;
     min-width: 3.75rem;
     height: 3.75rem;
     min-height: 3.75rem;
+    block-size: 3.75rem;
+    max-block-size: 3.75rem;
     padding: 0;
     border-radius: 0;
 
