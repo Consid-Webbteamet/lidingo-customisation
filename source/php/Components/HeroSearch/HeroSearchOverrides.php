@@ -21,6 +21,8 @@ class HeroSearchOverrides
         }
 
         $data['placeholder'] = 'Sök';
+        $data['icon']['decorative'] = true;
+        $data['icon']['attributeList']['aria-hidden'] = 'true';
 
         return $data;
     }
