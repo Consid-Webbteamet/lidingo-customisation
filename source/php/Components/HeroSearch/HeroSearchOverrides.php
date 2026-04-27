@@ -32,7 +32,8 @@ class HeroSearchOverrides
             return $data;
         }
 
-        $data['text'] = ':sök:';
+        $data['text'] = '';
+        $data['icon'] = ':sök:';
         $data['ariaLabel'] = 'Sök';
 
         return $data;
