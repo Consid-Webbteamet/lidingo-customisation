@@ -81,7 +81,7 @@ class StickyPostMetaBox
     {
         $postTypeObject = get_post_type_object($postType);
 
-        return $postTypeObject !== null && (bool) $postTypeObject->public;
+        return $postTypeObject !== null && (bool) $postTypeObject->show_ui;
     }
 
     private function getStickyOption(string $postType): array

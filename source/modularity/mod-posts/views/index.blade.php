@@ -87,11 +87,30 @@
     @endif
 @endif
 
+@php
+    $postsToRender = !empty($posts) && is_array($posts) ? $posts : [];
+    $postsLimit = null;
+
+    if (isset($posts_count) && is_numeric($posts_count)) {
+        $postsLimit = (int) $posts_count;
+    } elseif (isset($blockData['data']['posts_count']) && is_numeric($blockData['data']['posts_count'])) {
+        $postsLimit = (int) $blockData['data']['posts_count'];
+    }
+
+    if ($postsLimit !== null && $postsLimit > 0) {
+        $postsToRender = array_slice($postsToRender, 0, $postsLimit);
+    }
+@endphp
+
 <div class="o-grid{{ !empty($stretch) ? ' o-grid--stretch' : '' }}{{ !empty($noGutter) ? ' o-grid--no-gutter' : '' }}{{ (!empty($preamble)||(!$hideTitle && !empty($postTitle))) ? ' u-margin__top--4' : '' }}"
 @if (!$hideTitle && !empty($postTitle)) aria-labelledby="{{ 'mod-posts-' . $ID . '-label' }}" @endif>
-    @if($posts)
-        @foreach ($posts as $post)
+    @if($postsToRender)
+        @foreach ($postsToRender as $post)
             @php($postClassList = !empty($post->classList) && is_array($post->classList) ? array_values(array_filter(array_map(static fn ($class): string => is_string($class) ? trim($class) : '', $post->classList), static fn (string $class): bool => $class !== '')) : [])
+            @if (!empty($post->isSticky))
+                @php($postClassList = array_values(array_filter($postClassList, static fn (string $class): bool => preg_match('/^o-grid-/', $class) !== 1)))
+                @php($postClassList[] = is_string($posts_columns ?? null) && $posts_columns !== '' ? $posts_columns : 'o-grid-4@md')
+            @endif
             @php($postAttributeList = !empty($post->attributeList) && is_array($post->attributeList) ? $post->attributeList : [])
             <div
                 @class($postClassList)
@@ -101,7 +120,7 @@
                     @endif
                 @endforeach
             >
-                @if ($highlight_first_column_as === 'block' && $post->isHighlighted)
+                @if ($highlight_first_column_as === 'block' && $post->isHighlighted && empty($post->isSticky))
                     @block([
                         'heading' => $post->postTitle,
                         'content' => $post->excerptShort,
