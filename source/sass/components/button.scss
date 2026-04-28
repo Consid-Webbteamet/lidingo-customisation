@@ -551,6 +551,11 @@ a.button.button--white:visited:active,
   @include t-block-button-big-override;
 }
 
+.t-block-container.t-block-button.button--white {
+  border: 0;
+  background: transparent;
+}
+
 .t-block-container.t-block-button
   > a.c-button.t-block-button.c-button--lg
   .c-button__label,
@@ -562,4 +567,26 @@ a.button.button--white:visited:active,
   color: inherit !important;
   font: inherit !important;
   line-height: inherit !important;
+}
+
+.t-block-container.t-block-button.button--white > a.c-button.t-block-button,
+.t-block-container.t-block-button.button--white
+  > a.c-button.t-block-button:visited,
+.t-block-container.t-block-button.button--white
+  > a.c-button.t-block-button:hover,
+.t-block-container.t-block-button.button--white
+  > a.c-button.t-block-button:focus,
+.t-block-container.t-block-button.button--white
+  > a.c-button.t-block-button:active {
+  border-color: $color-white !important;
+  color: $color-white !important;
+}
+
+.t-block-container.t-block-button.button--white
+  > a.c-button.t-block-button
+  .c-button__label,
+.t-block-container.t-block-button.button--white
+  > a.c-button.t-block-button
+  .c-button__label-text {
+  color: inherit !important;
 }
