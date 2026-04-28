@@ -35,6 +35,8 @@ class ArchiveLayout
         add_filter('Municipio/viewPaths', [$this, 'addViewPath']);
         add_filter('template_include', [$this, 'useArchiveTemplate'], 9);
         add_filter('Municipio/Template/viewData', [$this, 'customizeViewData'], 15);
+        add_filter('Municipio/Archive/TaxonomyFilter/Label', [$this, 'filterArchiveTaxonomyFilterLabel'], 10, 2);
+        add_filter('Municipio/Archive/TaxonomyFilter/Placeholder', [$this, 'filterArchiveTaxonomyFilterLabel'], 10, 2);
     }
 
     /** Limit hierarchical post type archives to top-level posts only. */
@@ -198,12 +200,62 @@ class ArchiveLayout
         return $viewData;
     }
 
+    /** Shorten taxonomy filter labels that include the current archive post type label. */
+    public function filterArchiveTaxonomyFilterLabel(mixed $label, mixed $taxonomy): mixed
+    {
+        if (!is_string($label) || $label === '' || !$this->shouldUseArchiveLayout()) {
+            return $label;
+        }
+
+        $postType = $this->getCurrentPostType();
+
+        if ($postType === null || !is_object($taxonomy) || empty($taxonomy->object_type)) {
+            return $label;
+        }
+
+        $objectTypes = is_array($taxonomy->object_type) ? $taxonomy->object_type : [$taxonomy->object_type];
+        $objectTypes = array_map(static fn($objectType): string => is_string($objectType) ? sanitize_key($objectType) : '', $objectTypes);
+
+        if (!in_array($postType, $objectTypes, true)) {
+            return $label;
+        }
+
+        return $this->stripPostTypeLabelSuffix($label, $postType);
+    }
+
     /** Apply the custom archive layout only on supported public post type archives. */
     private function shouldUseArchiveLayout(): bool
     {
         $postType = $this->getCurrentPostType();
 
         return is_post_type_archive() && $postType !== null && in_array($postType, $this->getSupportedPostTypes(), true);
+    }
+
+    /** Remove the current post type label from the end of a taxonomy filter label. */
+    private function stripPostTypeLabelSuffix(string $label, string $postType): string
+    {
+        $postTypeObject = get_post_type_object($postType);
+
+        if (!$postTypeObject instanceof WP_Post_Type) {
+            return $label;
+        }
+
+        $postTypeLabels = array_filter(array_unique([
+            $postTypeObject->labels->name ?? '',
+            $postTypeObject->labels->singular_name ?? '',
+            $postTypeObject->label ?? '',
+        ]), static fn($postTypeLabel): bool => is_string($postTypeLabel) && trim($postTypeLabel) !== '');
+
+        foreach ($postTypeLabels as $postTypeLabel) {
+            $pattern = '/(?:\s*[-–—,:]\s*|\s+)' . preg_quote(trim((string) $postTypeLabel), '/') . '$/iu';
+            $shortLabel = preg_replace($pattern, '', trim($label));
+
+            if (is_string($shortLabel) && $shortLabel !== '' && $shortLabel !== trim($label)) {
+                return $shortLabel;
+            }
+        }
+
+        return $label;
     }
 
     /** Collect public archive-capable post types, plus project overrides. */
