@@ -141,6 +141,78 @@ body.block-editor-page {
     line-height: 1.6;
   }
 
+  .editor-styles-wrapper .wp-block-acf-button .t-block-container.t-block-button {
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .editor-styles-wrapper .wp-block-acf-button .c-button.t-block-button {
+    display: inline-flex;
+    min-height: 0;
+    padding: 0.5rem 2rem;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    border: 1px solid transparent;
+    border-radius: 62.4375rem;
+    font-family: var(--font-family-base);
+    font-size: 1.125rem;
+    font-weight: 400;
+    line-height: 1.5;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .editor-styles-wrapper
+    .wp-block-acf-button
+    .c-button.t-block-button.c-button__filled--default,
+  .editor-styles-wrapper
+    .wp-block-acf-button
+    .c-button.t-block-button.c-button__filled--deafult {
+    border-color: $border-dark;
+    background: $color-primary-50;
+    color: $text-1000;
+  }
+
+  .editor-styles-wrapper
+    .wp-block-acf-button
+    .c-button.t-block-button.c-button__filled--primary {
+    border-color: $color-primary-500;
+    background: $color-primary-500;
+    color: $color-white;
+  }
+
+  .editor-styles-wrapper
+    .wp-block-acf-button
+    .c-button.t-block-button.c-button__outlined--primary {
+    border-color: $border-marine-darkest;
+    background: transparent;
+    color: $color-primary-500;
+  }
+
+  .editor-styles-wrapper .wp-block-acf-button .c-button.t-block-button.c-button--lg,
+  .editor-styles-wrapper .wp-block-acf-button .c-button.t-block-button.button--lg {
+    height: auto !important;
+    min-width: 0 !important;
+    padding: 0.75rem 2rem !important;
+    gap: 1rem !important;
+    border: 2px solid $text-1000 !important;
+    border-radius: 62.4375rem !important;
+    background: transparent !important;
+    color: $text-1000 !important;
+    font-family: "Lidingo Logical", sans-serif !important;
+    font-size: 1.125rem !important;
+    font-weight: 600 !important;
+    line-height: 1.5 !important;
+  }
+
+  .editor-styles-wrapper .wp-block-acf-button .c-button__label,
+  .editor-styles-wrapper .wp-block-acf-button .c-button__label-text {
+    color: inherit !important;
+    font: inherit !important;
+    line-height: inherit !important;
+  }
+
   .editor-styles-wrapper .wp-block-list {
     margin-top: 1rem;
     margin-bottom: var(--lidingo-editor-paragraph-gap);

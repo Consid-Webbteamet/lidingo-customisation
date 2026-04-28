@@ -1,5 +1,58 @@
 @use "../tokens" as *;
 
+@mixin button-base {
+  display: inline-flex;
+  min-height: 0;
+  padding: 0.5rem 2rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  border: 1px solid transparent;
+  border-radius: 62.4375rem;
+  font-family: var(--font-family-base);
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.5;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+@mixin button-big {
+  display: inline-flex;
+  padding: 0.75rem 2rem;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  border: 2px solid $text-1000;
+  background: transparent;
+  color: $text-1000;
+  font-family: "Lidingo Logical", sans-serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+@mixin t-block-button-big-override {
+  height: auto !important;
+  min-width: 0 !important;
+  padding: 0.75rem 2rem !important;
+  gap: 1rem !important;
+  border: 2px solid $text-1000 !important;
+  border-radius: 62.4375rem !important;
+  background: transparent !important;
+  color: $text-1000 !important;
+  font-family: "Lidingo Logical", sans-serif !important;
+  font-size: 1.125rem !important;
+  font-weight: 600 !important;
+  line-height: 1.5 !important;
+}
+
+@mixin inherit-button-label {
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+}
+
 .t-block-container.t-block-button {
   margin-top: 2rem;
   margin-bottom: 1.5rem;
@@ -8,19 +61,7 @@
 .button,
 .button:visited,
 .c-button {
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-button);
-  font-family: var(--font-family-base);
-  display: inline-flex;
-  min-height: 0;
-  padding: 0.5rem 2rem;
-  justify-content: center;
-  align-items: center;
-  gap: 0.625rem;
-  border-radius: 62.4375rem;
-  border: 1px solid transparent;
-  text-decoration: none;
-  cursor: pointer;
+  @include button-base;
 }
 
 .button--icon-arrow {
@@ -88,49 +129,14 @@
   color: $color-white;
 }
 
-.button--big {
-  display: inline-flex;
-  font-size: 1.125rem;
-  font-weight: 600;
-  font-family: "Lidingo Logical", sans-serif;
-  padding: 0.75rem 1.5rem 0.75rem 2rem;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  border: 2px solid $text-1000;
-  color: $text-1000;
-  background: transparent;
+.button--big,
+.button--lg {
+  @include button-big;
 }
 
-.button--big.button--no-icon {
+.button--big.button--no-icon,
+.button--lg.button--no-icon {
   padding: 0.75rem 2rem;
-}
-
-a.c-button.t-block-button.c-button--lg,
-a.c-button.t-block-button.c-button--lg:visited,
-a.c-button.t-block-button.c-button--lg:hover,
-a.c-button.t-block-button.c-button--lg:focus,
-a.c-button.t-block-button.c-button--lg:active,
-button.c-button.t-block-button.c-button--lg,
-button.c-button.t-block-button.c-button--lg:hover,
-button.c-button.t-block-button.c-button--lg:focus,
-button.c-button.t-block-button.c-button--lg:active {
-  @extend .button;
-  @extend .button--big;
-  text-decoration: none;
-}
-
-a.c-button.t-block-button.c-button--lg .c-button__label,
-a.c-button.t-block-button.c-button--lg:hover .c-button__label,
-a.c-button.t-block-button.c-button--lg:focus .c-button__label,
-a.c-button.t-block-button.c-button--lg:active .c-button__label,
-button.c-button.t-block-button.c-button--lg .c-button__label,
-button.c-button.t-block-button.c-button--lg:hover .c-button__label,
-button.c-button.t-block-button.c-button--lg:focus .c-button__label,
-button.c-button.t-block-button.c-button--lg:active .c-button__label {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
 }
 
 a.c-button.t-block-button[data-external-link] .c-button__label,
@@ -163,19 +169,83 @@ a.c-button.t-block-button[data-external-link]:active .c-button__label::after {
   -webkit-mask: url("../assets/externlank.svg") center / contain no-repeat;
 }
 
-a.c-button.t-block-button.c-button--lg .c-button__label-text,
-a.c-button.t-block-button.c-button--lg:hover .c-button__label-text,
-a.c-button.t-block-button.c-button--lg:focus .c-button__label-text,
-a.c-button.t-block-button.c-button--lg:active .c-button__label-text,
-button.c-button.t-block-button.c-button--lg .c-button__label-text,
-button.c-button.t-block-button.c-button--lg:hover .c-button__label-text,
-button.c-button.t-block-button.c-button--lg:focus .c-button__label-text,
-button.c-button.t-block-button.c-button--lg:active .c-button__label-text {
-  font-size: inherit;
-  font-weight: inherit;
-  font-family: inherit;
-  line-height: inherit;
-  color: inherit;
+a.c-button.t-block-button.c-button__filled.c-button__filled--default,
+a.c-button.t-block-button.c-button__filled.c-button__filled--default:visited,
+a.c-button.t-block-button.c-button__filled.c-button__filled--default:hover,
+a.c-button.t-block-button.c-button__filled.c-button__filled--default:focus,
+a.c-button.t-block-button.c-button__filled.c-button__filled--default:active,
+a.c-button.t-block-button.c-button__filled.c-button__filled--deafult,
+a.c-button.t-block-button.c-button__filled.c-button__filled--deafult:visited,
+a.c-button.t-block-button.c-button__filled.c-button__filled--deafult:hover,
+a.c-button.t-block-button.c-button__filled.c-button__filled--deafult:focus,
+a.c-button.t-block-button.c-button__filled.c-button__filled--deafult:active,
+button.c-button.t-block-button.c-button__filled.c-button__filled--default,
+button.c-button.t-block-button.c-button__filled.c-button__filled--default:hover,
+button.c-button.t-block-button.c-button__filled.c-button__filled--default:focus,
+button.c-button.t-block-button.c-button__filled.c-button__filled--default:active,
+button.c-button.t-block-button.c-button__filled.c-button__filled--deafult,
+button.c-button.t-block-button.c-button__filled.c-button__filled--deafult:hover,
+button.c-button.t-block-button.c-button__filled.c-button__filled--deafult:focus,
+button.c-button.t-block-button.c-button__filled.c-button__filled--deafult:active {
+  @extend .button;
+  @extend .button--default;
+  text-decoration: none;
+}
+
+a.c-button.t-block-button.c-button__filled.c-button__filled--primary,
+a.c-button.t-block-button.c-button__filled.c-button__filled--primary:visited,
+a.c-button.t-block-button.c-button__filled.c-button__filled--primary:hover,
+a.c-button.t-block-button.c-button__filled.c-button__filled--primary:focus,
+a.c-button.t-block-button.c-button__filled.c-button__filled--primary:active,
+button.c-button.t-block-button.c-button__filled.c-button__filled--primary,
+button.c-button.t-block-button.c-button__filled.c-button__filled--primary:hover,
+button.c-button.t-block-button.c-button__filled.c-button__filled--primary:focus,
+button.c-button.t-block-button.c-button__filled.c-button__filled--primary:active {
+  @extend .button;
+  @extend .button--primary;
+  text-decoration: none;
+}
+
+a.c-button.t-block-button.c-button__filled.c-button__filled--default
+  .c-button__label,
+a.c-button.t-block-button.c-button__filled.c-button__filled--default
+  .c-button__label-text,
+a.c-button.t-block-button.c-button__filled.c-button__filled--deafult
+  .c-button__label,
+a.c-button.t-block-button.c-button__filled.c-button__filled--deafult
+  .c-button__label-text,
+a.c-button.t-block-button.c-button__filled.c-button__filled--default:visited
+  .c-button__label,
+a.c-button.t-block-button.c-button__filled.c-button__filled--default:visited
+  .c-button__label-text,
+a.c-button.t-block-button.c-button__filled.c-button__filled--deafult:visited
+  .c-button__label,
+a.c-button.t-block-button.c-button__filled.c-button__filled--deafult:visited
+  .c-button__label-text,
+button.c-button.t-block-button.c-button__filled.c-button__filled--default
+  .c-button__label,
+button.c-button.t-block-button.c-button__filled.c-button__filled--default
+  .c-button__label-text,
+button.c-button.t-block-button.c-button__filled.c-button__filled--deafult
+  .c-button__label,
+button.c-button.t-block-button.c-button__filled.c-button__filled--deafult
+  .c-button__label-text {
+  color: $text-1000;
+}
+
+a.c-button.t-block-button.c-button__filled.c-button__filled--primary
+  .c-button__label,
+a.c-button.t-block-button.c-button__filled.c-button__filled--primary
+  .c-button__label-text,
+a.c-button.t-block-button.c-button__filled.c-button__filled--primary:visited
+  .c-button__label,
+a.c-button.t-block-button.c-button__filled.c-button__filled--primary:visited
+  .c-button__label-text,
+button.c-button.t-block-button.c-button__filled.c-button__filled--primary
+  .c-button__label,
+button.c-button.t-block-button.c-button__filled.c-button__filled--primary
+  .c-button__label-text {
+  color: $color-white;
 }
 
 a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary,
@@ -184,7 +254,7 @@ a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:hover,
 a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:focus,
 a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:active {
   @extend .button;
-  @extend .button--ghost;
+  @extend .button--secondary;
   text-decoration: none;
 }
 
@@ -208,7 +278,7 @@ a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:visited
   .c-button__label,
 a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:visited
   .c-button__label-text {
-  color: $text-1000;
+  color: $color-primary-500;
 }
 
 a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary::after,
@@ -471,4 +541,25 @@ a.button.button--white:visited:active,
 .c-button__outlined--primary:active::after {
   background: none;
   opacity: 0;
+}
+
+.t-block-container.t-block-button > a.c-button.t-block-button.c-button--lg,
+.t-block-container.t-block-button > a.c-button.t-block-button.c-button--lg:visited,
+.t-block-container.t-block-button > a.c-button.t-block-button.c-button--lg:hover,
+.t-block-container.t-block-button > a.c-button.t-block-button.c-button--lg:focus,
+.t-block-container.t-block-button > a.c-button.t-block-button.c-button--lg:active {
+  @include t-block-button-big-override;
+}
+
+.t-block-container.t-block-button
+  > a.c-button.t-block-button.c-button--lg
+  .c-button__label,
+.t-block-container.t-block-button
+  > a.c-button.t-block-button.c-button--lg
+  .c-button__label-text {
+  @include inherit-button-label;
+
+  color: inherit !important;
+  font: inherit !important;
+  line-height: inherit !important;
 }
