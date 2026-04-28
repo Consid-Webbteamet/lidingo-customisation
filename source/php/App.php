@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace LidingoCustomisation;
 
+use LidingoCustomisation\Admin\StickyPostMetaBox;
 use LidingoCustomisation\AcfFields\ArchivePageFields;
 use LidingoCustomisation\AcfFields\HeroFields;
 use LidingoCustomisation\AcfFields\ModularityTocFields;
@@ -42,6 +43,7 @@ class App
     private DevServer $devServer;
     private AssetRenderer $assetRenderer;
     private CspHandler $cspHandler;
+    private StickyPostMetaBox $stickyPostMetaBox;
     private ArchivePageFields $archivePageFields;
     private HeroFields $heroFields;
     private ModularityTocFields $modularityTocFields;
@@ -83,6 +85,7 @@ class App
         $this->devServer = new DevServer();
         $this->assetRenderer = new AssetRenderer($this->assetManifest, $this->devServer);
         $this->cspHandler = new CspHandler($this->devServer);
+        $this->stickyPostMetaBox = new StickyPostMetaBox();
         $this->archivePageFields = new ArchivePageFields();
         $this->heroFields = new HeroFields();
         $this->modularityTocFields = new ModularityTocFields();
@@ -129,6 +132,7 @@ class App
         add_filter('Municipio/Template/viewData', [$this, 'adjustContentNoticePlacement'], 20, 1);
         add_filter('Municipio/Template/viewData', [$this, 'adjustPostTypeArchiveBreadcrumb'], 30, 1);
         add_filter('/Modularity/externalViewPath', [$this, 'addModularityExternalViewPaths']);
+        $this->stickyPostMetaBox->addHooks();
         $this->archivePageFields->addHooks();
         $this->heroFields->addHooks();
         $this->modularityTocFields->addHooks();
