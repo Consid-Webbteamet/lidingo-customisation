@@ -18,6 +18,7 @@ use LidingoCustomisation\Archives\ServiceInfoArchive;
 use LidingoCustomisation\Components\HeroSearch\HeroSearchOverrides;
 use LidingoCustomisation\Components\Posts\FeaturedNewsPosts;
 use LidingoCustomisation\Components\Posts\PostsDateOverrides;
+use LidingoCustomisation\Components\Posts\StickyPostsOverrides;
 use LidingoCustomisation\Components\Sections\SectionFullHeadingOverrides;
 use LidingoCustomisation\Integrations\CustomerFeedback\CustomerFeedbackIntegration;
 use LidingoCustomisation\Integrations\RekAi\RekAiIntegration;
@@ -54,6 +55,7 @@ class App
     private HeroSearchOverrides $heroSearchOverrides;
     private FeaturedNewsPosts $featuredNewsPosts;
     private PostsDateOverrides $postsDateOverrides;
+    private StickyPostsOverrides $stickyPostsOverrides;
     private SectionFullHeadingOverrides $sectionFullHeadingOverrides;
     private ArchiveLayout $archiveLayout;
     private OngoingWorkArchive $ongoingWorkArchive;
@@ -96,6 +98,7 @@ class App
         $this->heroSearchOverrides = new HeroSearchOverrides();
         $this->featuredNewsPosts = new FeaturedNewsPosts();
         $this->postsDateOverrides = new PostsDateOverrides();
+        $this->stickyPostsOverrides = new StickyPostsOverrides();
         $this->sectionFullHeadingOverrides = new SectionFullHeadingOverrides();
         $this->archiveLayout = new ArchiveLayout();
         $this->ongoingWorkArchive = new OngoingWorkArchive();
@@ -144,6 +147,7 @@ class App
         $this->heroSearchOverrides->addHooks();
         $this->featuredNewsPosts->addHooks();
         $this->postsDateOverrides->addHooks();
+        $this->stickyPostsOverrides->addHooks();
         $this->sectionFullHeadingOverrides->addHooks();
         $this->archiveLayout->addHooks();
         $this->ongoingWorkArchive->addHooks();
