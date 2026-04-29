@@ -519,7 +519,11 @@
     .ls-mosiac__section--full > .ls-mosiac__card,
     .ls-mosiac__section--two-col-stacked
       .ls-mosiac__column--right
+      > .ls-mosiac__card,
+    .ls-mosiac__section--two-col-image-top
+      .ls-mosiac__column--right
       > .ls-mosiac__card {
+      flex: 1 1 auto;
       min-height: 0;
       height: auto;
     }
@@ -547,6 +551,20 @@
 
     .ls-mosiac__image-wrapper {
       aspect-ratio: 16 / 9;
+    }
+
+    .ls-mosiac__section--two-col-stacked
+      .ls-mosiac__column--right
+      > .ls-mosiac__card
+      .ls-mosiac__image-wrapper,
+    .ls-mosiac__section--two-col-image-top
+      .ls-mosiac__column--right
+      > .ls-mosiac__card
+      .ls-mosiac__image-wrapper {
+      flex: 0 0 9.625rem;
+      height: 9.625rem;
+      min-height: 9.625rem;
+      aspect-ratio: auto;
     }
   }
   }
