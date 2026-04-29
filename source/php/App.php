@@ -131,6 +131,7 @@ class App
         add_filter('Website/HTML/output', [$this, 'stripDevBlockingCspDirectives'], 20, 0);
         add_filter('Municipio/Template/viewData', [$this, 'adjustContentNoticePlacement'], 20, 1);
         add_filter('Municipio/Template/viewData', [$this, 'adjustPostTypeArchiveBreadcrumb'], 30, 1);
+        add_filter('ComponentLibrary/ViewPaths', [$this, 'prependComponentLibraryViewPath'], 20, 1);
         add_filter('/Modularity/externalViewPath', [$this, 'addModularityExternalViewPaths']);
         $this->stickyPostMetaBox->addHooks();
         $this->archivePageFields->addHooks();
@@ -405,6 +406,14 @@ class App
         $paths['mod-posts'] = LIDINGO_CUSTOMISATION_PATH . 'source/modularity/mod-posts/views';
 
         return $paths;
+    }
+
+    /** Prioritize package-local component view overrides. */
+    public function prependComponentLibraryViewPath(array $paths): array
+    {
+        $viewPath = LIDINGO_CUSTOMISATION_PATH . 'source/component-library/views';
+
+        return array_values(array_unique(array_merge([$viewPath], $paths)));
     }
 
     private function shouldLoadFrontend(): bool

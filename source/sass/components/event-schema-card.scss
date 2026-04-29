@@ -47,7 +47,9 @@
           + .c-element {
           border: none !important;
           border-radius: 0 !important;
+          color: $color-secondary-500 !important;
           background-color: $standard-red-100;
+          margin-top: 0.62rem !important;
 
           span {
             font-size: var(--caption-font-size);
@@ -56,6 +58,10 @@
 
         .c-typography__variant--meta {
           gap: 0.5rem !important;
+
+          [data-material-symbol=":klocka:"] {
+            margin-left: 0.25rem;
+          }
 
           .c-icon {
             font-size: 0;
