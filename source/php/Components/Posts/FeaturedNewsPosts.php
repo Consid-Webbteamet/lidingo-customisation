@@ -139,7 +139,18 @@ class FeaturedNewsPosts
         $module->data['posts'] = $originalPosts;
         $module->data['stickyPosts'] = $originalStickyPosts;
 
-        return is_array($preparedPosts) ? $preparedPosts : [];
+        return is_array($preparedPosts) ? $this->disableHighlightedPresentation($preparedPosts) : [];
+    }
+
+    private function disableHighlightedPresentation(array $posts): array
+    {
+        foreach ($posts as $post) {
+            if (is_object($post) && property_exists($post, 'isHighlighted')) {
+                $post->isHighlighted = false;
+            }
+        }
+
+        return $posts;
     }
 
     private function getPostsPerPage(array $viewData): int
