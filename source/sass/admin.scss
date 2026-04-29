@@ -5,6 +5,7 @@
 @use "./tokens/colors" as *;
 @use "./components/card" as card;
 @use "./components/card-news-grid" as card-news-grid;
+@use "./components/featured-news-posts" as featured-news-posts;
 @use "./components/event-schema-card" as event-schema-card;
 @use "./components/mosiac" as mosaic;
 @use "./components/shortcuts" as shortcuts;
@@ -22,6 +23,7 @@ body.block-editor-page {
 
     @include card.top-card-styles;
     @include card-news-grid.card-news-grid-styles;
+    @include featured-news-posts.featured-news-posts-styles;
     @include event-schema-card.event-schema-card-styles(".js-async-posts");
     @include mosaic.mosaic-styles;
     @include shortcuts.shortcuts-styles;

@@ -15,6 +15,9 @@
 ## When to work here
 - Use this repo for local presentation tweaks and project-bound frontend behavior.
 - Use this repo when the change is intentionally specific to Lidingo and should not be pushed into a shared standalone plugin.
+- Prefer additive overrides over replacements.
+- Before overriding a Municipio or Modularity view path, verify that the upstream fallback still resolves so standard layouts keep working.
+- Do not remove or bypass base module behavior unless the task explicitly requires it and the impact is understood.
 
 ## When to sync elsewhere
 - If an override in this repo fixes shared behavior in a standalone plugin, mirror the change back to that plugin's source repo under `packages/`.

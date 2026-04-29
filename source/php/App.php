@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace LidingoCustomisation;
 
-use LidingoCustomisation\Admin\StickyPostMetaBox;
 use LidingoCustomisation\AcfFields\ArchivePageFields;
 use LidingoCustomisation\AcfFields\HeroFields;
 use LidingoCustomisation\AcfFields\ModularityTocFields;
@@ -17,6 +16,7 @@ use LidingoCustomisation\Archives\ArchiveLayout;
 use LidingoCustomisation\Archives\OngoingWorkArchive;
 use LidingoCustomisation\Archives\ServiceInfoArchive;
 use LidingoCustomisation\Components\HeroSearch\HeroSearchOverrides;
+use LidingoCustomisation\Components\Posts\FeaturedNewsPosts;
 use LidingoCustomisation\Components\Posts\PostsDateOverrides;
 use LidingoCustomisation\Components\Sections\SectionFullHeadingOverrides;
 use LidingoCustomisation\Integrations\CustomerFeedback\CustomerFeedbackIntegration;
@@ -43,7 +43,6 @@ class App
     private DevServer $devServer;
     private AssetRenderer $assetRenderer;
     private CspHandler $cspHandler;
-    private StickyPostMetaBox $stickyPostMetaBox;
     private ArchivePageFields $archivePageFields;
     private HeroFields $heroFields;
     private ModularityTocFields $modularityTocFields;
@@ -53,6 +52,7 @@ class App
     private ServiceInfoCategoryIconFields $serviceInfoCategoryIconFields;
     private ServiceInfoSingleSidebarFields $serviceInfoSingleSidebarFields;
     private HeroSearchOverrides $heroSearchOverrides;
+    private FeaturedNewsPosts $featuredNewsPosts;
     private PostsDateOverrides $postsDateOverrides;
     private SectionFullHeadingOverrides $sectionFullHeadingOverrides;
     private ArchiveLayout $archiveLayout;
@@ -85,7 +85,6 @@ class App
         $this->devServer = new DevServer();
         $this->assetRenderer = new AssetRenderer($this->assetManifest, $this->devServer);
         $this->cspHandler = new CspHandler($this->devServer);
-        $this->stickyPostMetaBox = new StickyPostMetaBox();
         $this->archivePageFields = new ArchivePageFields();
         $this->heroFields = new HeroFields();
         $this->modularityTocFields = new ModularityTocFields();
@@ -95,6 +94,7 @@ class App
         $this->serviceInfoCategoryIconFields = new ServiceInfoCategoryIconFields();
         $this->serviceInfoSingleSidebarFields = new ServiceInfoSingleSidebarFields();
         $this->heroSearchOverrides = new HeroSearchOverrides();
+        $this->featuredNewsPosts = new FeaturedNewsPosts();
         $this->postsDateOverrides = new PostsDateOverrides();
         $this->sectionFullHeadingOverrides = new SectionFullHeadingOverrides();
         $this->archiveLayout = new ArchiveLayout();
@@ -133,7 +133,6 @@ class App
         add_filter('Municipio/Template/viewData', [$this, 'adjustPostTypeArchiveBreadcrumb'], 30, 1);
         add_filter('ComponentLibrary/ViewPaths', [$this, 'prependComponentLibraryViewPath'], 20, 1);
         add_filter('/Modularity/externalViewPath', [$this, 'addModularityExternalViewPaths']);
-        $this->stickyPostMetaBox->addHooks();
         $this->archivePageFields->addHooks();
         $this->heroFields->addHooks();
         $this->modularityTocFields->addHooks();
@@ -143,6 +142,7 @@ class App
         $this->serviceInfoCategoryIconFields->addHooks();
         $this->serviceInfoSingleSidebarFields->addHooks();
         $this->heroSearchOverrides->addHooks();
+        $this->featuredNewsPosts->addHooks();
         $this->postsDateOverrides->addHooks();
         $this->sectionFullHeadingOverrides->addHooks();
         $this->archiveLayout->addHooks();
@@ -403,7 +403,12 @@ class App
     /** Point Modularity to the package-local view overrides. */
     public function addModularityExternalViewPaths(array $paths): array
     {
-        $paths['mod-posts'] = LIDINGO_CUSTOMISATION_PATH . 'source/modularity/mod-posts/views';
+        // Blade prepends paths in the order they are passed, so keep the
+        // local override first and the Municipio module path second.
+        $paths['mod-posts'] = [
+            LIDINGO_CUSTOMISATION_PATH . 'source/modularity/mod-posts/views',
+            get_template_directory() . '/Modularity/source/php/Module/Posts/views',
+        ];
 
         return $paths;
     }
