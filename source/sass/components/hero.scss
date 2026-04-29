@@ -1,6 +1,7 @@
 @use "../tokens/colors" as *;
 @use "../typography" as *;
 @use "../abstracts/variables" as *;
+@use "../mixins/icon-weight" as *;
 
 .c-hero {
   &.c-hero--stretch.c-hero--image {
@@ -140,6 +141,10 @@
     .c-button__label-text {
       font-size: 1.625rem;
       line-height: normal;
+    }
+
+    .c-button__label-icon {
+      @include icon-weight(400);
     }
   }
 }
