@@ -543,6 +543,62 @@ a.button.button--white:visited:active,
   opacity: 0;
 }
 
+.error404 .t-404__buttons .c-button[href="javascript:history.go(-1);"] .c-icon,
+.error404 .t-404__buttons .c-button[href="/"] .c-icon {
+  display: none;
+}
+
+.error404 .t-404__buttons .c-button.c-button__filled.c-button__filled--secondary,
+.error404 .t-404__buttons .c-button.c-button__filled.c-button__filled--secondary:visited,
+.error404 .t-404__buttons .c-button.c-button__filled.c-button__filled--secondary:hover,
+.error404 .t-404__buttons .c-button.c-button__filled.c-button__filled--secondary:focus,
+.error404 .t-404__buttons .c-button.c-button__filled.c-button__filled--secondary:active {
+  background: $color-primary-500;
+  border-color: $color-primary-500;
+  color: $color-white;
+  text-decoration: none;
+}
+
+.error404 .t-404__buttons .c-button.c-button--lg,
+.error404 .t-404__buttons .c-button.c-button--lg .c-button__label,
+.error404 .t-404__buttons .c-button.c-button--lg .c-button__label-text,
+.error404 .t-404__buttons .c-button.c-button--lg .c-button__label-icon {
+  font-size: 1.125rem;
+}
+
+.error404 .t-404__buttons .c-button.c-button__filled.c-button__filled--secondary .c-button__label,
+.error404
+  .t-404__buttons
+  .c-button.c-button__filled.c-button__filled--secondary
+  .c-button__label-text {
+  color: $color-white;
+}
+
+.error404
+  .t-404__buttons
+  .c-button[href="javascript:history.go(-1);"]
+  .c-button__label-icon::before,
+.error404 .t-404__buttons .c-button[href="/"] .c-button__label-icon::before {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Lidingo Logical", sans-serif;
+  font-size: inherit;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.error404
+  .t-404__buttons
+  .c-button[href="javascript:history.go(-1);"]
+  .c-button__label-icon::before {
+  content: ":vänster:";
+}
+
+.error404 .t-404__buttons .c-button[href="/"] .c-button__label-icon::before {
+  content: ":hus:";
+}
+
 .t-block-container.t-block-button > a.c-button.t-block-button.c-button--lg,
 .t-block-container.t-block-button > a.c-button.t-block-button.c-button--lg:visited,
 .t-block-container.t-block-button > a.c-button.t-block-button.c-button--lg:hover,
