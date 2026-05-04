@@ -24,9 +24,6 @@
   color: $text-1000;
   text-decoration: none;
 
-  &:hover,
-  &:focus,
-  &:active,
   &:visited {
     color: $text-1000;
     text-decoration: none;
@@ -76,6 +73,22 @@
 
 .c-accordion__button[aria-expanded="true"] .c-accordion__icon {
   transform: rotate(180deg);
+}
+
+.c-accordion .c-accordion__button:hover,
+.c-accordion .c-accordion__button:focus {
+  background-color: $color-primary-500;
+  text-decoration: none;
+}
+
+.c-accordion .c-accordion__button:hover .c-accordion__button-column,
+.c-accordion .c-accordion__button:focus .c-accordion__button-column {
+  color: $color-white;
+}
+
+.c-accordion .c-accordion__button:hover .c-accordion__icon.c-icon.c-icon--size-md,
+.c-accordion .c-accordion__button:focus .c-accordion__icon.c-icon.c-icon--size-md {
+  color: $color-white;
 }
 
 .c-accordion {
