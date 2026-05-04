@@ -14,11 +14,13 @@ class FeaturedNewsPosts
     /** @var array<int, int[]> */
     private array $manualPostIdsByPostId = [];
 
+    /** Register featured news block overrides. */
     public function addHooks(): void
     {
         add_filter('Modularity/Block/Data', [$this, 'excludeFeaturedPostsFromList'], 60, 3);
     }
 
+    /** Replace right-hand featured lists with a query that excludes the manual left-hand picks. */
     public function excludeFeaturedPostsFromList(array $viewData, array $block, object $module): array
     {
         if (!$this->isRightFeaturedPostsBlock($block)) {
@@ -41,6 +43,7 @@ class FeaturedNewsPosts
         return $viewData;
     }
 
+    /** Match the right-hand featured posts block by class name. */
     private function isRightFeaturedPostsBlock(array $block): bool
     {
         if (($block['name'] ?? '') !== 'acf/posts') {
@@ -50,6 +53,7 @@ class FeaturedNewsPosts
         return $this->classListContains($block['className'] ?? $block['attrs']['className'] ?? '', self::RIGHT_CLASS);
     }
 
+    /** Read and cache the manually selected post IDs from the left-hand featured block. */
     private function getLeftFeaturedPostIds(): array
     {
         $post = get_post();
@@ -67,6 +71,7 @@ class FeaturedNewsPosts
         return $this->manualPostIdsByPostId[$post->ID];
     }
 
+    /** Walk nested blocks until the manual left-hand featured posts block is found. */
     private function findLeftFeaturedPostIds(array $blocks): array
     {
         foreach ($blocks as $block) {
@@ -89,6 +94,7 @@ class FeaturedNewsPosts
         return [];
     }
 
+    /** Match the manual left-hand featured posts block that provides excluded IDs. */
     private function isLeftFeaturedManualPostsBlock(array $block): bool
     {
         if (($block['blockName'] ?? '') !== 'acf/posts') {
@@ -102,6 +108,7 @@ class FeaturedNewsPosts
             && ($data['posts_data_source'] ?? '') === 'manual';
     }
 
+    /** Rebuild the posts query with the left-hand featured items excluded. */
     private function buildReplacementQueryArgs(array $viewData, array $excludedPostIds, int $currentPage): array
     {
         $orderBy = (string) ($viewData['posts_sort_by'] ?? 'date');
@@ -121,6 +128,7 @@ class FeaturedNewsPosts
         ];
     }
 
+    /** Re-run the posts module template controller for the replacement query result. */
     private function preparePostsForView(array $posts, object $module): array
     {
         if (!$module instanceof \Modularity\Module\Posts\Posts) {
@@ -142,6 +150,7 @@ class FeaturedNewsPosts
         return is_array($preparedPosts) ? $this->disableHighlightedPresentation($preparedPosts) : [];
     }
 
+    /** Clear highlighted flags so replacement posts render like the original right-hand list. */
     private function disableHighlightedPresentation(array $posts): array
     {
         foreach ($posts as $post) {
@@ -153,6 +162,7 @@ class FeaturedNewsPosts
         return $posts;
     }
 
+    /** Normalize the configured posts-per-page value to a safe positive limit. */
     private function getPostsPerPage(array $viewData): int
     {
         $postsCount = $viewData['posts_count'] ?? 3;
@@ -166,6 +176,7 @@ class FeaturedNewsPosts
         return $postsCount > 0 ? min($postsCount, 100) : 3;
     }
 
+    /** Read the current pagination page from the module-specific query parameter. */
     private function getCurrentPageNumber(array $viewData, object $module): int
     {
         $pageNumber = filter_input(INPUT_GET, $this->getPaginationQueryVarName($viewData, $module), FILTER_VALIDATE_INT);
@@ -173,6 +184,7 @@ class FeaturedNewsPosts
         return is_int($pageNumber) && $pageNumber > 0 ? $pageNumber : 1;
     }
 
+    /** Build replacement pagination links that reuse the module-specific query parameter. */
     private function getPaginationArguments(array $viewData, object $module, int $currentPage): ?array
     {
         if (($viewData['posts_pagination'] ?? null) !== 'page_numbers') {

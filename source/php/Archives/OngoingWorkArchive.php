@@ -208,6 +208,7 @@ class OngoingWorkArchive
         }
     }
 
+    /** Check whether the current request is the ongoing work archive. */
     private function isOngoingWorkArchive(): bool
     {
         return is_post_type_archive(self::POST_TYPE);
