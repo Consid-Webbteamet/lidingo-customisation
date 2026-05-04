@@ -103,6 +103,17 @@
     text-decoration-thickness: 0.0625rem;
   }
 
+  &__link:focus,
+  &__link:active {
+    text-decoration-style: solid;
+  }
+
+  &__link:focus-visible {
+    outline: 2px solid $color-primary-500;
+    outline-offset: 0.1875rem;
+    text-decoration-style: solid;
+  }
+
   [aria-current="page"] {
     color: $text-1000;
     text-decoration: none;
