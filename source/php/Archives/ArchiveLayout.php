@@ -17,6 +17,7 @@ class ArchiveLayout
     public const BADGE_TAXONOMY_FIELD_NAME = 'lidingo_archive_badge_taxonomy';
     private const DATE_BADGE_POST_TYPES = ['news', 'nyheter'];
     private const HERO_IMAGE_EXCLUDED_POST_TYPES = ['evenemang'];
+    private const SWEDISH_TITLE_COLLATION = 'utf8mb4_swedish_ci';
 
     private string $viewPath;
 
@@ -32,6 +33,7 @@ class ArchiveLayout
     {
         add_action('init', [$this, 'registerArchiveOrderDirectionFilters'], 20);
         add_action('pre_get_posts', [$this, 'filterHierarchicalArchivePosts']);
+        add_filter('posts_orderby', [$this, 'applySwedishTitleSorting'], 20, 2);
         add_filter('Municipio/viewPaths', [$this, 'addViewPath']);
         add_filter('template_include', [$this, 'useArchiveTemplate'], 9);
         add_filter('Municipio/Template/viewData', [$this, 'customizeViewData'], 15);
@@ -223,6 +225,25 @@ class ArchiveLayout
         return $this->stripPostTypeLabelSuffix($label, $postType);
     }
 
+    /** Apply Swedish title sorting for title-sorted archive queries when supported by the database. */
+    public function applySwedishTitleSorting(string $orderby, WP_Query $query): string
+    {
+        if (!$this->shouldApplySwedishTitleSorting($query)) {
+            return $orderby;
+        }
+
+        global $wpdb;
+
+        $order = strtoupper((string) $query->get('order')) === 'DESC' ? 'DESC' : 'ASC';
+
+        return sprintf(
+            '%1$s.post_title COLLATE %2$s %3$s, %1$s.ID %3$s',
+            $wpdb->posts,
+            self::SWEDISH_TITLE_COLLATION,
+            $order
+        );
+    }
+
     /** Apply the custom archive layout only on supported public post type archives. */
     private function shouldUseArchiveLayout(): bool
     {
@@ -303,6 +324,47 @@ class ArchiveLayout
         ));
 
         return !empty($postTypes) ? $postTypes : $defaultPostTypes;
+    }
+
+    /** Only override archive queries that explicitly sort by title. */
+    private function shouldApplySwedishTitleSorting(WP_Query $query): bool
+    {
+        if (
+            is_admin()
+            || !is_post_type_archive()
+            || !$this->queryOrdersByTitle($query->get('orderby'))
+        ) {
+            return false;
+        }
+
+        $postType = $this->resolveArchivePostType($query);
+        $currentPostType = $this->getCurrentPostType();
+
+        return $postType !== null
+            && $currentPostType !== null
+            && $postType === $currentPostType
+            && in_array($postType, $this->getSupportedPostTypes(), true)
+            && !$this->isExplicitPostLookupQuery($query);
+    }
+
+    /** Detect whether the current query is title-sorted. */
+    private function queryOrdersByTitle(mixed $orderBy): bool
+    {
+        if (is_string($orderBy)) {
+            return in_array($orderBy, ['title', 'post_title'], true);
+        }
+
+        if (!is_array($orderBy)) {
+            return false;
+        }
+
+        foreach ($orderBy as $key => $value) {
+            if (in_array($key, ['title', 'post_title'], true) || in_array($value, ['title', 'post_title'], true)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /** Default unset title-sorted archives to ascending order. */
