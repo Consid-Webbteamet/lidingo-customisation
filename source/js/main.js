@@ -5,6 +5,7 @@
 import initNavCurrentBadge from './components/navCurrentBadge';
 import initDateFieldPicker from './components/dateFieldPicker';
 import initNavHoverIndicator from './components/navHoverIndicator';
+import initNavDrawerFocus from './components/navDrawerFocus';
 import initNavigationCard from './components/navigationCard';
 import initScrolledHeaderState from './components/scrolledHeader';
 import initModularityTocDeduplicate from './components/modularityTocDeduplicate';
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initDateFieldPicker();
     initNavCurrentBadge();
     initNavHoverIndicator();
+    initNavDrawerFocus();
     initNavigationCard();
     initScrolledHeaderState();
     initModularityTocDeduplicate();
