@@ -30,6 +30,10 @@ class RekAiIntegration
     /** Detect whether view tracking should be blocked in this environment. */
     private function shouldBlockViewData(): bool
     {
+        if ($this->isMuniprodHost()) {
+            return true;
+        }
+
         if (!function_exists('get_field') || !get_field('rekai_enable', 'options')) {
             return false;
         }
@@ -39,12 +43,26 @@ class RekAiIntegration
             return false;
         }
 
-        $host = (string) parse_url((string) home_url(), PHP_URL_HOST);
-        if ($host !== '' && str_contains(strtolower($host), 'muniprod.')) {
-            return true;
+        return !$this->isProductionEnvironment();
+    }
+
+    /** Keep RekAI view tracking blocked on the replacement production host. */
+    private function isMuniprodHost(): bool
+    {
+        $hosts = [
+            (string) wp_parse_url((string) home_url(), PHP_URL_HOST),
+            isset($_SERVER['HTTP_HOST']) ? sanitize_text_field(wp_unslash((string) $_SERVER['HTTP_HOST'])) : '',
+        ];
+
+        foreach ($hosts as $host) {
+            $normalizedHost = strtolower(trim($host));
+
+            if ($normalizedHost !== '' && str_starts_with($normalizedHost, 'muniprod.')) {
+                return true;
+            }
         }
 
-        return !$this->isProductionEnvironment();
+        return false;
     }
 
     /** Treat any non-production environment as test mode. */
