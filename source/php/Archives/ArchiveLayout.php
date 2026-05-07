@@ -10,11 +10,14 @@ use Municipio\PostObject\PostObjectInterface;
 use WP_Post;
 use WP_Post_Type;
 use WP_Query;
+use WP_Admin_Bar;
 
 class ArchiveLayout
 {
     public const TEMPLATE_SLUG = 'archive-post-type.blade.php';
     public const BADGE_TAXONOMY_FIELD_NAME = 'lidingo_archive_badge_taxonomy';
+    private const EVENT_ARCHIVE_POST_TYPE = 'evenemang';
+    private const POSTS_LIST_DATE_CLAUSE_KEY = 'date_clause';
     private const DATE_BADGE_POST_TYPES = ['news', 'nyheter'];
     private const HERO_IMAGE_EXCLUDED_POST_TYPES = ['evenemang'];
     private const SWEDISH_TITLE_COLLATION = 'utf8mb4_swedish_ci';
@@ -32,13 +35,122 @@ class ArchiveLayout
     public function addHooks(): void
     {
         add_action('init', [$this, 'registerArchiveOrderDirectionFilters'], 20);
+        add_action('admin_bar_menu', [$this, 'addArchivePageEditLink'], 80);
         add_action('pre_get_posts', [$this, 'filterHierarchicalArchivePosts']);
+        add_action('pre_get_posts', [$this, 'removeForcedCurrentDateEventFilter'], 50);
         add_filter('posts_orderby', [$this, 'applySwedishTitleSorting'], 20, 2);
+        add_filter('body_class', [$this, 'filterBodyClasses'], 20);
         add_filter('Municipio/viewPaths', [$this, 'addViewPath']);
+        add_filter('document_title_parts', [$this, 'filterDocumentTitleParts'], 20);
+        add_filter('pre_get_document_title', [$this, 'filterDocumentTitle'], 20);
+        add_filter('Municipio/postTitle', [$this, 'filterMunicipioPostTitle'], 20);
         add_filter('template_include', [$this, 'useArchiveTemplate'], 9);
         add_filter('Municipio/Template/viewData', [$this, 'customizeViewData'], 15);
         add_filter('Municipio/Archive/TaxonomyFilter/Label', [$this, 'filterArchiveTaxonomyFilterLabel'], 10, 2);
         add_filter('Municipio/Archive/TaxonomyFilter/Placeholder', [$this, 'filterArchiveTaxonomyFilterLabel'], 10, 2);
+    }
+
+    /** Restore the archive page edit link when the theme falls back to child pages. */
+    public function addArchivePageEditLink(WP_Admin_Bar $adminBar): void
+    {
+        if (!$this->isFallbackArchiveView()) {
+            return;
+        }
+
+        $postType = $this->getCurrentPostType();
+        if ($postType === null) {
+            return;
+        }
+
+        $page = $this->getArchivePage($postType);
+        if (!$page instanceof WP_Post || !current_user_can('edit_post', $page->ID)) {
+            return;
+        }
+
+        $adminBar->add_node([
+            'id' => 'edit',
+            'title' => '<span class="ab-item"></span>' . __('Edit Page', 'wp-page-for-post-type'),
+            'href' => (string) get_edit_post_link($page->ID),
+        ]);
+    }
+
+    /** Keep the document title aligned with the assigned archive page in fallback mode. */
+    public function filterDocumentTitleParts(array $parts): array
+    {
+        if (!$this->isFallbackArchiveView()) {
+            return $parts;
+        }
+
+        $postType = $this->getCurrentPostType();
+        if ($postType === null) {
+            return $parts;
+        }
+
+        $page = $this->getArchivePage($postType);
+        if (!$page instanceof WP_Post) {
+            return $parts;
+        }
+
+        $title = get_the_title($page);
+        if (is_string($title) && $title !== '') {
+            $parts['title'] = $title;
+        }
+
+        return $parts;
+    }
+
+    /** Restore the expected archive body classes when the theme swaps the query to pages. */
+    public function filterBodyClasses(array $classes): array
+    {
+        if (!$this->isFallbackArchiveView()) {
+            return $classes;
+        }
+
+        $postType = $this->getCurrentPostType();
+        if ($postType === null) {
+            return $classes;
+        }
+
+        $classes = array_values(array_filter(
+            $classes,
+            static fn($class): bool => !in_array($class, ['post-type-archive-page'], true)
+        ));
+
+        $classes[] = 'post-type-archive-' . $postType;
+
+        return array_values(array_unique($classes));
+    }
+
+    /** Override the rendered document title in fallback archive mode. */
+    public function filterDocumentTitle(string $title): string
+    {
+        if (!$this->isFallbackArchiveView()) {
+            return $title;
+        }
+
+        $postType = $this->getCurrentPostType();
+        if ($postType === null) {
+            return $title;
+        }
+
+        $page = $this->getArchivePage($postType);
+        if (!$page instanceof WP_Post) {
+            return $title;
+        }
+
+        $pageTitle = get_the_title($page);
+
+        return is_string($pageTitle) && $pageTitle !== '' ? $pageTitle : $title;
+    }
+
+    /** Override Municipio's rendered page title in fallback archive mode. */
+    public function filterMunicipioPostTitle(string $title): string
+    {
+        if (!$this->isFallbackArchiveView()) {
+            return $title;
+        }
+
+        return $this->filterDocumentTitle($title);
     }
 
     /** Limit hierarchical post type archives to top-level posts only. */
@@ -71,6 +183,36 @@ class ArchiveLayout
         }
 
         $query->set('post_parent', 0);
+    }
+
+    /** Let archive date filters include past events by removing Municipio's extra future-only clause. */
+    public function removeForcedCurrentDateEventFilter(WP_Query $query): void
+    {
+        if (is_admin() || !$this->isCurrentEventArchiveView()) {
+            return;
+        }
+
+        $postType = $query->get('post_type');
+
+        if (is_array($postType)) {
+            $postType = end($postType);
+        }
+
+        if ($postType !== self::EVENT_ARCHIVE_POST_TYPE) {
+            return;
+        }
+
+        $metaQuery = $query->get('meta_query');
+
+        if (!is_array($metaQuery) || empty($metaQuery)) {
+            return;
+        }
+
+        if (!$this->hasPostsListDateClause($metaQuery)) {
+            return;
+        }
+
+        $query->set('meta_query', $this->withoutForcedCurrentDateClause($metaQuery));
     }
 
     /** Leave explicitly targeted queries alone and only constrain archive-style lists. */
@@ -249,7 +391,16 @@ class ArchiveLayout
     {
         $postType = $this->getCurrentPostType();
 
-        return is_post_type_archive() && $postType !== null && in_array($postType, $this->getSupportedPostTypes(), true);
+        return ($this->isFallbackArchiveView() || is_post_type_archive())
+            && $postType !== null
+            && in_array($postType, $this->getSupportedPostTypes(), true);
+    }
+
+    /** Check whether the current request is the events archive handled by this layout. */
+    private function isCurrentEventArchiveView(): bool
+    {
+        return $this->getCurrentPostType() === self::EVENT_ARCHIVE_POST_TYPE
+            && $this->shouldUseArchiveLayout();
     }
 
     /** Remove the current post type label from the end of a taxonomy filter label. */
@@ -387,18 +538,103 @@ class ArchiveLayout
         $queriedObject = get_queried_object();
 
         if ($queriedObject instanceof WP_Post_Type && !empty($queriedObject->name)) {
-            return sanitize_key((string) $queriedObject->name);
+            $queriedPostType = sanitize_key((string) $queriedObject->name);
+
+            if ($queriedPostType !== 'page') {
+                return $queriedPostType;
+            }
         }
 
-        global $wp_query;
+        $query = $this->getCurrentArchiveQuery();
 
-        $postType = $wp_query->query['post_type'] ?? null;
+        if ($query instanceof WP_Query) {
+            $postType = $query->query['post_type'] ?? null;
 
-        if (is_string($postType) && $postType !== '') {
-            return sanitize_key($postType);
+            if (is_string($postType) && $postType !== '' && $postType !== 'page') {
+                return sanitize_key($postType);
+            }
+        }
+
+        $fallbackPostType = $this->resolveFallbackArchivePostType();
+        if ($fallbackPostType !== null) {
+            return $fallbackPostType;
         }
 
         return null;
+    }
+
+    /** Detect whether Municipio has swapped an empty archive query to page children. */
+    private function isFallbackArchiveView(): bool
+    {
+        return $this->resolveFallbackArchivePostType() !== null;
+    }
+
+    /** Resolve the original post type when the theme has swapped the archive query. */
+    private function resolveFallbackArchivePostType(): ?string
+    {
+        if (!is_archive()) {
+            return null;
+        }
+
+        $query = $this->getCurrentArchiveQuery();
+        if (!$query instanceof WP_Query) {
+            return null;
+        }
+
+        $postType = $query->get('post_type');
+        if (is_array($postType)) {
+            $postType = end($postType);
+        }
+
+        if ($postType !== 'page') {
+            return null;
+        }
+
+        $archivePageId = (int) $query->get('child_of');
+        if ($archivePageId <= 0) {
+            return null;
+        }
+
+        if ((int) get_option('page_for_' . self::EVENT_ARCHIVE_POST_TYPE) === $archivePageId) {
+            return self::EVENT_ARCHIVE_POST_TYPE;
+        }
+
+        return null;
+    }
+
+    /** Return the current main archive query when available. */
+    private function getCurrentArchiveQuery(): ?WP_Query
+    {
+        global $wp_query;
+
+        return $wp_query instanceof WP_Query ? $wp_query : null;
+    }
+
+    /** Detect the date clause generated by Municipio's posts list filters. */
+    private function hasPostsListDateClause(array $metaQuery): bool
+    {
+        return isset($metaQuery[self::POSTS_LIST_DATE_CLAUSE_KEY])
+            && is_array($metaQuery[self::POSTS_LIST_DATE_CLAUSE_KEY]);
+    }
+
+    /** Remove Municipio's extra startDate >= now clause while preserving explicit archive date filters. */
+    private function withoutForcedCurrentDateClause(array $metaQuery): array
+    {
+        foreach ($metaQuery as $key => $clause) {
+            if (
+                $key === self::POSTS_LIST_DATE_CLAUSE_KEY
+                || !is_array($clause)
+                || ($clause['key'] ?? null) !== 'startDate'
+                || ($clause['compare'] ?? null) !== '>='
+                || ($clause['type'] ?? null) !== 'DATETIME'
+            ) {
+                continue;
+            }
+
+            unset($metaQuery[$key]);
+        }
+
+        return $metaQuery;
     }
 
     /** Load the page assigned to the current archive post type. */
