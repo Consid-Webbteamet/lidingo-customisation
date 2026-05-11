@@ -172,7 +172,7 @@ class App
         }
     }
 
-    /** Print the frontend stylesheet. */
+    /** Print frontend assets and inline background styles when frontend loading is enabled. */
     public function printFrontendStylesheet(): void
     {
         if (is_admin() || !$this->shouldLoadFrontend()) {
@@ -258,11 +258,13 @@ class App
         $this->cspHandler->stripDevBlockingCspDirectives();
     }
 
+    /** Read the frontend asset toggle from the project filter. */
     private function shouldLoadFrontend(): bool
     {
         return (bool) apply_filters('lidingo_customisation/should_load_frontend', true);
     }
 
+    /** Read the explicit admin asset toggle from the project filter. */
     private function shouldLoadAdmin(): bool
     {
         return (bool) apply_filters('lidingo_customisation/should_load_admin', false);

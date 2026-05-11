@@ -532,7 +532,7 @@ class ArchiveLayout
             : $value;
     }
 
-    /** Resolve the current archive post type from the main query. */
+    /** Resolve the current archive post type from the query, queried object, or fallback archive page. */
     private function getCurrentPostType(): ?string
     {
         $queriedObject = get_queried_object();
