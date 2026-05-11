@@ -32,6 +32,46 @@
   line-height: 1.5;
 }
 
+@mixin button-icon-arrow {
+  display: inline-flex;
+  padding: 0.5rem 1.5rem 0.5rem 2rem;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+@mixin button-default {
+  border: 1px solid $border-dark;
+  background: $color-primary-50;
+  color: $text-1000;
+}
+
+@mixin button-primary {
+  border: 1px solid $color-primary-500;
+  background: $color-primary-500;
+  color: $color-white;
+}
+
+@mixin button-secondary {
+  border: 1px solid $border-marine-darkest;
+  background: transparent;
+  color: $color-primary-500;
+}
+
+@mixin button-ghost {
+  border: 1px solid $text-1000;
+  background: transparent;
+  color: $text-1000;
+}
+
+@mixin button-white {
+  border: 1px solid $color-white;
+  background: transparent;
+  color: $color-white;
+}
+
 @mixin t-block-button-big-override {
   height: auto !important;
   min-width: 0 !important;
@@ -53,6 +93,32 @@
   line-height: inherit;
 }
 
+@mixin button-states {
+  &,
+  &:visited,
+  &:hover,
+  &:focus,
+  &:active {
+    @content;
+  }
+}
+
+@mixin control-states {
+  &,
+  &:hover,
+  &:focus,
+  &:active {
+    @content;
+  }
+}
+
+@mixin t-block-button-label-color($color) {
+  .c-button__label,
+  .c-button__label-text {
+    color: $color;
+  }
+}
+
 .t-block-container.t-block-button {
   margin-top: 2rem;
   margin-bottom: 1.5rem;
@@ -65,13 +131,7 @@
 }
 
 .button--icon-arrow {
-  display: inline-flex;
-  padding: 0.5rem 1.5rem 0.5rem 2rem;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
+  @include button-icon-arrow;
 }
 
 .button--icon-arrow::after {
@@ -100,33 +160,23 @@
 }
 
 .button--default {
-  border: 1px solid $border-dark;
-  background: $color-primary-50;
-  color: $text-1000;
+  @include button-default;
 }
 
 .button--primary {
-  border: 1px solid $color-primary-500;
-  background: $color-primary-500;
-  color: $color-white;
+  @include button-primary;
 }
 
 .button--secondary {
-  border: 1px solid $border-marine-darkest;
-  background: transparent;
-  color: $color-primary-500;
+  @include button-secondary;
 }
 
 .button--ghost {
-  border: 1px solid $text-1000;
-  background: transparent;
-  color: $text-1000;
+  @include button-ghost;
 }
 
 .button--white {
-  border: 1px solid $color-white;
-  background: transparent;
-  color: $color-white;
+  @include button-white;
 }
 
 .button--big,
@@ -169,209 +219,174 @@ a.c-button.t-block-button[data-external-link]:active .c-button__label::after {
   -webkit-mask: url("../assets/externlank.svg") center / contain no-repeat;
 }
 
-a.c-button.t-block-button.c-button__filled.c-button__filled--default,
-a.c-button.t-block-button.c-button__filled.c-button__filled--default:visited,
-a.c-button.t-block-button.c-button__filled.c-button__filled--default:hover,
-a.c-button.t-block-button.c-button__filled.c-button__filled--default:focus,
-a.c-button.t-block-button.c-button__filled.c-button__filled--default:active,
-a.c-button.t-block-button.c-button__filled.c-button__filled--deafult,
-a.c-button.t-block-button.c-button__filled.c-button__filled--deafult:visited,
-a.c-button.t-block-button.c-button__filled.c-button__filled--deafult:hover,
-a.c-button.t-block-button.c-button__filled.c-button__filled--deafult:focus,
-a.c-button.t-block-button.c-button__filled.c-button__filled--deafult:active,
-button.c-button.t-block-button.c-button__filled.c-button__filled--default,
-button.c-button.t-block-button.c-button__filled.c-button__filled--default:hover,
-button.c-button.t-block-button.c-button__filled.c-button__filled--default:focus,
-button.c-button.t-block-button.c-button__filled.c-button__filled--default:active,
-button.c-button.t-block-button.c-button__filled.c-button__filled--deafult,
-button.c-button.t-block-button.c-button__filled.c-button__filled--deafult:hover,
-button.c-button.t-block-button.c-button__filled.c-button__filled--deafult:focus,
-button.c-button.t-block-button.c-button__filled.c-button__filled--deafult:active {
-  @extend .button;
-  @extend .button--default;
-  text-decoration: none;
+a.c-button.t-block-button {
+  &.c-button__filled--default,
+  &.c-button__outlined--default,
+  &.c-button__filled--deafult,
+  &.c-button__outlined--deafult {
+    @include button-states {
+      @include button-base;
+      @include button-default;
+      text-decoration: none;
+    }
+
+    @include t-block-button-label-color($text-1000);
+  }
+
+  &.c-button__filled--primary {
+    @include button-states {
+      @include button-base;
+      @include button-primary;
+      text-decoration: none;
+    }
+
+    @include t-block-button-label-color($color-white);
+  }
+
+  &.c-button__filled--secondary,
+  &.c-button__outlined--secondary,
+  &.c-button__outlined--primary {
+    @include button-states {
+      @include button-base;
+      @include button-secondary;
+      text-decoration: none;
+    }
+
+    @include t-block-button-label-color($color-primary-500);
+  }
+
+  &.c-button__basic--default,
+  &.c-button__basic--deafult {
+    @include button-states {
+      @include button-base;
+      @include button-ghost;
+      text-decoration: none;
+    }
+
+    @include t-block-button-label-color($text-1000);
+  }
+
+  &.c-button__outlined--primary {
+    @include control-states {
+      &::after {
+        background: none;
+      }
+    }
+  }
+
+  &.c-button__outlined--secondary.c-button--lg {
+    @include button-states {
+      border: 2px solid $color-white;
+      background: transparent;
+      color: $color-white;
+      text-decoration: none;
+    }
+
+    .c-button__label,
+    .c-button__label-text {
+      color: inherit;
+    }
+
+    .c-button__label-text {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+
+      &::after {
+        content: ":höger:";
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Lidingo Logical", sans-serif;
+        font-weight: 400;
+        line-height: 1;
+      }
+    }
+  }
 }
 
-a.c-button.t-block-button.c-button__filled.c-button__filled--primary,
-a.c-button.t-block-button.c-button__filled.c-button__filled--primary:visited,
-a.c-button.t-block-button.c-button__filled.c-button__filled--primary:hover,
-a.c-button.t-block-button.c-button__filled.c-button__filled--primary:focus,
-a.c-button.t-block-button.c-button__filled.c-button__filled--primary:active,
-button.c-button.t-block-button.c-button__filled.c-button__filled--primary,
-button.c-button.t-block-button.c-button__filled.c-button__filled--primary:hover,
-button.c-button.t-block-button.c-button__filled.c-button__filled--primary:focus,
-button.c-button.t-block-button.c-button__filled.c-button__filled--primary:active {
-  @extend .button;
-  @extend .button--primary;
-  text-decoration: none;
+button.c-button.t-block-button {
+  &.c-button__filled--default,
+  &.c-button__filled--deafult {
+    @include control-states {
+      @include button-base;
+      @include button-default;
+      text-decoration: none;
+    }
+
+    @include t-block-button-label-color($text-1000);
+  }
+
+  &.c-button__filled--primary {
+    @include control-states {
+      @include button-base;
+      @include button-primary;
+      text-decoration: none;
+    }
+
+    @include t-block-button-label-color($color-white);
+  }
+
+  &.c-button__filled--secondary,
+  &.c-button__outlined--secondary {
+    @include control-states {
+      @include button-base;
+      @include button-secondary;
+      text-decoration: none;
+    }
+
+    @include t-block-button-label-color($color-primary-500);
+  }
+
+  &.c-button__outlined--secondary.c-button--lg {
+    @include control-states {
+      border: 2px solid $color-white;
+      background: transparent;
+      color: $color-white;
+      text-decoration: none;
+    }
+
+    .c-button__label,
+    .c-button__label-text {
+      color: inherit;
+    }
+
+    .c-button__label-text {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+
+      &::after {
+        content: ":höger:";
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Lidingo Logical", sans-serif;
+        font-weight: 400;
+        line-height: 1;
+      }
+    }
+  }
 }
 
-a.c-button.t-block-button.c-button__filled.c-button__filled--default
-  .c-button__label,
-a.c-button.t-block-button.c-button__filled.c-button__filled--default
-  .c-button__label-text,
-a.c-button.t-block-button.c-button__filled.c-button__filled--deafult
-  .c-button__label,
-a.c-button.t-block-button.c-button__filled.c-button__filled--deafult
-  .c-button__label-text,
-a.c-button.t-block-button.c-button__filled.c-button__filled--default:visited
-  .c-button__label,
-a.c-button.t-block-button.c-button__filled.c-button__filled--default:visited
-  .c-button__label-text,
-a.c-button.t-block-button.c-button__filled.c-button__filled--deafult:visited
-  .c-button__label,
-a.c-button.t-block-button.c-button__filled.c-button__filled--deafult:visited
-  .c-button__label-text,
-button.c-button.t-block-button.c-button__filled.c-button__filled--default
-  .c-button__label,
-button.c-button.t-block-button.c-button__filled.c-button__filled--default
-  .c-button__label-text,
-button.c-button.t-block-button.c-button__filled.c-button__filled--deafult
-  .c-button__label,
-button.c-button.t-block-button.c-button__filled.c-button__filled--deafult
-  .c-button__label-text {
-  color: $text-1000;
-}
-
-a.c-button.t-block-button.c-button__filled.c-button__filled--primary
-  .c-button__label,
-a.c-button.t-block-button.c-button__filled.c-button__filled--primary
-  .c-button__label-text,
-a.c-button.t-block-button.c-button__filled.c-button__filled--primary:visited
-  .c-button__label,
-a.c-button.t-block-button.c-button__filled.c-button__filled--primary:visited
-  .c-button__label-text,
-button.c-button.t-block-button.c-button__filled.c-button__filled--primary
-  .c-button__label,
-button.c-button.t-block-button.c-button__filled.c-button__filled--primary
-  .c-button__label-text {
-  color: $color-white;
-}
-
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:visited,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:hover,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:focus,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:active {
-  @extend .button;
-  @extend .button--secondary;
-  text-decoration: none;
-}
-
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary
-  .c-button__label,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary
-  .c-button__label-text,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:hover
-  .c-button__label,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:hover
-  .c-button__label-text,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:focus
-  .c-button__label,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:focus
-  .c-button__label-text,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:active
-  .c-button__label,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:active
-  .c-button__label-text,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:visited
-  .c-button__label,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:visited
-  .c-button__label-text {
-  color: $color-primary-500;
-}
-
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary::after,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:hover::after,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:focus::after,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--primary:active::after {
-  background: none;
-}
-
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg:visited,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg:hover,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg:focus,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg:active,
-button.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg,
-button.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg:hover,
-button.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg:focus,
-button.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg:active {
-  border: 2px solid $color-white;
-  background: transparent;
-  color: $color-white;
-  text-decoration: none;
-}
-
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg
-  .c-button__label,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg:hover
-  .c-button__label,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg:focus
-  .c-button__label,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg:active
-  .c-button__label,
-button.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg
-  .c-button__label,
-button.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg:hover
-  .c-button__label,
-button.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg:focus
-  .c-button__label,
-button.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg:active
-  .c-button__label,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg
-  .c-button__label-text,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg:hover
-  .c-button__label-text,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg:focus
-  .c-button__label-text,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg:active
-  .c-button__label-text,
-button.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg
-  .c-button__label-text,
-button.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg:hover
-  .c-button__label-text,
-button.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg:focus
-  .c-button__label-text,
-button.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg:active
-  .c-button__label-text {
-  color: inherit;
-}
-
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg
-  .c-button__label-text,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg:hover
-  .c-button__label-text,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg:focus
-  .c-button__label-text,
-a.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg:active
-  .c-button__label-text,
-button.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg
-  .c-button__label-text,
-button.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg:hover
-  .c-button__label-text,
-button.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg:focus
-  .c-button__label-text,
-button.c-button.t-block-button.c-button__outlined.c-button__outlined--secondary.c-button--lg:active
-  .c-button__label-text {
-  display: inline-flex;
-  align-items: center;
-  gap: 1rem;
-
-  &::after {
-    content: ":höger:";
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-family: "Lidingo Logical", sans-serif;
-    font-weight: 400;
-    line-height: 1;
+a.c-button.t-block-button.c-button__filled,
+a.c-button.t-block-button.c-button__outlined,
+button.c-button.t-block-button.c-button__filled,
+button.c-button.t-block-button.c-button__outlined {
+  &:hover,
+  &:focus,
+  &:active {
+    &::before,
+    &::after {
+      background: none !important;
+      opacity: 0 !important;
+    }
   }
 }
 
 .c-content-page__print-button {
-  @extend .button;
-  @extend .button--ghost;
+  @include button-base;
+  @include button-ghost;
   display: inline-flex;
 
   &,
@@ -607,6 +622,19 @@ a.button.button--white:visited:active,
   @include t-block-button-big-override;
 }
 
+.t-block-container.t-block-button
+  > a.c-button.t-block-button.c-button--lg.c-button__outlined,
+.t-block-container.t-block-button
+  > a.c-button.t-block-button.c-button--lg.c-button__outlined:visited,
+.t-block-container.t-block-button
+  > a.c-button.t-block-button.c-button--lg.c-button__outlined:hover,
+.t-block-container.t-block-button
+  > a.c-button.t-block-button.c-button--lg.c-button__outlined:focus,
+.t-block-container.t-block-button
+  > a.c-button.t-block-button.c-button--lg.c-button__outlined:active {
+  @include t-block-button-big-override;
+}
+
 .t-block-container.t-block-button.button--white {
   border: 0;
   background: transparent;
@@ -633,8 +661,29 @@ a.button.button--white:visited:active,
 .t-block-container.t-block-button.button--white
   > a.c-button.t-block-button:focus,
 .t-block-container.t-block-button.button--white
-  > a.c-button.t-block-button:active {
+  > a.c-button.t-block-button:active,
+a.c-button.t-block-button.button--white,
+a.c-button.t-block-button.button--white:visited,
+a.c-button.t-block-button.button--white:hover,
+a.c-button.t-block-button.button--white:focus,
+a.c-button.t-block-button.button--white:active {
   border-color: $color-white !important;
+  background: transparent !important;
+  color: $color-white !important;
+}
+
+.t-block-container.t-block-button.button--white
+  > a.c-button.t-block-button.c-button--lg,
+.t-block-container.t-block-button.button--white
+  > a.c-button.t-block-button.c-button--lg:visited,
+.t-block-container.t-block-button.button--white
+  > a.c-button.t-block-button.c-button--lg:hover,
+.t-block-container.t-block-button.button--white
+  > a.c-button.t-block-button.c-button--lg:focus,
+.t-block-container.t-block-button.button--white
+  > a.c-button.t-block-button.c-button--lg:active {
+  border-color: $color-white !important;
+  background: transparent !important;
   color: $color-white !important;
 }
 
@@ -643,6 +692,14 @@ a.button.button--white:visited:active,
   .c-button__label,
 .t-block-container.t-block-button.button--white
   > a.c-button.t-block-button
-  .c-button__label-text {
+  .c-button__label-text,
+.t-block-container.t-block-button.button--white
+  > a.c-button.t-block-button.c-button--lg
+  .c-button__label,
+.t-block-container.t-block-button.button--white
+  > a.c-button.t-block-button.c-button--lg
+  .c-button__label-text,
+a.c-button.t-block-button.button--white .c-button__label,
+a.c-button.t-block-button.button--white .c-button__label-text {
   color: inherit !important;
 }

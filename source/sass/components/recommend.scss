@@ -12,22 +12,24 @@
   }
 
   .mod-recommend__items .c-button {
-    @extend .button;
-    @extend .button--big;
+    @include button-base;
+    @include button-big;
+    font-weight: 400;
   }
 
   .mod-recommend__items > a:not(.c-button) {
-    @extend .button;
-    @extend .button--big;
-    @extend .button--secondary;
+    @include button-base;
+    @include button-big;
+    @include button-secondary;
+    font-weight: 400;
   }
 
   .mod-recommend__items
     .recommend-linklist__item:not(.recommend-linklist__static-item),
   .mod-recommend__items
     > a:not(.recommend-linklist__static-item):not(.c-button) {
-    @extend .button--icon-arrow;
-    @extend .button--big;
+    @include button-icon-arrow;
+    @include button-big;
     border-color: $color-primary-500;
     color: $color-primary-500;
     background: transparent;
@@ -63,22 +65,22 @@
   }
 
   .mod-recommend__items .c-button__outlined--secondary {
-    border-color: $color-secondary-500;
-    color: $color-secondary-500;
+    border-color: $border-marine-darkest;
+    color: $color-primary-500;
     background: transparent;
   }
 
   .mod-recommend__items .c-button__filled--primary {
-    @extend .button--primary;
+    @include button-primary;
     border-color: $color-primary-500;
     background: $color-primary-500;
     color: $color-white;
   }
 
   .mod-recommend__items .c-button__filled--secondary {
-    border-color: $color-secondary-500;
-    background: $color-secondary-500;
-    color: $color-white;
+    border-color: $border-marine-darkest;
+    background: transparent;
+    color: $color-primary-500;
   }
 
   .mod-recommend__items .c-button__filled--default {

@@ -170,9 +170,26 @@ body.block-editor-page {
     .c-button.t-block-button.c-button__filled--default,
   .editor-styles-wrapper
     .wp-block-acf-button
-    .c-button.t-block-button.c-button__filled--deafult {
+    .c-button.t-block-button.c-button__outlined--default,
+  .editor-styles-wrapper
+    .wp-block-acf-button
+    .c-button.t-block-button.c-button__filled--deafult,
+  .editor-styles-wrapper
+    .wp-block-acf-button
+    .c-button.t-block-button.c-button__outlined--deafult {
     border-color: $border-dark;
     background: $color-primary-50;
+    color: $text-1000;
+  }
+
+  .editor-styles-wrapper
+    .wp-block-acf-button
+    .c-button.t-block-button.c-button__basic--default,
+  .editor-styles-wrapper
+    .wp-block-acf-button
+    .c-button.t-block-button.c-button__basic--deafult {
+    border-color: $text-1000;
+    background: transparent;
     color: $text-1000;
   }
 
@@ -182,6 +199,17 @@ body.block-editor-page {
     border-color: $color-primary-500;
     background: $color-primary-500;
     color: $color-white;
+  }
+
+  .editor-styles-wrapper
+    .wp-block-acf-button
+    .c-button.t-block-button.c-button__filled--secondary,
+  .editor-styles-wrapper
+    .wp-block-acf-button
+    .c-button.t-block-button.c-button__outlined--secondary {
+    border-color: $border-marine-darkest;
+    background: transparent;
+    color: $color-primary-500;
   }
 
   .editor-styles-wrapper
