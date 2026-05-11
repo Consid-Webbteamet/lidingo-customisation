@@ -15,6 +15,7 @@
     @include button-base;
     @include button-big;
     font-weight: 400;
+    letter-spacing: 0;
   }
 
   .mod-recommend__items > a:not(.c-button) {
