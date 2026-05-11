@@ -149,9 +149,11 @@ body.block-editor-page {
   }
 
   .editor-styles-wrapper .wp-block-acf-button .c-button.t-block-button {
+    box-sizing: border-box;
     display: inline-flex;
-    min-height: 0;
-    padding: 0.5rem 2rem;
+    height: 43px;
+    min-height: 43px;
+    padding: 0 2rem;
     justify-content: center;
     align-items: center;
     gap: 0.625rem;
@@ -222,9 +224,11 @@ body.block-editor-page {
 
   .editor-styles-wrapper .wp-block-acf-button .c-button.t-block-button.c-button--lg,
   .editor-styles-wrapper .wp-block-acf-button .c-button.t-block-button.button--lg {
-    height: auto !important;
+    box-sizing: border-box !important;
+    height: 51px !important;
+    min-height: 51px !important;
     min-width: 0 !important;
-    padding: 0.75rem 2rem !important;
+    padding: 0 2rem !important;
     gap: 1rem !important;
     border: 2px solid $text-1000 !important;
     border-radius: 62.4375rem !important;
