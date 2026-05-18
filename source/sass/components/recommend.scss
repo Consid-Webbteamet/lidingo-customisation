@@ -31,7 +31,7 @@
     > a:not(.recommend-linklist__static-item):not(.c-button) {
     @include button-icon-arrow;
     @include button-big;
-    border-color: $color-primary-500;
+    border-color: $border-marine-darkest;
     color: $color-primary-500;
     background: transparent;
 
@@ -54,7 +54,7 @@
     .recommend-linklist__item:not(
       .recommend-linklist__static-item
     ).c-button__filled--secondary {
-    border-color: $color-primary-500;
+    border-color: $border-marine-darkest;
     color: $color-primary-500;
     background: transparent;
   }
