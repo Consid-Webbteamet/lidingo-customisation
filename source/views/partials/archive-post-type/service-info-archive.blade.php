@@ -14,7 +14,7 @@
                     <div class="c-service-info-archive__items">
                         @foreach ($section['items'] as $item)
                             <article class="c-service-info-archive__card">
-                                <a href="{{ $item['link'] }}" class="c-service-info-archive__card-link">
+                                <a href="{{ esc_url($item['link']) }}" class="c-service-info-archive__card-link">
                                     @if (!empty($item['iconImageHtml']))
                                         <div class="c-service-info-archive__icon-shell" aria-hidden="true">
                                             <span class="c-service-info-archive__icon">
@@ -48,7 +48,7 @@
                     @foreach ($serviceInfoArchiveExternalItems as $item)
                         <article class="c-service-info-archive__card c-service-info-archive__card--external">
                             <a
-                                href="{{ $item['link'] }}"
+                                href="{{ esc_url($item['link']) }}"
                                 class="c-service-info-archive__card-link"
                                 target="_blank"
                                 rel="noopener noreferrer"

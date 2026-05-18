@@ -34,7 +34,7 @@
                 <h2 class="c-post-type-archive__hero-card-title">{{ $heroAsideCard['title'] }}</h2>
 
                 <a
-                    href="{{ $heroAsideCard['link']['url'] }}"
+                    href="{{ esc_url($heroAsideCard['link']['url']) }}"
                     class="c-post-type-archive__hero-card-link button button--big button--icon-arrow"
                     target="{{ $heroAsideCard['link']['target'] }}"
                     @if (!empty($heroAsideCard['link']['rel']))
