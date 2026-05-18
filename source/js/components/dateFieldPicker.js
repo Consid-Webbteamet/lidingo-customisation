@@ -44,8 +44,8 @@ const initDateFieldPicker = () => {
     icon.setAttribute(
       'aria-label',
       input.labels?.[0]?.textContent?.trim()
-        ? `Oppna datumvaljare for ${input.labels[0].textContent.trim()}`
-        : 'Oppna datumvaljare'
+        ? `Öppna datumväljare för ${input.labels[0].textContent.trim()}`
+        : 'Öppna datumväljare'
     );
 
     icon.addEventListener('click', (event) => {
