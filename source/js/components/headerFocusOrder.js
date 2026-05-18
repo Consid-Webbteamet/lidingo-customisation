@@ -60,6 +60,30 @@ const getFocusableElements = (header) => getOrderedWrappers(header)
     .flatMap((wrapper) => Array.from(wrapper.querySelectorAll(FOCUSABLE_SELECTOR)))
     .filter((element) => element instanceof HTMLElement && isVisible(element));
 
+const getDocumentFocusableElements = () => Array.from(document.querySelectorAll(FOCUSABLE_SELECTOR))
+    .filter((element) => element instanceof HTMLElement && isVisible(element));
+
+const getAdjacentFocusableOutsideHeader = (header, currentElement, isBackward) => {
+    const focusableElements = getDocumentFocusableElements();
+    const currentIndex = focusableElements.findIndex((element) => element === currentElement);
+
+    if (currentIndex === -1) {
+        return null;
+    }
+
+    const step = isBackward ? -1 : 1;
+
+    for (let index = currentIndex + step; index >= 0 && index < focusableElements.length; index += step) {
+        const candidate = focusableElements[index];
+
+        if (!header.contains(candidate)) {
+            return candidate;
+        }
+    }
+
+    return null;
+};
+
 const hasExpandedHeaderUi = (header) => {
     if (header.querySelector('.collapsible-search-form.is-open')) {
         return true;
@@ -94,6 +118,14 @@ const handleHeaderTabOrder = (event, header) => {
     const nextIndex = event.shiftKey ? currentIndex - 1 : currentIndex + 1;
 
     if (nextIndex < 0 || nextIndex >= focusableElements.length) {
+        const adjacentFocusable = getAdjacentFocusableOutsideHeader(header, document.activeElement, event.shiftKey);
+
+        if (!(adjacentFocusable instanceof HTMLElement)) {
+            return;
+        }
+
+        event.preventDefault();
+        adjacentFocusable.focus();
         return;
     }
 
