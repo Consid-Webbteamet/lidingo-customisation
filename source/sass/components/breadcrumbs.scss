@@ -32,6 +32,7 @@
   &__item {
     display: inline-flex;
     align-items: center;
+    gap: 0.5rem;
     min-width: 0;
     color: $text-1000;
   }
@@ -98,6 +99,13 @@
   &__link,
   &__link:visited {
     color: $color-primary-500;
+    text-decoration: underline;
+    text-underline-offset: 0.12em;
+    text-decoration-thickness: 0.0625rem;
+  }
+
+  &__link > .c-breadcrumb__label[data-tooltip] {
+    color: inherit;
     text-decoration: underline;
     text-underline-offset: 0.12em;
     text-decoration-thickness: 0.0625rem;
