@@ -44,7 +44,7 @@
   align-items: center;
   align-content: center;
   gap: 1rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 @mixin button-default {
@@ -141,13 +141,20 @@
   @include button-icon-arrow;
 }
 
+.c-button:has(.c-button__label-icon) {
+  padding: 0 1.5rem 0 2rem;
+}
+
 .button--icon-arrow::after {
   content: ":höger:";
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex: 0 0 1.125rem;
+  width: 1.125rem;
   font-family: "Lidingo Logical", sans-serif;
   font-weight: 400;
+  line-height: 1;
 }
 
 .button--icon-arrow[data-external-link]::after,
@@ -621,6 +628,25 @@ a.button.button--white:visited:active,
   content: ":hus:";
 }
 
+@mixin secondary-button-label-primary {
+  .c-button__label,
+  .c-button__label-text {
+    color: $color-primary-500;
+  }
+}
+
+@mixin secondary-button-overlay-reset {
+  &:hover::before,
+  &:hover::after,
+  &:focus::before,
+  &:focus::after,
+  &:active::before,
+  &:active::after {
+    background: none !important;
+    opacity: 0 !important;
+  }
+}
+
 .t-401__buttons .c-button.c-button__filled.c-button__filled--secondary,
 .t-401__buttons .c-button.c-button__filled.c-button__filled--secondary:visited,
 .t-401__buttons .c-button.c-button__filled.c-button__filled--secondary:hover,
@@ -628,27 +654,15 @@ a.button.button--white:visited:active,
 .t-401__buttons .c-button.c-button__filled.c-button__filled--secondary:active {
   @include button-big;
   @include button-secondary;
+  @include secondary-button-label-primary;
+  @include secondary-button-overlay-reset;
   text-decoration: none;
 }
 
-.t-401__buttons .c-button.c-button__filled.c-button__filled--secondary .c-button__label,
-.t-401__buttons
-  .c-button.c-button__filled.c-button__filled--secondary
-  .c-button__label-text,
 .t-401__buttons
   .c-button.c-button__filled.c-button__filled--secondary
   .c-button__label-icon {
   color: $color-primary-500;
-}
-
-.t-401__buttons .c-button.c-button__filled.c-button__filled--secondary:hover::before,
-.t-401__buttons .c-button.c-button__filled.c-button__filled--secondary:hover::after,
-.t-401__buttons .c-button.c-button__filled.c-button__filled--secondary:focus::before,
-.t-401__buttons .c-button.c-button__filled.c-button__filled--secondary:focus::after,
-.t-401__buttons .c-button.c-button__filled.c-button__filled--secondary:active::before,
-.t-401__buttons .c-button.c-button__filled.c-button__filled--secondary:active::after {
-  background: none !important;
-  opacity: 0 !important;
 }
 
 .post-password-form .c-button.c-button__filled--secondary,
@@ -657,22 +671,9 @@ a.button.button--white:visited:active,
 .post-password-form .c-button.c-button__filled--secondary:active {
   @include button-base;
   @include button-secondary;
+  @include secondary-button-label-primary;
+  @include secondary-button-overlay-reset;
   text-decoration: none;
-}
-
-.post-password-form .c-button.c-button__filled--secondary .c-button__label,
-.post-password-form .c-button.c-button__filled--secondary .c-button__label-text {
-  color: $color-primary-500;
-}
-
-.post-password-form .c-button.c-button__filled--secondary:hover::before,
-.post-password-form .c-button.c-button__filled--secondary:hover::after,
-.post-password-form .c-button.c-button__filled--secondary:focus::before,
-.post-password-form .c-button.c-button__filled--secondary:focus::after,
-.post-password-form .c-button.c-button__filled--secondary:active::before,
-.post-password-form .c-button.c-button__filled--secondary:active::after {
-  background: none !important;
-  opacity: 0 !important;
 }
 
 .t-block-container.t-block-button > a.c-button.t-block-button.c-button--lg,

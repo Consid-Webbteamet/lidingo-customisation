@@ -78,7 +78,13 @@
 .c-accordion .c-accordion__button:hover,
 .c-accordion .c-accordion__button:focus {
   background-color: $color-primary-500;
+  color: $color-white;
   text-decoration: none;
+
+  .c-accordion__button-column,
+  .c-accordion__icon {
+    color: $color-white;
+  }
 }
 
 .c-accordion {
