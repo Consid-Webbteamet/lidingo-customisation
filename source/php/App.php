@@ -15,6 +15,7 @@ use LidingoCustomisation\AcfFields\ServiceInfoSingleSidebarFields;
 use LidingoCustomisation\Archives\ArchiveLayout;
 use LidingoCustomisation\Archives\OngoingWorkArchive;
 use LidingoCustomisation\Archives\ServiceInfoArchive;
+use LidingoCustomisation\Components\HeaderSearch\HeaderSearchOverrides;
 use LidingoCustomisation\Components\HeroSearch\HeroSearchOverrides;
 use LidingoCustomisation\Components\Posts\FeaturedNewsPosts;
 use LidingoCustomisation\Components\Posts\PostsDateOverrides;
@@ -55,6 +56,7 @@ class App
     private ServiceInfoArchivePageFields $serviceInfoArchivePageFields;
     private ServiceInfoCategoryIconFields $serviceInfoCategoryIconFields;
     private ServiceInfoSingleSidebarFields $serviceInfoSingleSidebarFields;
+    private HeaderSearchOverrides $headerSearchOverrides;
     private HeroSearchOverrides $heroSearchOverrides;
     private FeaturedNewsPosts $featuredNewsPosts;
     private PostsDateOverrides $postsDateOverrides;
@@ -100,6 +102,7 @@ class App
         $this->serviceInfoArchivePageFields = new ServiceInfoArchivePageFields();
         $this->serviceInfoCategoryIconFields = new ServiceInfoCategoryIconFields();
         $this->serviceInfoSingleSidebarFields = new ServiceInfoSingleSidebarFields();
+        $this->headerSearchOverrides = new HeaderSearchOverrides();
         $this->heroSearchOverrides = new HeroSearchOverrides();
         $this->featuredNewsPosts = new FeaturedNewsPosts();
         $this->postsDateOverrides = new PostsDateOverrides();
@@ -145,6 +148,7 @@ class App
         $this->serviceInfoArchivePageFields->addHooks();
         $this->serviceInfoCategoryIconFields->addHooks();
         $this->serviceInfoSingleSidebarFields->addHooks();
+        $this->headerSearchOverrides->addHooks();
         $this->heroSearchOverrides->addHooks();
         $this->featuredNewsPosts->addHooks();
         $this->postsDateOverrides->addHooks();
