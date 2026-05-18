@@ -218,6 +218,7 @@ class FeaturedNewsPosts
         ];
     }
 
+    /** Build the module-specific query var used by posts block pagination. */
     private function getPaginationQueryVarName(array $viewData, object $module): string
     {
         $moduleId = $module->ID ?? $viewData['ID'] ?? '';
@@ -225,6 +226,7 @@ class FeaturedNewsPosts
         return 'mod-posts-' . $moduleId . '-page';
     }
 
+    /** Check whether a whitespace-separated class list contains a given class. */
     private function classListContains(string $classList, string $className): bool
     {
         return in_array($className, preg_split('/\s+/', trim($classList)) ?: [], true);
