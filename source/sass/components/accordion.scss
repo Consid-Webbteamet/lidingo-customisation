@@ -13,6 +13,7 @@
 .c-accordion__section {
   background: $color-white;
   overflow: hidden;
+  overflow-anchor: none;
 
   & + & {
     margin-top: 1rem;
@@ -98,6 +99,7 @@
 }
 .c-accordion__content {
   border-top: 1px solid $border-marine-darkest;
+  overflow-anchor: none;
 
   p:last-child {
     margin-bottom: 0;
