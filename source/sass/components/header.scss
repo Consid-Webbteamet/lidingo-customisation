@@ -14,24 +14,34 @@ body:has(.c-header.is-scrolled) {
 .site-header .collapsible-search-form {
   --lidingo-search-close-width: 5.875rem;
   --lidingo-search-form-offset: calc(
-    var(--lidingo-search-close-width) - 4.5rem
+    var(--lidingo-search-close-width) - 5.1rem
   );
 
   &.is-open .collapsible-search-form__form {
     width: 96%;
-    right: -0.1rem;
 
     @media (min-width: ($breakpoint-lg)) {
       width: 36rem;
-      right: 1.4rem;
     }
   }
 
   .collapsible-search-form__form {
+    top: 50% !important;
     right: var(--lidingo-search-form-offset);
+    transition:
+      width 200ms ease-in-out,
+      opacity 200ms ease-in-out !important;
+    transform: translateY(-50%) !important;
 
-    @media (min-width: ($breakpoint-lg)) {
-      top: 25%;
+    @media (max-width: ($breakpoint-md - 0.02px)) {
+      position: fixed !important;
+      top: calc(var(--header-height) / 2) !important;
+    }
+
+    @media (min-width: $breakpoint-md) and (max-width: ($breakpoint-lg - 0.02px)) {
+      position: absolute !important;
+      inset: 50% 0.7rem auto auto !important;
+      width: min(36rem, calc(100vw - 2rem)) !important;
     }
   }
 
@@ -80,7 +90,7 @@ body:has(.c-header.is-scrolled) {
     background-color: $color-primary-400;
     color: $color-white;
 
-    @media (min-width: ($breakpoint-lg)) {
+    @media (min-width: ($breakpoint-md)) {
       background-color: $color-primary-300;
     }
 
@@ -102,13 +112,13 @@ body:has(.c-header.is-scrolled) {
       justify-content: center;
       width: 100%;
       height: 100%;
-      padding-left: 1.5rem;
     }
   }
 }
 
 .c-header {
   height: var(--header-height);
+  box-shadow: $shadow-sm;
   transition: height 180ms ease;
 
   .c-header__brand-text {
@@ -141,7 +151,6 @@ body:has(.c-header.is-scrolled) {
 
   .c-nav.c-nav--horizontal.c-nav--depth-1 {
     gap: 2rem;
-    margin-right: 2rem;
 
     > .c-nav__item > .c-nav__item-wrapper .c-nav__link::after {
       display: none;
@@ -158,7 +167,12 @@ body:has(.c-header.is-scrolled) {
     }
 
     .site-language-menu-button {
-      margin-right: 2rem;
+      margin-inline: 2rem;
+      border-radius: 0;
+
+      .c-button__label {
+        gap: 8px;
+      }
     }
 
     .c-button__label-text {
@@ -168,19 +182,25 @@ body:has(.c-header.is-scrolled) {
     .collapsible-search-form {
       height: 100%;
       font-weight: var(--font-weight-base);
-      padding-inline: 0.75rem;
+      padding-inline: 0;
       border-radius: 0;
       background-color: $color-primary-300;
 
       .collapsible-search-form__trigger-button {
         height: 100%;
+        padding-inline: 1.5rem;
+        border-radius: 0;
+
+        .c-button__label {
+          gap: 8px;
+        }
       }
     }
 
     /* Menu button */
     .mobile-menu-trigger {
       font-weight: var(--font-weight-base);
-      padding-inline: 0.75rem;
+      padding-inline: 1.5rem;
       height: 100%;
       border-radius: 0;
       background-color: $color-primary-400;
@@ -190,6 +210,8 @@ body:has(.c-header.is-scrolled) {
       }
 
       .c-button__label {
+        gap: 8px;
+
         .c-button__label-icon {
           margin-top: 3px;
         }
@@ -229,11 +251,7 @@ body:has(.c-header.is-scrolled) {
     }
 
     .collapsible-search-form .collapsible-search-form__form {
-      top: 8px;
-
-      @media (min-width: $breakpoint-md) {
-        top: 10%;
-      }
+      top: 50% !important;
     }
 
     &.c-header--flexible {
@@ -276,7 +294,7 @@ body:has(.c-header.is-scrolled) {
 
 @media (min-width: $ipad-breakpoint) {
   :root {
-    --header-height: 7.25rem;
+    --header-height: 7.75rem;
   }
 
   body:has(.c-header.is-scrolled) {
@@ -285,13 +303,6 @@ body:has(.c-header.is-scrolled) {
 
   .c-header {
     height: var(--header-height);
-
-    &__lower-right {
-      .collapsible-search-form,
-      .mobile-menu-trigger {
-        padding-inline: 1.5rem;
-      }
-    }
 
     &.c-header--flexible {
       .c-logotype:not(.c-brand .c-logotype) {

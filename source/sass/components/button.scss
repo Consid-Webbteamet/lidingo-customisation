@@ -141,7 +141,7 @@
   @include button-icon-arrow;
 }
 
-.c-button:has(.c-button__label-icon) {
+.c-button:has(.c-button__label-icon):not(.s-header-button) {
   padding: 0 1.5rem 0 2rem;
 }
 
