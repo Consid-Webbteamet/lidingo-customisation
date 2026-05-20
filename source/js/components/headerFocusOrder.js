@@ -15,6 +15,7 @@ const FOCUSABLE_SELECTOR = [
     'textarea:not([disabled])',
     '[tabindex]:not([tabindex="-1"])',
 ].join(', ');
+let lastTabWasBackward = false;
 
 const isVisible = (element) => {
     if (!(element instanceof HTMLElement)) {
@@ -133,7 +134,35 @@ const handleHeaderTabOrder = (event, header) => {
     focusableElements[nextIndex].focus();
 };
 
+const handleHeaderFocusEntry = (event, header) => {
+    if (!lastTabWasBackward || hasExpandedHeaderUi(header)) {
+        return;
+    }
+
+    if (event.relatedTarget instanceof Node && header.contains(event.relatedTarget)) {
+        return;
+    }
+
+    const focusableElements = getFocusableElements(header);
+    const lastFocusableElement = focusableElements[focusableElements.length - 1];
+
+    if (!(lastFocusableElement instanceof HTMLElement) || event.target === lastFocusableElement) {
+        return;
+    }
+
+    event.preventDefault();
+    lastFocusableElement.focus();
+};
+
 const initHeaderFocusOrder = () => {
+    document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Tab' || event.defaultPrevented) {
+            return;
+        }
+
+        lastTabWasBackward = event.shiftKey;
+    }, true);
+
     document.querySelectorAll(HEADER_SELECTOR).forEach((header) => {
         if (!(header instanceof HTMLElement)) {
             return;
@@ -141,6 +170,10 @@ const initHeaderFocusOrder = () => {
 
         header.addEventListener('keydown', (event) => {
             handleHeaderTabOrder(event, header);
+        });
+
+        header.addEventListener('focusin', (event) => {
+            handleHeaderFocusEntry(event, header);
         });
     });
 };
