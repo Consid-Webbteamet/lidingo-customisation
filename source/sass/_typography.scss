@@ -115,6 +115,18 @@ a,
   color: $text-1000;
 }
 
+a[data-external-text-link]::after {
+  content: "";
+  display: inline-block;
+  width: 0.9em;
+  height: 0.9em;
+  margin-left: 0.35rem;
+  vertical-align: -0.08em;
+  background: currentColor;
+  mask: url("../assets/externlank.svg") center / contain no-repeat;
+  -webkit-mask: url("../assets/externlank.svg") center / contain no-repeat;
+}
+
 .overlay,
 .overline {
   font-size: var(--overlay-font-size, 0.875rem);
