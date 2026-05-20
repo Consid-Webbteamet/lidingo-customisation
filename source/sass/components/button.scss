@@ -383,6 +383,19 @@ button.c-button.t-block-button {
   }
 }
 
+button.c-button.mod-frontend-form__repeater-add {
+  &.c-button__filled--secondary,
+  &.c-button__outlined--secondary {
+    @include control-states {
+      @include button-base;
+      @include button-secondary;
+      text-decoration: none;
+    }
+
+    @include t-block-button-label-color($color-primary-500);
+  }
+}
+
 a.c-button.t-block-button.c-button__filled,
 a.c-button.t-block-button.c-button__outlined,
 button.c-button.t-block-button.c-button__filled,
