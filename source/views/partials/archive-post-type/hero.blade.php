@@ -36,9 +36,9 @@
                 <a
                     href="{{ esc_url($heroAsideCard['link']['url']) }}"
                     class="c-post-type-archive__hero-card-link button button--big button--icon-arrow"
-                    target="{{ $heroAsideCard['link']['target'] }}"
+                    target="{{ esc_attr($heroAsideCard['link']['target']) }}"
                     @if (!empty($heroAsideCard['link']['rel']))
-                        rel="{{ $heroAsideCard['link']['rel'] }}"
+                        rel="{{ esc_attr($heroAsideCard['link']['rel']) }}"
                     @endif
                 >
                     {{ $heroAsideCard['link']['title'] }}
