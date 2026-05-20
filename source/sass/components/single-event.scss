@@ -225,6 +225,13 @@
 
           .c-accordion__button {
             background-color: $standard-red-50;
+
+            &:hover,
+            &:focus {
+              .c-accordion__icon {
+                color: $text-1000;
+              }
+            }
           }
 
           .c-typography {
