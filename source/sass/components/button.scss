@@ -590,11 +590,21 @@ a.button.button--white:visited:active,
   display: none;
 }
 
-.error404 .t-404__buttons .c-button.c-button__filled.c-button__filled--secondary,
-.error404 .t-404__buttons .c-button.c-button__filled.c-button__filled--secondary:visited,
-.error404 .t-404__buttons .c-button.c-button__filled.c-button__filled--secondary:hover,
-.error404 .t-404__buttons .c-button.c-button__filled.c-button__filled--secondary:focus,
-.error404 .t-404__buttons .c-button.c-button__filled.c-button__filled--secondary:active {
+.error404
+  .t-404__buttons
+  .c-button.c-button__filled.c-button__filled--secondary,
+.error404
+  .t-404__buttons
+  .c-button.c-button__filled.c-button__filled--secondary:visited,
+.error404
+  .t-404__buttons
+  .c-button.c-button__filled.c-button__filled--secondary:hover,
+.error404
+  .t-404__buttons
+  .c-button.c-button__filled.c-button__filled--secondary:focus,
+.error404
+  .t-404__buttons
+  .c-button.c-button__filled.c-button__filled--secondary:active {
   background: $color-primary-500;
   border-color: $color-primary-500;
   color: $color-white;
@@ -608,7 +618,10 @@ a.button.button--white:visited:active,
   font-size: 1.125rem;
 }
 
-.error404 .t-404__buttons .c-button.c-button__filled.c-button__filled--secondary .c-button__label,
+.error404
+  .t-404__buttons
+  .c-button.c-button__filled.c-button__filled--secondary
+  .c-button__label,
 .error404
   .t-404__buttons
   .c-button.c-button__filled.c-button__filled--secondary
@@ -690,10 +703,14 @@ a.button.button--white:visited:active,
 }
 
 .t-block-container.t-block-button > a.c-button.t-block-button.c-button--lg,
-.t-block-container.t-block-button > a.c-button.t-block-button.c-button--lg:visited,
-.t-block-container.t-block-button > a.c-button.t-block-button.c-button--lg:hover,
-.t-block-container.t-block-button > a.c-button.t-block-button.c-button--lg:focus,
-.t-block-container.t-block-button > a.c-button.t-block-button.c-button--lg:active {
+.t-block-container.t-block-button
+  > a.c-button.t-block-button.c-button--lg:visited,
+.t-block-container.t-block-button
+  > a.c-button.t-block-button.c-button--lg:hover,
+.t-block-container.t-block-button
+  > a.c-button.t-block-button.c-button--lg:focus,
+.t-block-container.t-block-button
+  > a.c-button.t-block-button.c-button--lg:active {
   @include t-block-button-big-override;
 }
 
@@ -777,4 +794,12 @@ a.c-button.t-block-button.button--white:active {
 a.c-button.t-block-button.button--white .c-button__label,
 a.c-button.t-block-button.button--white .c-button__label-text {
   color: inherit !important;
+}
+
+.c-button.c-button--sm {
+  letter-spacing: initial;
+}
+
+.c-button__basic:not(:disabled):hover {
+  opacity: initial;
 }
