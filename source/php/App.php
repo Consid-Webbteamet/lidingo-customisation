@@ -28,6 +28,7 @@ use LidingoCustomisation\Infrastructure\AssetRenderer;
 use LidingoCustomisation\Infrastructure\AssetManifest;
 use LidingoCustomisation\Infrastructure\CspHandler;
 use LidingoCustomisation\Infrastructure\DevServer;
+use LidingoCustomisation\Navigation\DrawerMenuAppend;
 use LidingoCustomisation\Presentation\PagePresentation;
 use LidingoCustomisation\Search\SearchPage;
 use LidingoCustomisation\Templates\ArticlePageTemplate;
@@ -43,6 +44,10 @@ use LidingoCustomisation\Typography\FontDisplay;
 
 class App
 {
+    private const GLOBAL_NOTICES_TYPE_FIELD_KEY = 'field_6798fa82cc9ba';
+    private const GLOBAL_NOTICES_ALLOWED_TYPES = ['warning', 'danger'];
+    private const GLOBAL_NOTICES_DEFAULT_TYPE = 'warning';
+
     private AssetManifest $assetManifest;
     private DevServer $devServer;
     private AssetRenderer $assetRenderer;
@@ -77,6 +82,7 @@ class App
     private CustomerFeedbackIntegration $customerFeedbackIntegration;
     private RekAiIntegration $rekAiIntegration;
     private ServiceInfoIntegration $serviceInfoIntegration;
+    private DrawerMenuAppend $drawerMenuAppend;
     private FontDisplay $fontDisplay;
 
     public function __construct()
@@ -123,6 +129,7 @@ class App
         $this->customerFeedbackIntegration = new CustomerFeedbackIntegration();
         $this->rekAiIntegration = new RekAiIntegration();
         $this->serviceInfoIntegration = new ServiceInfoIntegration();
+        $this->drawerMenuAppend = new DrawerMenuAppend();
         $this->fontDisplay = new FontDisplay();
 
         $this->addHooks();
@@ -137,6 +144,9 @@ class App
         add_action('admin_footer', [$this, 'printAdminScript'], 1001);
         add_action('login_enqueue_scripts', [$this, 'printLoginStyles'], 1001);
         add_action('init', [$this, 'enablePageTemplateSupports'], 20);
+        add_filter('acf/load_field/key=' . self::GLOBAL_NOTICES_TYPE_FIELD_KEY, [$this, 'filterGlobalNoticeTypeField']);
+        add_filter('acf/load_value/key=' . self::GLOBAL_NOTICES_TYPE_FIELD_KEY, [$this, 'normalizeGlobalNoticeType'], 20, 3);
+        add_filter('acf/update_value/key=' . self::GLOBAL_NOTICES_TYPE_FIELD_KEY, [$this, 'normalizeGlobalNoticeType'], 20, 3);
         add_filter('WpSecurity/Csp', [$this, 'addDevServerCspDomains'], 10, 1);
         add_filter('Website/HTML/output', [$this, 'stripDevBlockingCspDirectives'], 20, 0);
         $this->pagePresentation->addHooks();
@@ -169,6 +179,7 @@ class App
         $this->customerFeedbackIntegration->addHooks();
         $this->rekAiIntegration->addHooks();
         $this->serviceInfoIntegration->addHooks();
+        $this->drawerMenuAppend->addHooks();
         $this->fontDisplay->addHooks();
 
         if (!$this->assetManifest->isLoaded()) {
