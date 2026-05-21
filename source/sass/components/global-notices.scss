@@ -267,6 +267,10 @@
     > .c-element > .c-notice.c-notice--danger,
     > .o-container.u-margin__top--4:has(.c-notice--danger) .c-notice.c-notice--danger {
       column-gap: 0.5rem;
+      grid-template-columns: min-content minmax(0, 1fr) auto;
+      grid-template-areas:
+        "icon message dismiss"
+        "actions actions actions";
       padding-top: 1.5rem;
       padding-bottom: 1.5rem;
 
@@ -276,9 +280,38 @@
         }
 
         .c-button:not(.c-notice__dismiss) {
+          height: auto;
           min-height: 2.75rem;
           padding: 0.5rem 1.25rem 0.5rem 1.5rem;
           font-size: 1rem;
+
+          .c-button__label {
+            position: relative;
+            padding-right: 1.75rem;
+
+            &::after {
+              content: "\2192";
+              position: absolute;
+              top: 50%;
+              right: 0;
+              transform: translateY(-50%);
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 1.125rem;
+              line-height: 1;
+            }
+          }
+
+          .c-button__label-text {
+            white-space: normal;
+            overflow-wrap: anywhere;
+            line-height: 1.35;
+
+            &::after {
+              content: none;
+            }
+          }
         }
       }
     }

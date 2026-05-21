@@ -262,6 +262,34 @@ class App
         $this->cspHandler->stripDevBlockingCspDirectives();
     }
 
+    /** Limit global notice levels to warning and danger. */
+    public function filterGlobalNoticeTypeField($field)
+    {
+        if (!is_array($field)) {
+            return $field;
+        }
+
+        $choices = is_array($field['choices'] ?? null) ? $field['choices'] : [];
+        $field['choices'] = array_intersect_key($choices, array_flip(self::GLOBAL_NOTICES_ALLOWED_TYPES));
+        $field['default_value'] = self::GLOBAL_NOTICES_DEFAULT_TYPE;
+
+        return $field;
+    }
+
+    /** Normalize legacy or unsupported global notice levels. */
+    public function normalizeGlobalNoticeType($value)
+    {
+        if (!is_string($value)) {
+            return self::GLOBAL_NOTICES_DEFAULT_TYPE;
+        }
+
+        $value = sanitize_key($value);
+
+        return in_array($value, self::GLOBAL_NOTICES_ALLOWED_TYPES, true)
+            ? $value
+            : self::GLOBAL_NOTICES_DEFAULT_TYPE;
+    }
+
     /** Read the frontend asset toggle from the project filter. */
     private function shouldLoadFrontend(): bool
     {
