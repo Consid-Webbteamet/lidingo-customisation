@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace LidingoCustomisation;
 
 use LidingoCustomisation\AcfFields\ArchivePageFields;
+use LidingoCustomisation\AcfFields\GlobalNoticesFields;
 use LidingoCustomisation\AcfFields\HeroFields;
 use LidingoCustomisation\AcfFields\ModularityTocFields;
 use LidingoCustomisation\AcfFields\NewsDisplayFields;
@@ -44,16 +45,13 @@ use LidingoCustomisation\Typography\FontDisplay;
 
 class App
 {
-    private const GLOBAL_NOTICES_TYPE_FIELD_KEY = 'field_6798fa82cc9ba';
-    private const GLOBAL_NOTICES_ALLOWED_TYPES = ['warning', 'danger'];
-    private const GLOBAL_NOTICES_DEFAULT_TYPE = 'warning';
-
     private AssetManifest $assetManifest;
     private DevServer $devServer;
     private AssetRenderer $assetRenderer;
     private CspHandler $cspHandler;
     private PagePresentation $pagePresentation;
     private ArchivePageFields $archivePageFields;
+    private GlobalNoticesFields $globalNoticesFields;
     private HeroFields $heroFields;
     private ModularityTocFields $modularityTocFields;
     private NewsDisplayFields $newsDisplayFields;
@@ -101,6 +99,7 @@ class App
         $this->cspHandler = new CspHandler($this->devServer);
         $this->pagePresentation = new PagePresentation();
         $this->archivePageFields = new ArchivePageFields();
+        $this->globalNoticesFields = new GlobalNoticesFields();
         $this->heroFields = new HeroFields();
         $this->modularityTocFields = new ModularityTocFields();
         $this->newsDisplayFields = new NewsDisplayFields();
@@ -144,13 +143,11 @@ class App
         add_action('admin_footer', [$this, 'printAdminScript'], 1001);
         add_action('login_enqueue_scripts', [$this, 'printLoginStyles'], 1001);
         add_action('init', [$this, 'enablePageTemplateSupports'], 20);
-        add_filter('acf/load_field/key=' . self::GLOBAL_NOTICES_TYPE_FIELD_KEY, [$this, 'filterGlobalNoticeTypeField']);
-        add_filter('acf/load_value/key=' . self::GLOBAL_NOTICES_TYPE_FIELD_KEY, [$this, 'normalizeGlobalNoticeType'], 20, 3);
-        add_filter('acf/update_value/key=' . self::GLOBAL_NOTICES_TYPE_FIELD_KEY, [$this, 'normalizeGlobalNoticeType'], 20, 3);
         add_filter('WpSecurity/Csp', [$this, 'addDevServerCspDomains'], 10, 1);
         add_filter('Website/HTML/output', [$this, 'stripDevBlockingCspDirectives'], 20, 0);
         $this->pagePresentation->addHooks();
         $this->archivePageFields->addHooks();
+        $this->globalNoticesFields->addHooks();
         $this->heroFields->addHooks();
         $this->modularityTocFields->addHooks();
         $this->newsDisplayFields->addHooks();
@@ -271,34 +268,6 @@ class App
     public function stripDevBlockingCspDirectives(): void
     {
         $this->cspHandler->stripDevBlockingCspDirectives();
-    }
-
-    /** Limit global notice levels to warning and danger. */
-    public function filterGlobalNoticeTypeField($field)
-    {
-        if (!is_array($field)) {
-            return $field;
-        }
-
-        $choices = is_array($field['choices'] ?? null) ? $field['choices'] : [];
-        $field['choices'] = array_intersect_key($choices, array_flip(self::GLOBAL_NOTICES_ALLOWED_TYPES));
-        $field['default_value'] = self::GLOBAL_NOTICES_DEFAULT_TYPE;
-
-        return $field;
-    }
-
-    /** Normalize legacy or unsupported global notice levels. */
-    public function normalizeGlobalNoticeType($value)
-    {
-        if (!is_string($value)) {
-            return self::GLOBAL_NOTICES_DEFAULT_TYPE;
-        }
-
-        $value = sanitize_key($value);
-
-        return in_array($value, self::GLOBAL_NOTICES_ALLOWED_TYPES, true)
-            ? $value
-            : self::GLOBAL_NOTICES_DEFAULT_TYPE;
     }
 
     /** Read the frontend asset toggle from the project filter. */
