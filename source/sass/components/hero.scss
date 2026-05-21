@@ -100,6 +100,10 @@
     align-items: stretch;
   }
 
+  #hero-search-form #hero-search-form__wrapper #hero-search-form__field {
+    flex: auto;
+  }
+
   #hero-search-form__field {
     flex: 1 1 auto;
     margin-bottom: 0;
