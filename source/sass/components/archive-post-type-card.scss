@@ -106,7 +106,11 @@
 
 .c-post-type-archive-card__badge--date {
   background: $standard-yellow-500;
-  padding-inline: 2rem;
+  padding-inline: 1rem;
+
+  @media (min-width: $breakpoint-md) {
+    padding-inline: 2rem;
+  }
 }
 
 .c-post-type-archive-card__badge-label,
