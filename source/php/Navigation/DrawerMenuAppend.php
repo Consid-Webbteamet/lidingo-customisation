@@ -59,8 +59,13 @@ class DrawerMenuAppend
         $item['post_parent'] = 0;
         $item['children'] = false;
         $item['style'] = 'default';
-        $item['icon'] = $this->normalizeDrawerIcon($item['icon'] ?? [], $item);
-        $item['classList'] = $this->normalizeDrawerClassList($item['classList'] ?? []);
+        $item['icon'] = $this->normalizeDrawerIcon(
+            is_array($item['icon'] ?? null) ? $item['icon'] : [],
+            $item
+        );
+        $item['classList'] = $this->normalizeDrawerClassList(
+            is_array($item['classList'] ?? null) ? $item['classList'] : []
+        );
 
         return $item;
     }
