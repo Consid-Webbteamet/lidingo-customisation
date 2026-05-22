@@ -30,6 +30,7 @@ use LidingoCustomisation\Infrastructure\AssetManifest;
 use LidingoCustomisation\Infrastructure\CspHandler;
 use LidingoCustomisation\Infrastructure\DevServer;
 use LidingoCustomisation\Navigation\DrawerMenuAppend;
+use LidingoCustomisation\Navigation\PageTreeFetchDepth;
 use LidingoCustomisation\Presentation\PagePresentation;
 use LidingoCustomisation\Search\SearchPage;
 use LidingoCustomisation\Templates\ArticlePageTemplate;
@@ -81,6 +82,7 @@ class App
     private RekAiIntegration $rekAiIntegration;
     private ServiceInfoIntegration $serviceInfoIntegration;
     private DrawerMenuAppend $drawerMenuAppend;
+    private PageTreeFetchDepth $pageTreeFetchDepth;
     private FontDisplay $fontDisplay;
 
     public function __construct()
@@ -129,6 +131,7 @@ class App
         $this->rekAiIntegration = new RekAiIntegration();
         $this->serviceInfoIntegration = new ServiceInfoIntegration();
         $this->drawerMenuAppend = new DrawerMenuAppend();
+        $this->pageTreeFetchDepth = new PageTreeFetchDepth();
         $this->fontDisplay = new FontDisplay();
 
         $this->addHooks();
@@ -178,6 +181,7 @@ class App
         $this->rekAiIntegration->addHooks();
         $this->serviceInfoIntegration->addHooks();
         $this->drawerMenuAppend->addHooks();
+        $this->pageTreeFetchDepth->addHooks();
         $this->fontDisplay->addHooks();
 
         if (!$this->assetManifest->isLoaded()) {
