@@ -142,6 +142,7 @@ class App
         add_action('admin_head', [$this, 'printAdminStylesheet'], 1001);
         add_action('admin_footer', [$this, 'printAdminScript'], 1001);
         add_action('login_enqueue_scripts', [$this, 'printLoginStyles'], 1001);
+        add_action('wp_enqueue_scripts', [$this, 'enqueueCoreImageStyles'], 20);
         add_action('init', [$this, 'enablePageTemplateSupports'], 20);
         add_filter('WpSecurity/Csp', [$this, 'addDevServerCspDomains'], 10, 1);
         add_filter('Website/HTML/output', [$this, 'stripDevBlockingCspDirectives'], 20, 0);
@@ -229,6 +230,17 @@ class App
     public function printLoginStyles(): void
     {
         echo '<style>body.login{background-color:#002B49;background-image:none;}</style>';
+    }
+
+    /** Enqueue core image styles early so lightbox layout is available before footer scripts. */
+    public function enqueueCoreImageStyles(): void
+    {
+        if (is_admin()) {
+            return;
+        }
+
+        wp_enqueue_style('wp-block-image');
+        wp_enqueue_style('wp-block-image-theme');
     }
 
     /** Enable page template UI and parent/order controls on supported post types. */

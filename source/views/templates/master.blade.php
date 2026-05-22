@@ -60,8 +60,36 @@
     {{-- Shows up in the bottom left corner as toast messages --}}
     @include('templates.sections.toast-notices')
 
-    {{-- Wordpress required call to wp_footer() --}}
+    {{-- WordPress required call to wp_footer() --}}
     {!! $wpFooter !!}
+
+    @php
+        if (function_exists('wp_script_modules')) {
+            $scriptModules = wp_script_modules();
+
+            if (!str_contains($wpFooter, 'id="wp-importmap"') && !str_contains($wpFooter, "id='wp-importmap'")) {
+                $scriptModules->print_import_map();
+            }
+
+            $scriptModules->print_enqueued_script_modules();
+
+            if (!str_contains($wpFooter, 'rel="modulepreload"') && !str_contains($wpFooter, "rel='modulepreload'")) {
+                $scriptModules->print_script_module_preloads();
+            }
+
+            if (!str_contains($wpFooter, 'id="wp-script-module-data-') && !str_contains($wpFooter, "id='wp-script-module-data-")) {
+                $scriptModules->print_script_module_data();
+            }
+
+            if (!str_contains($wpFooter, 'id="a11y-speak-') && !str_contains($wpFooter, "id='a11y-speak-")) {
+                $scriptModules->print_a11y_script_module_html();
+            }
+        }
+
+        if (has_action('wp_footer', 'block_core_image_print_lightbox_overlay')) {
+            block_core_image_print_lightbox_overlay();
+        }
+    @endphp
 @stop
 
 {{-- Including body --}}
