@@ -6,6 +6,7 @@ namespace LidingoCustomisation\Typography;
 
 class FontDisplay
 {
+    /** Register theme JSON filters that enforce font-display swap on font faces. */
     public function addHooks(): void
     {
         add_filter('wp_theme_json_data_theme', [$this, 'addSwapToFontFaces'], 20, 1);

@@ -8,6 +8,7 @@ use LidingoCustomisation\Templates\LandingPageTemplate;
 
 class PagePresentation
 {
+    /** Register page-level presentation filters and view overrides. */
     public function addHooks(): void
     {
         add_filter('body_class', [$this, 'addFrontendBodyClasses'], 20, 1);

@@ -52,7 +52,7 @@ class DrawerMenuAppend
             && !empty($item['label']);
     }
 
-    /** Prepare an appended drawer link without icons or child toggles. */
+    /** Prepare an appended drawer link with drawer-safe defaults and normalized presentation data. */
     private function prepareDrawerItem(array $item, string $drawerItemId): array
     {
         $item['id'] = $drawerItemId;
@@ -70,7 +70,7 @@ class DrawerMenuAppend
         return $item;
     }
 
-    /** Keep menu icons, and provide a language icon when the language item has none. */
+    /** Keep existing icons and supply drawer icons for service info and language links when needed. */
     private function normalizeDrawerIcon(array $icon, array $item): array
     {
         if (!empty($icon['icon'])) {
@@ -105,7 +105,7 @@ class DrawerMenuAppend
             || str_contains($href, 'translate.google.com');
     }
 
-    /** Remove language/tile presentation classes so appended links match the drawer list. */
+    /** Remove tile presentation classes so appended links match the drawer list. */
     private function normalizeDrawerClassList(array $classList): array
     {
         return array_values(array_filter(
