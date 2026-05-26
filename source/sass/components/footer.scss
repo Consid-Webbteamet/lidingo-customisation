@@ -45,6 +45,10 @@
     }
   }
 
+  a[data-external-text-link]::after {
+    display: none;
+  }
+
   p {
     margin-bottom: 0;
   }
