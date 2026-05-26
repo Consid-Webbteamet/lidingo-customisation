@@ -85,6 +85,7 @@ class App
     private PageTreeFetchDepth $pageTreeFetchDepth;
     private FontDisplay $fontDisplay;
 
+    /** Build core services and register the plugin hooks. */
     public function __construct()
     {
         $this->assetManifest = new AssetManifest(

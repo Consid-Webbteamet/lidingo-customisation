@@ -75,7 +75,7 @@
         @includeWhen($showPlaceCard, 'partials.schema.event.place-card')
         @include('partials.schema.event.occassions-card')
         @include('partials.schema.event.booking-link-card')
-        @includeWhen(!empty($organizers), 'partials.schema.event.organizers-card')
+        @includeWhen(!empty($organizers), 'partials.schema.event.organizers-card-lidingo')
     @stop
 
     @include('templates.sections.grid.content', [
