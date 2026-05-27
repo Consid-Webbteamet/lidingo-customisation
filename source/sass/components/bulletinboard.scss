@@ -1,0 +1,145 @@
+@use "../tokens" as *;
+
+#bulletinboard,
+#bulletinboard .bulletinboard-view,
+#bulletinboard .bulletinboard-title,
+#bulletinboard .bulletinboard-content,
+#bulletinboard input,
+#bulletinboard select,
+#bulletinboard button,
+#bulletinboard textarea {
+  font-family: var(--font-family-base) !important;
+}
+
+#bulletinboard .bbl-item-title {
+  color: $text-1000;
+  font-size: var(--h4-font-size);
+  line-height: var(--h4-line-height);
+  font-family: var(--h4-font-family);
+  font-weight: var(--h4-font-weight);
+}
+
+#bulletinboard .bbl-item-title-small {
+  font-size: var(--font-size-base);
+  margin-block: 0.5rem;
+}
+
+#bulletinboard .bbl-subitem > .bbl-subitem-col {
+  font-size: 1rem;
+  line-height: var(--line-height-base);
+}
+
+#bulletinboard .bbl-subitem > .bbl-subitem-col:has(a) {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+
+  > .bbl-item-info-title,
+  > div {
+    float: none !important;
+  }
+
+  > div {
+    margin-top: 0 !important;
+    padding-left: 0 !important;
+  }
+
+  > div > div {
+    padding-top: 0 !important;
+  }
+}
+
+#bulletinboard .bbl-subitem-col > div[style*="margin-top"] {
+  margin-top: 0 !important;
+}
+
+#bulletinboard .bbl-subitem-col > div[style*="padding-left"] {
+  padding-left: 0 !important;
+}
+
+#bulletinboard .bbl-subitem-col > div > div[style*="padding-top"] {
+  padding-top: 0 !important;
+}
+
+#bulletinboard .bulletinboard-title,
+#bulletinboard .bulletinboard-content,
+#bulletinboard .bbl-item,
+#bulletinboard .bbl-empty,
+#bulletinboard .bbl-pagination > li > a,
+#bulletinboard .bbl-pagination > li > button,
+#bulletinboard .bbl-pagination > li > span {
+  border-color: $color-border-divider;
+}
+
+#bulletinboard .bbl-item,
+#bulletinboard .bbl-item-content-title,
+#bulletinboard .bbl-item-sub,
+#bulletinboard .bbl-item-field,
+#bulletinboard .bbl-item-title-small {
+  color: $text-1000;
+}
+
+#bulletinboard .bbl-item-info-title,
+#bulletinboard .bbl-label,
+#bulletinboard .bbl-group-addon {
+  color: $text-500;
+}
+
+#bulletinboard .bbl-subitem-col a {
+  color: $color-link;
+  align-items: center;
+  gap: 0.375rem;
+
+  &::after {
+    content: ":dokument:";
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Lidingo Logical", sans-serif;
+    font-weight: 400;
+    line-height: 1;
+    text-decoration: none;
+    margin-left: 0.25rem;
+  }
+
+  &:hover,
+  &:focus-visible,
+  &:active,
+  &:visited {
+    color: $color-link;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: $color-link-hover;
+  }
+}
+
+#bulletinboard .chosen-container .chosen-results li.highlighted {
+  background: $color-primary-500;
+  color: $color-white;
+}
+
+#bulletinboard .bbl-form-control:focus {
+  border-color: $color-primary-500 !important;
+}
+
+#bulletinboard .bbl-form-control option:active,
+#bulletinboard .bbl-form-control option:checked,
+#bulletinboard .bbl-form-control option:focus,
+#bulletinboard .bbl-form-control option:hover,
+#bulletinboard .chosen-container .chosen-results li.highlighted {
+  background: linear-gradient($color-primary-500, $color-primary-500);
+  background-color: $color-primary-500 !important;
+  color: $color-white !important;
+}
+
+#bulletinboard .chosen-container-active.chosen-with-drop .chosen-single,
+#bulletinboard .chosen-container-active .chosen-choices {
+  border-color: $color-primary-500 !important;
+}
+
+#bulletinboard .bbl-spinner-icon {
+  border-left-color: $color-primary-500;
+  border-top-color: $color-primary-500;
+}
