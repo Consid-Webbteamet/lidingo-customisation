@@ -42,6 +42,8 @@ class SingularEvent extends \Municipio\Controller\Singular
         $this->data['currentOccasion'] = (new SingularEvent\Mappers\MapCurrentOccasion(...$this->data['occasions']))->map($event);
         $this->data['icsUrl'] = (new SingularEvent\Mappers\MapIcsUrlFromOccasion($this->data['currentOccasion']))->map($event);
         $this->data['bookingLink'] = (new SingularEvent\Mappers\MapBookingLink($this->tryGetCurrentDateFromGetParam()))->map($event);
+        $this->data['priceListItems'] = $this->data['priceListItems'] ?: $this->getEventManagerPriceListItems();
+        $this->data['bookingLink'] = $this->data['bookingLink'] ?: $this->getEventManagerBookingLink();
         $this->data = array_merge($this->data, [
             'postsListData' => $this->getPostsListData(),
         ]);
@@ -172,6 +174,129 @@ class SingularEvent extends \Municipio\Controller\Singular
         return array_map(fn($post) => (int) $post->ID, $results ?? []);
     }
 
+    /** Map legacy Event Manager price rows to Municipio's booking card format. */
+    private function getEventManagerPriceListItems(): array
+    {
+        $schemaPriceItems = $this->getSchemaDataPriceListItems();
+
+        if (!empty($schemaPriceItems)) {
+            return $schemaPriceItems;
+        }
+
+        $prices = $this->getPostMetaValue('pricesList');
+
+        if (!is_array($prices)) {
+            return [];
+        }
+
+        return array_values(array_filter(array_map(function ($priceRow) {
+            if (!is_array($priceRow)) {
+                return null;
+            }
+
+            $label = trim((string) ($priceRow['priceLabel'] ?? ''));
+            $price = $priceRow['price'] ?? null;
+
+            if ($label === '' || $price === '' || $price === null) {
+                return null;
+            }
+
+            return new SingularEvent\PriceListItem($label, sprintf('%s kr', $price));
+        }, $prices)));
+    }
+
+    /** Use Event Manager's online attendance URL as booking link when schema offers are missing. */
+    private function getEventManagerBookingLink(): ?string
+    {
+        $schemaBookingLink = $this->getSchemaDataBookingLink();
+
+        if ($schemaBookingLink !== null) {
+            return $schemaBookingLink;
+        }
+
+        $url = $this->getPostMetaValue('onlineAttendenceUrl') ?: $this->getPostMetaValue('onlineAttendanceUrl');
+        $url = is_string($url) ? trim($url) : '';
+
+        return filter_var($url, FILTER_VALIDATE_URL) ? $url : null;
+    }
+
+    /** Map imported schemaData offers that only use name/price instead of priceSpecification. */
+    private function getSchemaDataPriceListItems(): array
+    {
+        $schemaData = $this->getSchemaData();
+        $offers = is_array($schemaData['offers'] ?? null) ? $schemaData['offers'] : [];
+
+        return array_values(array_filter(array_map(function ($offer) {
+            if (!is_array($offer)) {
+                return null;
+            }
+
+            $label = trim((string) ($offer['name'] ?? ''));
+            $price = $offer['price'] ?? null;
+            $currency = $this->getCurrencySymbol((string) ($offer['priceCurrency'] ?? 'SEK'));
+
+            if ($label === '' || $price === '' || $price === null) {
+                return null;
+            }
+
+            return new SingularEvent\PriceListItem($label, sprintf('%s %s', $price, $currency));
+        }, $offers)));
+    }
+
+    /** Use imported JoinAction URL as booking link when no offer/schedule URL exists. */
+    private function getSchemaDataBookingLink(): ?string
+    {
+        $schemaData = $this->getSchemaData();
+        $actions = is_array($schemaData['potentialAction'] ?? null) ? $schemaData['potentialAction'] : [];
+
+        foreach ($actions as $action) {
+            if (!is_array($action)) {
+                continue;
+            }
+
+            $url = is_string($action['url'] ?? null) ? trim($action['url']) : '';
+
+            if (filter_var($url, FILTER_VALIDATE_URL)) {
+                return $url;
+            }
+        }
+
+        return null;
+    }
+
+    /** Read raw imported schema data stored on mirrored event posts. */
+    private function getSchemaData(): array
+    {
+        $schemaData = get_post_meta($this->post->getId(), 'schemaData', true);
+
+        return is_array($schemaData) ? $schemaData : [];
+    }
+
+    /** Get display currency for imported price rows. */
+    private function getCurrencySymbol(string $currency): string
+    {
+        return match ($currency) {
+            'SEK' => 'kr',
+            default => $currency,
+        };
+    }
+
+    /** Read ACF values when available, with post meta as a safe fallback. */
+    private function getPostMetaValue(string $key): mixed
+    {
+        $postId = $this->post->getId();
+
+        if (function_exists('get_field')) {
+            $value = get_field($key, $postId);
+
+            if (!empty($value)) {
+                return $value;
+            }
+        }
+
+        return get_post_meta($postId, $key, true);
+    }
+
     /** Populate the localized labels used by the event template. */
     private function populateLanguageObject(): void
     {
@@ -189,6 +314,8 @@ class SingularEvent extends \Municipio\Controller\Singular
         $this->data['lang']->accessibilityTitle = $this->wpService->__('Accessibility', 'municipio');
         $this->data['lang']->expiredEventNotice = $this->wpService->__('This event has already taken place.', 'municipio');
         $this->data['lang']->relatedEventsTitle = $this->wpService->__('Related events', 'municipio');
+        $this->data['lang']->readMore = $this->wpService->__('Read more', 'municipio');
+        $this->data['lang']->linksTitle = $this->wpService->__('Links', 'municipio');
     }
 
     /** Send a 410 response for past events when applicable. */
