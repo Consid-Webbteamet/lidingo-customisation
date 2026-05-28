@@ -260,6 +260,11 @@
         margin: 0;
       }
 
+      .c-event-page__place-address-block {
+        display: grid;
+        gap: 0.25rem;
+      }
+
       .c-event-page__place-address-icon {
         display: inline-flex;
         align-items: center;
@@ -273,6 +278,10 @@
 
       .c-event-page__place-address-text {
         display: block;
+      }
+
+      .c-event-page__place-address-details {
+        margin: 0;
       }
 
       .c-event-page__occasion-row,
