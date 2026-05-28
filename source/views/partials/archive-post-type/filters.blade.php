@@ -72,6 +72,7 @@
                 @button([
                     ...$getFilterFormSubmitButtonArguments(),
                     'text' => __('Filtrera', 'lidingo-customisation'),
+                    'size' => 'lg',
                     'color' => 'primary',
                     'classList' => ['c-post-type-archive__filter-submit', 'u-display--block@xs', 'u-width--100@xs'],
                 ])
@@ -84,9 +85,10 @@
                         ...$getFilterFormResetButtonArguments(),
                         'text' => __('Återställ filter', 'lidingo-customisation'),
                         'style' => 'outlined',
+                        'size' => 'lg',
                         'color' => 'primary',
                         'href' => $archiveLayoutResetUrl,
-                        'classList' => ['u-display--block@xs', 'u-width--100@xs'],
+                        'classList' => ['c-post-type-archive__filter-reset', 'u-display--block@xs', 'u-width--100@xs'],
                     ])
                     @endbutton
                 </div>

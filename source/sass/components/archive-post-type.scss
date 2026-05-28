@@ -171,6 +171,12 @@
     line-height: var(--h3-line-height);
   }
 
+  &__hero-card-link {
+    @media (max-width: $breakpoint-md) {
+      padding: 0 1rem;
+    }
+  }
+
   &__listing {
     display: flex;
     flex-direction: column;
@@ -208,6 +214,29 @@
       @include icon-weight(400);
     }
 
+    .c-post-type-archive__filter-submit,
+    .c-post-type-archive__filter-reset {
+      @include button-big;
+
+      height: 3.5625rem;
+      min-height: 3.5625rem;
+      padding: 0.75rem 2rem;
+      border-color: $color-primary-500;
+
+      .c-button__label,
+      .c-button__label-text {
+        color: inherit;
+        font: inherit;
+        line-height: inherit;
+      }
+    }
+
+    .c-post-type-archive__filter-submit {
+      padding-right: 2.3rem !important;
+      background: $color-primary-500;
+      color: $color-white;
+    }
+
     .c-post-type-archive__filter-submit .c-button__label-icon {
       display: inline-flex;
       width: 1rem;
@@ -229,8 +258,9 @@
       }
     }
 
-    .c-button__outlined--primary {
-      @extend .button--ghost;
+    .c-post-type-archive__filter-reset {
+      background: transparent;
+      color: $color-primary-500;
     }
   }
 
