@@ -704,6 +704,17 @@ a.button.button--white:visited:active,
   color: $color-primary-500;
 }
 
+.t-401__buttons {
+  > a.c-button {
+    margin-inline: 0.5rem !important;
+
+    @media (max-width: $breakpoint-sm) {
+      margin-inline: 0 !important;
+      width: 100%;
+    }
+  }
+}
+
 .post-password-form .c-button.c-button__filled--secondary,
 .post-password-form .c-button.c-button__filled--secondary:hover,
 .post-password-form .c-button.c-button__filled--secondary:focus,
