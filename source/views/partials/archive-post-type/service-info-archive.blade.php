@@ -25,7 +25,9 @@
 
                                     <div class="c-service-info-archive__card-content">
                                         @if (!empty($item['formattedDate']))
-                                            <p class="c-service-info-archive__date">{!! $item['formattedDate'] !!}</p>
+                                            @php($formattedArchiveDate = preg_replace('/^(\d{1,2}\s+\p{L}+\s+\d{4})\s+(\d{1,2}[.:]\d{2})(?:(\s+(?:&ndash;|&#8211;|–|-)\s+)|$)/u', '$1, $2$3', (string) $item['formattedDate'], 1) ?? (string) $item['formattedDate'])
+                                            @php($formattedArchiveDate = preg_replace('/(\s+(?:&ndash;|&#8211;|–|-)\s+\d{1,2}\s+\p{L}+\s+\d{4})\s+(\d{1,2}[.:]\d{2})$/u', '$1, $2', (string) $formattedArchiveDate, 1) ?? (string) $formattedArchiveDate)
+                                            <p class="c-service-info-archive__date">{!! $formattedArchiveDate !!}</p>
                                         @endif
 
                                         <h3 class="c-service-info-archive__card-title">{{ $item['title'] }}</h3>

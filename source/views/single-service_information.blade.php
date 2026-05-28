@@ -16,7 +16,9 @@
     @php($serviceInfoStartDate = $serviceInfoPostId > 0 ? (string) get_field('start_date', $serviceInfoPostId) : '')
     @php($serviceInfoEndDate = $serviceInfoPostId > 0 ? (string) get_field('end_date', $serviceInfoPostId) : '')
     @php($serviceInfoFormattedDate = class_exists(\ModularityServiceInfo\Helper\DateFormatter::class) ? \ModularityServiceInfo\Helper\DateFormatter::formatDateRange($serviceInfoStartDate, $serviceInfoEndDate) : trim($serviceInfoStartDate . ($serviceInfoEndDate !== '' ? ' - ' . $serviceInfoEndDate : '')))
-    @php($serviceInfoFormattedDate = str_replace(['&ndash;', '&#8211;', '–'], '-', (string) $serviceInfoFormattedDate))
+    @php($serviceInfoFormattedDate = preg_replace('/^(\d{1,2}\s+\p{L}+\s+\d{4})\s+(\d{1,2}[.:]\d{2})(?:(\s+(?:&ndash;|&#8211;|–|-)\s+)|$)/u', '$1, $2$3', (string) $serviceInfoFormattedDate, 1) ?? (string) $serviceInfoFormattedDate)
+    @php($serviceInfoFormattedDate = preg_replace('/(\s+(?:&ndash;|&#8211;|–|-)\s+\d{1,2}\s+\p{L}+\s+\d{4})\s+(\d{1,2}[.:]\d{2})$/u', '$1, $2', (string) $serviceInfoFormattedDate, 1) ?? (string) $serviceInfoFormattedDate)
+    @php($serviceInfoFormattedDate = html_entity_decode((string) $serviceInfoFormattedDate, ENT_QUOTES, 'UTF-8'))
     @php($serviceInfoPublishedTimestamp = $serviceInfoPostId > 0 ? get_post_timestamp($serviceInfoPostId, 'date') : false)
     @php($serviceInfoPublishedDate = is_int($serviceInfoPublishedTimestamp) ? wp_date((string) get_option('date_format', 'j F Y'), $serviceInfoPublishedTimestamp) : '')
     @php($serviceInfoSidebarHeading = trim((string) get_field(\LidingoCustomisation\AcfFields\ServiceInfoSingleSidebarFields::FIELD_NAME_HEADING, $serviceInfoPostId)))
@@ -51,7 +53,19 @@
             $formattedDate = class_exists(\ModularityServiceInfo\Helper\DateFormatter::class)
                 ? \ModularityServiceInfo\Helper\DateFormatter::formatDateRange($startDate, $endDate)
                 : trim($startDate . ($endDate !== '' ? ' - ' . $endDate : ''));
-            $formattedDate = str_replace(['&ndash;', '&#8211;', '–'], '-', (string) $formattedDate);
+            $formattedDate = preg_replace(
+                '/^(\d{1,2}\s+\p{L}+\s+\d{4})\s+(\d{1,2}[.:]\d{2})(?:(\s+(?:&ndash;|&#8211;|–|-)\s+)|$)/u',
+                '$1, $2$3',
+                (string) $formattedDate,
+                1
+            ) ?? (string) $formattedDate;
+            $formattedDate = preg_replace(
+                '/(\s+(?:&ndash;|&#8211;|–|-)\s+\d{1,2}\s+\p{L}+\s+\d{4})\s+(\d{1,2}[.:]\d{2})$/u',
+                '$1, $2',
+                (string) $formattedDate,
+                1
+            ) ?? (string) $formattedDate;
+            $formattedDate = html_entity_decode((string) $formattedDate, ENT_QUOTES, 'UTF-8');
             $iconImageHtml = $iconAttachmentId > 0 ? wp_get_attachment_image($iconAttachmentId, 'thumbnail', false, [
                 'class' => 'c-service-info-archive__icon-image',
                 'alt' => '',

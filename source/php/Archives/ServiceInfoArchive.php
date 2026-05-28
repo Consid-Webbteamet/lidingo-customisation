@@ -181,14 +181,30 @@ class ServiceInfoArchive
         $iconAttachmentId = is_object($firstTerm)
             ? $this->normalizeAttachmentId(get_field('icon', 'service_category_' . $firstTerm->term_id))
             : 0;
+        $formattedDate = DateFormatter::formatDateRange(
+            (string) get_field('start_date', $post->ID),
+            (string) get_field('end_date', $post->ID)
+        );
+
+        if (is_string($formattedDate)) {
+            $formattedDate = preg_replace(
+                '/^(\d{1,2}\s+\p{L}+\s+\d{4})\s+(\d{1,2}[.:]\d{2})(?:(\s+(?:&ndash;|&#8211;|–|-)\s+)|$)/u',
+                '$1, $2$3',
+                $formattedDate,
+                1
+            ) ?? $formattedDate;
+            $formattedDate = preg_replace(
+                '/(\s+(?:&ndash;|&#8211;|–|-)\s+\d{1,2}\s+\p{L}+\s+\d{4})\s+(\d{1,2}[.:]\d{2})$/u',
+                '$1, $2',
+                $formattedDate,
+                1
+            ) ?? $formattedDate;
+        }
 
         return [
             'title' => get_the_title($post->ID),
             'link' => get_permalink($post->ID),
-            'formattedDate' => DateFormatter::formatDateRange(
-                (string) get_field('start_date', $post->ID),
-                (string) get_field('end_date', $post->ID)
-            ),
+            'formattedDate' => $formattedDate,
             'iconImageHtml' => $this->getIconImageHtml($iconAttachmentId),
         ];
     }
