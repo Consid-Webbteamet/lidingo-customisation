@@ -618,6 +618,10 @@ a.button.button--white:visited:active,
   border-color: $color-primary-500;
   color: $color-white;
   text-decoration: none;
+
+  @media (max-width: $breakpoint-md) {
+    margin-right: 0 !important;
+  }
 }
 
 .error404 .t-404__buttons .c-button.c-button--lg,
