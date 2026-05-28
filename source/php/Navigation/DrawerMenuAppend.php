@@ -19,6 +19,7 @@ class DrawerMenuAppend
         $existingIds = array_column($data['mobileMenu']['items'], 'id');
         $appendedItems = [];
 
+
         $items = array_merge(
             $data['primaryMenu']['items'] ?? [],
             $data['languageMenu']['items'] ?? []
