@@ -32,9 +32,9 @@
   border: 2px solid $text-1000;
   background: transparent;
   color: $text-1000;
-  font-family: "Lidingo Logical", sans-serif;
+  font-family: var(--font-family-bold, var(--font-family-base));
   font-size: 1.125rem;
-  font-weight: 600;
+  font-weight: var(--font-weight-bold, 600);
   line-height: 1.5;
 }
 
@@ -89,9 +89,9 @@
   border-radius: 62.4375rem !important;
   background: transparent !important;
   color: $text-1000 !important;
-  font-family: "Lidingo Logical", sans-serif !important;
+  font-family: var(--font-family-bold, var(--font-family-base)) !important;
   font-size: 1.125rem !important;
-  font-weight: 600 !important;
+  font-weight: var(--font-weight-bold, 600) !important;
   line-height: 1.5 !important;
 }
 
