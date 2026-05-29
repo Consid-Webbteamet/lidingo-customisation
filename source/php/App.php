@@ -23,6 +23,7 @@ use LidingoCustomisation\Components\Posts\PostsDateOverrides;
 use LidingoCustomisation\Components\Posts\StickyPostsOverrides;
 use LidingoCustomisation\Components\Sections\SectionFullHeadingOverrides;
 use LidingoCustomisation\Integrations\CustomerFeedback\CustomerFeedbackIntegration;
+use LidingoCustomisation\Integrations\JobListings\VismaImportPatch;
 use LidingoCustomisation\Integrations\RekAi\RekAiIntegration;
 use LidingoCustomisation\Integrations\ServiceInfo\ServiceInfoIntegration;
 use LidingoCustomisation\Infrastructure\AssetRenderer;
@@ -79,6 +80,7 @@ class App
     private ContentPageWithTocTemplate $contentPageWithTocTemplate;
     private ContentPageWithTocBootstrap $contentPageWithTocBootstrap;
     private CustomerFeedbackIntegration $customerFeedbackIntegration;
+    private VismaImportPatch $vismaImportPatch;
     private RekAiIntegration $rekAiIntegration;
     private ServiceInfoIntegration $serviceInfoIntegration;
     private DrawerMenuAppend $drawerMenuAppend;
@@ -128,6 +130,7 @@ class App
         $this->contentPageWithTocTemplate = new ContentPageWithTocTemplate();
         $this->contentPageWithTocBootstrap = new ContentPageWithTocBootstrap();
         $this->customerFeedbackIntegration = new CustomerFeedbackIntegration();
+        $this->vismaImportPatch = new VismaImportPatch();
         $this->rekAiIntegration = new RekAiIntegration();
         $this->serviceInfoIntegration = new ServiceInfoIntegration();
         $this->drawerMenuAppend = new DrawerMenuAppend();
@@ -178,6 +181,7 @@ class App
         $this->contentPageWithTocTemplate->addHooks();
         $this->contentPageWithTocBootstrap->addHooks();
         $this->customerFeedbackIntegration->addHooks();
+        $this->vismaImportPatch->addHooks();
         $this->rekAiIntegration->addHooks();
         $this->serviceInfoIntegration->addHooks();
         $this->drawerMenuAppend->addHooks();
