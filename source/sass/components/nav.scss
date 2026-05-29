@@ -14,13 +14,6 @@
     background-color: $color-primary-400;
   }
 
-  /* .c-drawer__promoted-links,
-  .c-drawer__promoted-links > .c-nav,
-  .c-drawer__promoted-links > .c-nav.c-nav--drawer,
-  .c-drawer__promoted-links ul.c-nav.c-nav--drawer {
-    background-color: $color-primary-300;
-  } */
-
   ul.c-nav.c-nav--drawer,
   ul.c-nav.c-nav--depth-1 {
     --c-nav-v-background-expanded: #{$color-primary-400};
@@ -166,53 +159,6 @@
     }
   }
 
-  #menu-mobile
-    [id^="menu-mobile-drawer-appended-"]
-    > .c-nav__item-wrapper
-    > .c-nav__link,
-  #menu-mobile .c-nav__link[id^="menu-mobile-drawer-appended-"] {
-    display: flex;
-    align-items: center;
-    gap: 0.6875rem;
-  }
-
-  #menu-mobile
-    .c-nav__link[id^="menu-mobile-drawer-appended-"]
-    > .c-nav__icon.c-icon.c-icon--size-md {
-    --c-icon-size: 24px;
-    --c-icon-size-md: 24px;
-    --lidingo-icon-weight: 400;
-    font-weight: 400;
-  }
-
-  #menu-mobile
-    .c-nav__link[id^="menu-mobile-drawer-appended-"]
-    > .c-nav__icon.c-icon.c-icon--size-md:after {
-    font-size: 24px;
-    line-height: 24px;
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-
-  #menu-mobile
-    .s-post-type-service-info-archive[id^="menu-mobile-drawer-appended-"] {
-    > .c-nav__item-wrapper > .c-nav__link {
-      position: relative;
-    }
-
-    .c-nav__text {
-      position: static;
-    }
-
-    .service-info-badge {
-      position: absolute;
-      top: calc(50% + 0.5rem);
-      left: calc(1.5rem + 1.125rem);
-      z-index: 1;
-      transform: translate(-50%, -50%);
-    }
-  }
-
   ul.c-nav.c-nav--depth-2 .c-nav__link {
     padding-left: 1.5rem;
   }
@@ -252,6 +198,25 @@
       color: $color-white;
       font-size: 0.875rem;
       white-space: nowrap;
+    }
+  }
+
+  .site-language-menu--drawer {
+    z-index: auto;
+
+    .site-language-menu-button {
+      width: 100%;
+      justify-content: flex-start;
+      padding: 1rem 1.5rem;
+      border-radius: 0;
+    }
+
+    .site-language-menu__card {
+      position: static;
+      width: 100%;
+      height: auto;
+      margin: 0;
+      border-radius: 0;
     }
   }
 }
