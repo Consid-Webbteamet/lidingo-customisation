@@ -45,6 +45,7 @@ class VismaImportPatch
                     $function[0] instanceof \JobListings\Cron\VismaImport &&
                     $function[1] === 'normalize'
                 ) {
+                    $this->replaceImportCallbacks($function[0]);
                     remove_filter(self::ITEM_FILTER, $function, (int) $priority);
                 }
             }
@@ -318,5 +319,301 @@ class VismaImportPatch
         }
 
         return (int) date_diff(date_create(date('Y-m-d')), $applicationEndDate)->days;
+    }
+
+    private function replaceImportCallbacks(\JobListings\Cron\VismaImport $importer): void
+    {
+        remove_action($importer->getHookName(), [$importer, 'importXml']);
+        add_action($importer->getHookName(), fn() => $this->importXml($importer));
+
+        remove_action('admin_init', [$importer, 'importXmlTrigger']);
+        add_action('admin_init', fn() => $this->importXmlTrigger($importer));
+    }
+
+    public function importXmlTrigger(\JobListings\Cron\VismaImport $importer): void
+    {
+        $triggerKey = str_replace('\\', '', get_class($importer));
+        if (!isset($_GET[$triggerKey])) {
+            return;
+        }
+
+        header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+        header('Cache-Control: post-check=0, pre-check=0', false);
+        header('Pragma: no-cache');
+
+        $this->importXml($importer);
+
+        wp_die(
+            sprintf(
+                __('%sImport done%s %s Data has been imported with %s method. %s', 'job-listings'),
+                '<h1>',
+                '</h1>',
+                '<p>',
+                '<strong>' . get_class($importer) . '</strong>',
+                '</p>'
+            ),
+            'Import',
+            ['back_link' => true]
+        );
+    }
+
+    public function importXml(\JobListings\Cron\VismaImport $importer): ?bool
+    {
+        ini_set('max_execution_time', '600');
+
+        $curl = new \JobListings\Helper\Curl(true, (int) $importer->cacheTTL);
+        $data = $curl->request(
+            (string) $importer->curlMethod,
+            (string) $importer->baseUrl,
+            (array) $importer->queryParams
+        );
+
+        $data = str_replace('&', '&amp;', (string) $data);
+
+        try {
+            $data = simplexml_load_string($data);
+        } catch (\Exception $e) {
+            if (!strstr($e->getMessage(), 'XML')) {
+                throw $e;
+            }
+        }
+
+        if (!is_object($data)) {
+            if (defined('WP_CLI') && WP_CLI) {
+                $errorString = 'Could not load XML at ' . home_url() . ': ' . $importer->baseUrl;
+                error_log($errorString);
+                \WP_CLI::warning($errorString);
+            }
+
+            return null;
+        }
+
+        $items = $data->xpath($importer->baseNode . '/' . $importer->subNode);
+        if (empty($items)) {
+            return null;
+        }
+
+        foreach ($items as $item) {
+            $item = apply_filters(str_replace('\\', '/', get_class($importer)) . '/Item', $item);
+
+            if ($item) {
+                $this->updateItem($importer, $item);
+            }
+        }
+
+        $importer->deactivateMissingJobs();
+
+        return true;
+    }
+
+    private function updateItem(\JobListings\Cron\VismaImport $importer, $item): bool
+    {
+        if (!is_object($item) || empty($item)) {
+            return false;
+        }
+
+        $dataObject = [];
+
+        foreach ($importer->metaKeyMap() as $key => $target) {
+            if ($key === 'contact') {
+                continue;
+            }
+
+            if (!is_array($target)) {
+                $dataObject[$key] = $target;
+                continue;
+            }
+
+            $dataObject[$key] = $this->getMappedValue($importer, $item, $key, $target);
+        }
+
+        $dataObject['contact'] = $this->contactsByGuid[trim((string) ($item->Guid ?? ''))] ?? [];
+
+        $uuid = $this->normalizeScalar($dataObject['uuid'] ?? '');
+        if ($uuid !== '' && is_numeric($uuid)) {
+            $importer->importedUuids[] = (int) $uuid;
+        }
+
+        $postObject = $importer->getPost([
+            'key' => 'uuid',
+            'value' => $dataObject['uuid'] ?? '',
+        ]);
+
+        if (!isset($postObject->ID)) {
+            $postId = wp_insert_post([
+                'post_title' => $this->normalizeScalar($dataObject['post_title'] ?? ''),
+                'post_content' => $this->normalizeScalar($dataObject['post_content'] ?? ''),
+                'post_type' => $importer->postType,
+                'post_status' => 'publish',
+            ]);
+        } else {
+            $postId = $postObject->ID;
+            $updateDiff = [
+                $postObject->post_title,
+                $postObject->post_content,
+                $this->normalizeScalar($dataObject['post_title'] ?? ''),
+                $this->normalizeScalar($dataObject['post_content'] ?? ''),
+            ];
+
+            if (count(array_unique($updateDiff)) !== (count($updateDiff) / 2)) {
+                wp_update_post([
+                    'ID' => $postId,
+                    'post_title' => $this->normalizeScalar($dataObject['post_title'] ?? ''),
+                    'post_content' => $this->normalizeScalar($dataObject['post_content'] ?? ''),
+                ]);
+            }
+        }
+
+        $this->updateTaxonomy($postId, 'occupationclassifications', 'job-listing-category', $dataObject);
+        $this->updateTaxonomy($postId, 'source_system', 'job-listing-source', $dataObject);
+        $importer->updatePostMeta($postId, $dataObject);
+
+        return true;
+    }
+
+    /** @param array<int, string> $target */
+    private function getMappedValue(\JobListings\Cron\VismaImport $importer, $item, string $key, array $target)
+    {
+        if (count($target) === 5 && in_array($key, ['occupationclassifications', 'departments'], true)) {
+            return $this->getClassificationNameByLevel(
+                $this->getXmlValueByPath($item, array_slice($target, 0, 4)),
+                $key === 'departments' ? 2 : 1
+            );
+        }
+
+        return $this->normalizeMappedValue($this->getXmlValueByPath($item, $target));
+    }
+
+    /** @param array<int, string> $path */
+    private function getXmlValueByPath($value, array $path)
+    {
+        $current = $value;
+
+        foreach ($path as $segment) {
+            if ($segment === '@attributes') {
+                $current = $current instanceof SimpleXMLElement ? $current->attributes() : null;
+                continue;
+            }
+
+            if (is_array($current) && array_key_exists($segment, $current)) {
+                $current = $current[$segment];
+                continue;
+            }
+
+            if (is_object($current) && isset($current->{$segment})) {
+                $current = $current->{$segment};
+                continue;
+            }
+
+            return '';
+        }
+
+        return $current;
+    }
+
+    private function normalizeMappedValue($value)
+    {
+        if ($value instanceof SimpleXMLElement) {
+            return trim((string) $value);
+        }
+
+        if (is_array($value)) {
+            return array_map([$this, 'normalizeMappedValue'], $value);
+        }
+
+        if (is_scalar($value) || $value === null) {
+            return trim((string) $value);
+        }
+
+        if (is_object($value)) {
+            return trim((string) $value);
+        }
+
+        return '';
+    }
+
+    private function getClassificationNameByLevel($nodes, int $level): string
+    {
+        if ($nodes instanceof SimpleXMLElement) {
+            foreach ($nodes as $node) {
+                if ((int) ($node->Level ?? 0) === $level) {
+                    return trim((string) ($node->Name ?? ''));
+                }
+            }
+
+            if ((int) ($nodes->Level ?? 0) === $level) {
+                return trim((string) ($nodes->Name ?? ''));
+            }
+        }
+
+        return '';
+    }
+
+    private function updateTaxonomy(int $postId, string $termSourceKey, string $termId, array $dataObject)
+    {
+        if (!isset($dataObject[$termSourceKey]) || empty($dataObject[$termSourceKey])) {
+            return false;
+        }
+
+        $termValue = $this->stringifyTermValue($dataObject[$termSourceKey]);
+        if ($termValue === '') {
+            return false;
+        }
+
+        $termValue = ucfirst(str_replace(', ', ' - ', $termValue));
+        $term = term_exists($termValue, $termId);
+
+        if (is_null($term)) {
+            $term = wp_insert_term(
+                $termValue,
+                $termId,
+                [
+                    'description' => $termValue,
+                    'slug' => sanitize_title($termValue),
+                ]
+            );
+        }
+
+        wp_delete_object_term_relationships($postId, $termId);
+
+        return wp_set_post_terms($postId, $termValue, $termId, true);
+    }
+
+    private function stringifyTermValue($value): string
+    {
+        if ($value instanceof SimpleXMLElement) {
+            return trim((string) $value);
+        }
+
+        if (is_array($value)) {
+            $parts = [];
+
+            array_walk_recursive(
+                $value,
+                static function ($part) use (&$parts): void {
+                    if (!is_scalar($part) && !$part instanceof SimpleXMLElement) {
+                        return;
+                    }
+
+                    $part = trim((string) $part);
+                    if ($part !== '') {
+                        $parts[] = $part;
+                    }
+                }
+            );
+
+            return implode(', ', array_values(array_unique($parts)));
+        }
+
+        if (is_scalar($value) || $value === null) {
+            return trim((string) $value);
+        }
+
+        return '';
+    }
+
+    private function normalizeScalar($value): string
+    {
+        return is_scalar($value) || $value === null ? trim((string) $value) : '';
     }
 }
