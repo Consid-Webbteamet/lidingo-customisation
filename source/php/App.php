@@ -31,6 +31,7 @@ use LidingoCustomisation\Infrastructure\AssetManifest;
 use LidingoCustomisation\Infrastructure\CspHandler;
 use LidingoCustomisation\Infrastructure\DevServer;
 use LidingoCustomisation\Navigation\DrawerMenuAppend;
+use LidingoCustomisation\Navigation\PageForPostTypeIdOverride;
 use LidingoCustomisation\Navigation\PageTreeFetchDepth;
 use LidingoCustomisation\Presentation\PagePresentation;
 use LidingoCustomisation\Search\SearchPage;
@@ -84,6 +85,7 @@ class App
     private RekAiIntegration $rekAiIntegration;
     private ServiceInfoIntegration $serviceInfoIntegration;
     private DrawerMenuAppend $drawerMenuAppend;
+    private PageForPostTypeIdOverride $pageForPostTypeIdOverride;
     private PageTreeFetchDepth $pageTreeFetchDepth;
     private FontDisplay $fontDisplay;
 
@@ -134,6 +136,7 @@ class App
         $this->rekAiIntegration = new RekAiIntegration();
         $this->serviceInfoIntegration = new ServiceInfoIntegration();
         $this->drawerMenuAppend = new DrawerMenuAppend();
+        $this->pageForPostTypeIdOverride = new PageForPostTypeIdOverride();
         $this->pageTreeFetchDepth = new PageTreeFetchDepth();
         $this->fontDisplay = new FontDisplay();
 
@@ -185,6 +188,7 @@ class App
         $this->rekAiIntegration->addHooks();
         $this->serviceInfoIntegration->addHooks();
         $this->drawerMenuAppend->addHooks();
+        $this->pageForPostTypeIdOverride->addHooks();
         $this->pageTreeFetchDepth->addHooks();
         $this->fontDisplay->addHooks();
 
