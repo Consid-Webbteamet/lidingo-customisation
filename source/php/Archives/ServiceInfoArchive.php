@@ -483,6 +483,10 @@ class ServiceInfoArchive
             return true;
         }
 
+        if ($this->isFallbackArchiveView()) {
+            return true;
+        }
+
         if (!is_page()) {
             return false;
         }
@@ -491,5 +495,32 @@ class ServiceInfoArchive
         $queriedObjectId = get_queried_object_id();
 
         return $archivePageId > 0 && is_int($queriedObjectId) && $queriedObjectId === $archivePageId;
+    }
+
+    /** Detect when the archive query has fallen back to child pages for the assigned archive page. */
+    private function isFallbackArchiveView(): bool
+    {
+        if (!is_archive()) {
+            return false;
+        }
+
+        global $wp_query;
+
+        if (!$wp_query instanceof \WP_Query) {
+            return false;
+        }
+
+        $postType = $wp_query->get('post_type');
+        if (is_array($postType)) {
+            $postType = end($postType);
+        }
+
+        if ($postType !== 'page') {
+            return false;
+        }
+
+        $archivePageId = $this->getArchivePageId();
+
+        return $archivePageId > 0 && (int) $wp_query->get('child_of') === $archivePageId;
     }
 }

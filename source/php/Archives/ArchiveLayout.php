@@ -308,6 +308,11 @@ class ArchiveLayout
             return $viewData;
         }
 
+        if ($this->isFallbackArchiveView()) {
+            $viewData['posts'] = [];
+            $viewData['paginationEnabled'] = static fn(): bool => false;
+        }
+
         $page = $this->getArchivePage($postType);
         $pageId = $page?->ID;
 
@@ -595,8 +600,10 @@ class ArchiveLayout
             return null;
         }
 
-        if ((int) get_option('page_for_' . self::EVENT_ARCHIVE_POST_TYPE) === $archivePageId) {
-            return self::EVENT_ARCHIVE_POST_TYPE;
+        foreach ($this->getSupportedPostTypes() as $supportedPostType) {
+            if ((int) get_option('page_for_' . $supportedPostType) === $archivePageId) {
+                return $supportedPostType;
+            }
         }
 
         return null;
