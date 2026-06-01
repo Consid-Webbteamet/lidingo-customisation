@@ -30,7 +30,6 @@ use LidingoCustomisation\Infrastructure\AssetRenderer;
 use LidingoCustomisation\Infrastructure\AssetManifest;
 use LidingoCustomisation\Infrastructure\CspHandler;
 use LidingoCustomisation\Infrastructure\DevServer;
-use LidingoCustomisation\Navigation\DrawerMenuAppend;
 use LidingoCustomisation\Navigation\PageTreeFetchDepth;
 use LidingoCustomisation\Presentation\PagePresentation;
 use LidingoCustomisation\Search\SearchPage;
@@ -83,7 +82,6 @@ class App
     private VismaImportPatch $vismaImportPatch;
     private RekAiIntegration $rekAiIntegration;
     private ServiceInfoIntegration $serviceInfoIntegration;
-    private DrawerMenuAppend $drawerMenuAppend;
     private PageTreeFetchDepth $pageTreeFetchDepth;
     private FontDisplay $fontDisplay;
 
@@ -133,7 +131,6 @@ class App
         $this->vismaImportPatch = new VismaImportPatch();
         $this->rekAiIntegration = new RekAiIntegration();
         $this->serviceInfoIntegration = new ServiceInfoIntegration();
-        $this->drawerMenuAppend = new DrawerMenuAppend();
         $this->pageTreeFetchDepth = new PageTreeFetchDepth();
         $this->fontDisplay = new FontDisplay();
 
@@ -184,7 +181,6 @@ class App
         $this->vismaImportPatch->addHooks();
         $this->rekAiIntegration->addHooks();
         $this->serviceInfoIntegration->addHooks();
-        $this->drawerMenuAppend->addHooks();
         $this->pageTreeFetchDepth->addHooks();
         $this->fontDisplay->addHooks();
 
