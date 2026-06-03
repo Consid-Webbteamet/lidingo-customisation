@@ -4,6 +4,27 @@
 .single-job-listing {
   --sticky-sidebar-top: calc(var(--header-height, 0px) + 5rem);
 
+  @include breakpoint-down($breakpoint-lg) {
+    .c-content-page__main {
+      padding-bottom: 0;
+    }
+  }
+
+  .c-content-page__aside {
+    display: block;
+
+
+    @include breakpoint-down($breakpoint-lg) {
+      background-color: transparent;
+      box-shadow: none;
+      padding-top: 0;
+      padding-left: 0;
+      padding-right: 0;
+      padding-bottom: 10rem;
+      margin-top: 2rem;
+    }
+  }
+
   .c-job-sidebar__card {
     background: transparent;
   }
