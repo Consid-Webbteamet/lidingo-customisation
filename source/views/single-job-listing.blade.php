@@ -2,9 +2,14 @@
 
 @section('layout')
     @php($postId = get_the_ID())
-    @php($isExpired = (string) get_post_meta($postId, 'has_expired', true) === '1')
     @php($applicationEndDate = (string) get_post_meta($postId, 'application_end_date', true))
-    @php($daysLeft = !empty($applicationEndDate) ? max(0, (int) floor((strtotime($applicationEndDate . ' 23:59:59') - current_time('timestamp')) / DAY_IN_SECONDS)) : 0)
+    @php($publishEndDate = (string) get_post_meta($postId, 'publish_end_date', true))
+    @php($effectiveEndDate = trim($applicationEndDate !== '' ? $applicationEndDate : $publishEndDate))
+    @php($effectiveEndDateTime = $effectiveEndDate !== '' ? date_create_immutable($effectiveEndDate, wp_timezone()) : false)
+    @php($effectiveEndTimestamp = $effectiveEndDateTime instanceof \DateTimeImmutable ? $effectiveEndDateTime->setTime(23, 59, 59)->getTimestamp() : false)
+    @php($currentTimestamp = time())
+    @php($isExpired = $effectiveEndTimestamp !== false ? $currentTimestamp > $effectiveEndTimestamp : (string) get_post_meta($postId, 'has_expired', true) === '1')
+    @php($daysLeft = $effectiveEndTimestamp !== false ? max(0, (int) floor(($effectiveEndTimestamp - $currentTimestamp) / DAY_IN_SECONDS)) : 0)
     @php($reference = (string) get_post_meta($postId, 'ad_reference_nbr', true))
     @php($published = (string) get_post_meta($postId, 'publish_start_date', true))
     @php($employmentGrade = (string) get_post_meta($postId, 'employment_grade', true))
@@ -20,7 +25,7 @@
 
     @php($daysLeftLabel = $daysLeft === 1 ? __('dag kvar', 'lidingo-customisation') : __('dagar kvar', 'lidingo-customisation'))
     @php($informationItems = array_values(array_filter([
-        ['label' => __('Sista ansökningsdag', 'lidingo-customisation'), 'value' => $applicationEndDate !== '' ? $applicationEndDate . ' (' . $daysLeft . ' ' . $daysLeftLabel . ')' : ''],
+        ['label' => __('Sista ansökningsdag', 'lidingo-customisation'), 'value' => $effectiveEndDate !== '' ? $effectiveEndDate . ' (' . $daysLeft . ' ' . $daysLeftLabel . ')' : ''],
         ['label' => __('Omfattning', 'lidingo-customisation'), 'value' => $employmentGrade],
         ['label' => __('Publicerad', 'lidingo-customisation'), 'value' => $published],
         ['label' => __('Ort', 'lidingo-customisation'), 'value' => $locationName],

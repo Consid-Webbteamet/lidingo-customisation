@@ -71,7 +71,7 @@ class VismaImportPatch
         $this->setDateValue($item, 'Modified');
 
         $publishEndDate = trim((string) ($item->PublishEndDate ?? ''));
-        $item->hasExpired = $publishEndDate !== '' && strtotime($publishEndDate) >= time() ? '0' : '1';
+        $item->hasExpired = $this->hasDateExpired($publishEndDate) ? '1' : '0';
         $item->numberOfDaysLeft = $this->getDaysLeft(trim((string) ($item->ApplicationEndDate ?? '')));
 
         if (!empty($settings['apply_base_link'])) {
@@ -309,16 +309,33 @@ class VismaImportPatch
 
     private function getDaysLeft(string $date): int
     {
+        $endOfDayTimestamp = $this->getEndOfDayTimestamp($date);
+        if ($endOfDayTimestamp === null) {
+            return 0;
+        }
+
+        return max(0, (int) floor(($endOfDayTimestamp - time()) / DAY_IN_SECONDS));
+    }
+
+    private function hasDateExpired(string $date): bool
+    {
+        $endOfDayTimestamp = $this->getEndOfDayTimestamp($date);
+
+        return $endOfDayTimestamp === null || time() > $endOfDayTimestamp;
+    }
+
+    private function getEndOfDayTimestamp(string $date): ?int
+    {
         if ($date === '') {
-            return 0;
+            return null;
         }
 
-        $applicationEndDate = date_create($date);
-        if ($applicationEndDate === false) {
-            return 0;
+        $dateTime = date_create_immutable($date, wp_timezone());
+        if (!$dateTime instanceof \DateTimeImmutable) {
+            return null;
         }
 
-        return (int) date_diff(date_create(date('Y-m-d')), $applicationEndDate)->days;
+        return $dateTime->setTime(23, 59, 59)->getTimestamp();
     }
 
     private function replaceImportCallbacks(\JobListings\Cron\VismaImport $importer): void
