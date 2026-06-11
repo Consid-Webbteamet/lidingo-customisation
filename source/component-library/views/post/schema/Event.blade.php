@@ -1,33 +1,21 @@
 @php
-    $eventSchedules = method_exists($post, 'getSchemaProperty') ? $post->getSchemaProperty('eventSchedule') : null;
-    $eventSchedules = is_array($eventSchedules) ? $eventSchedules : (!empty($eventSchedules) ? [$eventSchedules] : []);
-    usort($eventSchedules, static fn ($a, $b) => ($a?->getProperty('startDate') ?? null) <=> ($b?->getProperty('startDate') ?? null));
-
-    $now = new \DateTime('now');
-    $upcomingSchedules = array_values(array_filter($eventSchedules, static fn ($schedule) => $schedule?->getProperty('startDate') instanceof \DateTimeInterface && $schedule->getProperty('startDate') >= $now));
-    $pastSchedules = array_reverse(array_values(array_filter($eventSchedules, static fn ($schedule) => $schedule?->getProperty('startDate') instanceof \DateTimeInterface && $schedule->getProperty('startDate') < $now)));
-    $selectedSchedule = $upcomingSchedules[0] ?? $pastSchedules[0] ?? null;
-    $selectedStartDate = $selectedSchedule?->getProperty('startDate');
-    $selectedEndDate = $selectedSchedule?->getProperty('endDate');
-
-    $eventDate = $selectedStartDate instanceof \DateTimeInterface ? wp_date(\Municipio\Helper\DateFormat::getDateFormat('date'), $selectedStartDate->getTimestamp()) : null;
-    $eventTime = $selectedStartDate instanceof \DateTimeInterface ? wp_date(\Municipio\Helper\DateFormat::getDateFormat('time'), $selectedStartDate->getTimestamp()) : null;
-
-    if ($eventTime && $selectedEndDate instanceof \DateTimeInterface) {
-        $eventTime .= ' - ' . wp_date(\Municipio\Helper\DateFormat::getDateFormat('time'), $selectedEndDate->getTimestamp());
-    }
+    $eventCardDate = \LidingoCustomisation\Components\Posts\EventCardDate::resolve($post);
+    $eventLink = $eventCardDate['link'];
+    $eventBadgeDate = $eventCardDate['badgeDate'];
+    $eventDate = $eventCardDate['date'];
+    $eventTime = $eventCardDate['time'];
 @endphp
 
 @segment([
     'layout'            => 'card',
     'image'             => $post->getImage(),
-    'link'              => $getSchemaEventPermalink($post),
+    'link'              => $eventLink,
     'containerAware'    => true,
     'attributeList'     => ['data-js-posts-list-item' => true],
 ])
-    @if(!empty($getSchemaEventDateBadgeDate($post)))
+    @if(!empty($eventBadgeDate))
         @slot('floating')
-            @datebadge([ 'date' => $getSchemaEventDateBadgeDate($post), 'size' => 'sm']) @enddatebadge
+            @datebadge([ 'date' => $eventBadgeDate, 'size' => 'sm']) @enddatebadge
         @endslot
     @endif
     @slot('aboveContent')

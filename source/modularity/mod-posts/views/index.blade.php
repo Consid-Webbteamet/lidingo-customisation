@@ -186,24 +186,10 @@
                         @php($firstLocation = $locations[0] ?? null)
                         @php($placeName = is_object($firstLocation) && method_exists($firstLocation, 'getProperty') ? (string) ($firstLocation->getProperty('name') ?: $firstLocation->getProperty('address') ?: '') : '')
                         @php($eventPlace = $isOnlineOnly ? 'online' : $placeName)
-                        @php($eventSchedules = method_exists($post, 'getSchemaProperty') ? $post->getSchemaProperty('eventSchedule') : null)
-                        @php($eventSchedules = is_array($eventSchedules) ? $eventSchedules : (!empty($eventSchedules) ? [$eventSchedules] : []))
-                        @php(usort($eventSchedules, static fn ($a, $b) => ($a?->getProperty('startDate') ?? null) <=> ($b?->getProperty('startDate') ?? null)))
-                        @php($now = new \DateTime('now'))
-                        @php($upcomingSchedules = array_values(array_filter($eventSchedules, static fn ($schedule) => $schedule?->getProperty('startDate') instanceof \DateTimeInterface && $schedule->getProperty('startDate') >= $now)))
-                        @php($pastSchedules = array_reverse(array_values(array_filter($eventSchedules, static fn ($schedule) => $schedule?->getProperty('startDate') instanceof \DateTimeInterface && $schedule->getProperty('startDate') < $now))))
-                        @php($selectedSchedule = $upcomingSchedules[0] ?? $pastSchedules[0] ?? null)
-                        @php($selectedStartDate = $selectedSchedule?->getProperty('startDate'))
-                        @php($selectedEndDate = $selectedSchedule?->getProperty('endDate'))
-                        @php($eventLink = $post->getPermalink())
-                        @if ($selectedStartDate instanceof \DateTimeInterface)
-                            @php($eventLink .= (str_contains($eventLink, '?') ? '&' : '?') . \Municipio\Controller\SingularEvent::CURRENT_OCCASION_GET_PARAM . '=' . $selectedStartDate->format(\Municipio\Controller\SingularEvent::CURRENT_OCCASION_DATE_FORMAT))
-                        @endif
-                        @php($eventBadgeDate = $selectedStartDate instanceof \DateTimeInterface ? $selectedStartDate->format(\Municipio\Helper\DateFormat::getDateFormat('date')) : null)
-                        @php($eventDate = $selectedStartDate instanceof \DateTimeInterface ? wp_date(\Municipio\Helper\DateFormat::getDateFormat('date-time'), $selectedStartDate->getTimestamp()) : null)
-                        @if ($eventDate && $selectedEndDate instanceof \DateTimeInterface)
-                            @php($eventDate .= ' - ' . wp_date(\Municipio\Helper\DateFormat::getDateFormat('time'), $selectedEndDate->getTimestamp()))
-                        @endif
+                        @php($eventCardDate = \LidingoCustomisation\Components\Posts\EventCardDate::resolve($post, true))
+                        @php($eventLink = $eventCardDate['link'])
+                        @php($eventBadgeDate = $eventCardDate['badgeDate'])
+                        @php($eventDate = $eventCardDate['dateTime'])
 
                         @card([
                             'image' => $post->getImage(),
