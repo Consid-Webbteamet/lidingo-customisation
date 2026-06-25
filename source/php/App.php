@@ -24,6 +24,7 @@ use LidingoCustomisation\Components\Posts\StickyPostsOverrides;
 use LidingoCustomisation\Components\Sections\SectionFullHeadingOverrides;
 use LidingoCustomisation\Integrations\CustomerFeedback\CustomerFeedbackIntegration;
 use LidingoCustomisation\Integrations\JobListings\VismaImportPatch;
+use LidingoCustomisation\Integrations\LiteSpeed\FrontPageNewsPurge;
 use LidingoCustomisation\Integrations\RekAi\RekAiIntegration;
 use LidingoCustomisation\Integrations\ServiceInfo\ServiceInfoIntegration;
 use LidingoCustomisation\Infrastructure\AssetRenderer;
@@ -80,6 +81,7 @@ class App
     private ContentPageWithTocBootstrap $contentPageWithTocBootstrap;
     private CustomerFeedbackIntegration $customerFeedbackIntegration;
     private VismaImportPatch $vismaImportPatch;
+    private FrontPageNewsPurge $frontPageNewsPurge;
     private RekAiIntegration $rekAiIntegration;
     private ServiceInfoIntegration $serviceInfoIntegration;
     private PageTreeFetchDepth $pageTreeFetchDepth;
@@ -129,6 +131,7 @@ class App
         $this->contentPageWithTocBootstrap = new ContentPageWithTocBootstrap();
         $this->customerFeedbackIntegration = new CustomerFeedbackIntegration();
         $this->vismaImportPatch = new VismaImportPatch();
+        $this->frontPageNewsPurge = new FrontPageNewsPurge();
         $this->rekAiIntegration = new RekAiIntegration();
         $this->serviceInfoIntegration = new ServiceInfoIntegration();
         $this->pageTreeFetchDepth = new PageTreeFetchDepth();
@@ -179,6 +182,7 @@ class App
         $this->contentPageWithTocBootstrap->addHooks();
         $this->customerFeedbackIntegration->addHooks();
         $this->vismaImportPatch->addHooks();
+        $this->frontPageNewsPurge->addHooks();
         $this->rekAiIntegration->addHooks();
         $this->serviceInfoIntegration->addHooks();
         $this->pageTreeFetchDepth->addHooks();
