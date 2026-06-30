@@ -76,9 +76,13 @@ class FeaturedNewsPosts
     {
         foreach ($blocks as $block) {
             if ($this->isLeftFeaturedManualPostsBlock($block)) {
-                return array_values(array_filter(
+                $postIds = array_values(array_filter(
                     array_map('intval', (array) ($block['attrs']['data']['posts_data_posts'] ?? []))
                 ));
+
+                $postsCount = $this->getManualPostsLimit($block);
+
+                return $postsCount > 0 ? array_slice($postIds, 0, $postsCount) : $postIds;
             }
 
             $innerBlocks = $block['innerBlocks'] ?? [];
@@ -92,6 +96,15 @@ class FeaturedNewsPosts
         }
 
         return [];
+    }
+
+    /** Read the visible manual posts limit from the left-hand block. */
+    private function getManualPostsLimit(array $block): int
+    {
+        $data = is_array($block['attrs']['data'] ?? null) ? $block['attrs']['data'] : [];
+        $postsCount = $data['posts_count'] ?? null;
+
+        return is_numeric($postsCount) ? max(0, (int) $postsCount) : 0;
     }
 
     /** Match the manual left-hand featured posts block that provides excluded IDs. */
