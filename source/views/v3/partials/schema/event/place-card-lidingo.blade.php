@@ -8,6 +8,7 @@
     @if(!empty($place['lat']) && !empty($place['lng']))
         @slot('beforeContent')
             @map([
+                'context' => 'component.openstreetmap',
                 'height' => '250px',
                 'markers' => [
                     [
