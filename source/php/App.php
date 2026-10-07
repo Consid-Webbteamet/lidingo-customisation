@@ -16,6 +16,7 @@ use LidingoCustomisation\AcfFields\ServiceInfoSingleSidebarFields;
 use LidingoCustomisation\Archives\ArchiveLayout;
 use LidingoCustomisation\Archives\OngoingWorkArchive;
 use LidingoCustomisation\Archives\ServiceInfoArchive;
+use LidingoCustomisation\Components\Header\HeaderLayout;
 use LidingoCustomisation\Components\HeaderSearch\HeaderSearchOverrides;
 use LidingoCustomisation\Components\HeroSearch\HeroSearchOverrides;
 use LidingoCustomisation\Components\Posts\FeaturedNewsPosts;
@@ -43,6 +44,7 @@ use LidingoCustomisation\Templates\JobListingTemplate;
 use LidingoCustomisation\Templates\JobPostingTemplate;
 use LidingoCustomisation\Templates\LandingPageTemplate;
 use LidingoCustomisation\Templates\PageTemplatePostTypes;
+use LidingoCustomisation\Typography\BrandFonts;
 use LidingoCustomisation\Typography\FontDisplay;
 
 class App
@@ -86,6 +88,8 @@ class App
     private ServiceInfoIntegration $serviceInfoIntegration;
     private PageTreeFetchDepth $pageTreeFetchDepth;
     private FontDisplay $fontDisplay;
+    private BrandFonts $brandFonts;
+    private HeaderLayout $headerLayout;
 
     public function __construct()
     {
@@ -136,6 +140,8 @@ class App
         $this->serviceInfoIntegration = new ServiceInfoIntegration();
         $this->pageTreeFetchDepth = new PageTreeFetchDepth();
         $this->fontDisplay = new FontDisplay();
+        $this->brandFonts = new BrandFonts();
+        $this->headerLayout = new HeaderLayout();
 
         $this->addHooks();
     }
@@ -187,6 +193,8 @@ class App
         $this->serviceInfoIntegration->addHooks();
         $this->pageTreeFetchDepth->addHooks();
         $this->fontDisplay->addHooks();
+        $this->brandFonts->addHooks();
+        $this->headerLayout->addHooks();
 
         if (!$this->assetManifest->isLoaded()) {
             add_action('admin_notices', [$this, 'renderMissingManifestNotice']);
