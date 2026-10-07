@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html {!! $languageAttributes !!}>
 
-@include('templates.sections.head')
-
 {{-- Content --}}
 @section('body-content')
     <div class="site-wrapper">
@@ -60,6 +58,8 @@
     {{-- Shows up in the bottom left corner as toast messages --}}
     @include('templates.sections.toast-notices')
 
+    @include('templates.sections.styleguide-customize')
+
     {{-- WordPress required call to wp_footer() --}}
     {!! $wpFooter !!}
 
@@ -91,6 +91,9 @@
         }
     @endphp
 @stop
+
+@include('templates.sections.component-assets')
+@include('templates.sections.head')
 
 {{-- Including body --}}
 @include('templates.sections.body')
