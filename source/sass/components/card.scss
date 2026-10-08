@@ -50,11 +50,6 @@
       }
     }
 
-    .c-card {
-      --c-card--border-width: 0;
-      --c-card--shadow-amount: 0;
-    }
-
     a.c-card:focus {
       background-color: $color-white;
     }
@@ -79,6 +74,11 @@
       color: $color-primary-400;
     }
   }
+}
+
+.c-card {
+  --c-card--border-width: 0;
+  --c-card--shadow-amount: 0;
 }
 
 a.c-card {
