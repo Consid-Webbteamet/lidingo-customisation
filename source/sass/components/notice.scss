@@ -1,0 +1,13 @@
+.c-notice {
+  --c-notice--border-width: 0;
+  --inherit-link-color: currentColor;
+
+  &:not(.c-notice--info):not(.c-notice--success):not(.c-notice--warning):not(.c-notice--danger) {
+    background-color: var(--color--surface-contrast);
+    color: var(--color--info-contrast);
+  }
+
+  .c-notice__icon {
+    color: inherit;
+  }
+}

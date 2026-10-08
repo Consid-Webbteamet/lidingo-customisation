@@ -91,6 +91,8 @@
       }
 
       .c-notice--warning {
+        --c-notice--color--warning-contrast: #{$color-white};
+
         background-color: $standard-red-500;
         color: $color-white;
       }
