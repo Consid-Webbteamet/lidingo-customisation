@@ -214,13 +214,13 @@
                                 @element(['classList' => ['u-margin__bottom--0', 'u-margin__top--2', 'u-display--flex', 'u-flex-direction--column', 'o-layout-grid--gap-1']])
                                     @if(!empty($eventPlace))
                                         @typography(['variant' => 'meta', 'classList' => ['u-margin__top--0', 'u-margin__bottom--0', 'u-display--flex', 'u-align-items--center', 'o-layout-grid--gap-1']])
-                                            @icon(['icon' => 'location_on', 'size' => 'sm'])@endicon
+                                            @icon(['icon' => ':platsnål:', 'size' => 'sm'])@endicon
                                             {!! $eventPlace !!}
                                         @endtypography
                                     @endif
                                     @if(!empty($eventDate))
                                         @typography(['variant' => 'meta', 'classList' => ['u-margin__top--0', 'u-margin__bottom--0', 'u-display--flex', 'u-align-items--center', 'o-layout-grid--gap-1']])
-                                            @icon(['icon' => 'event', 'size' => 'sm'])@endicon
+                                            @icon(['icon' => ':kalender:', 'size' => 'sm'])@endicon
                                             {!! $eventDate !!}
                                         @endtypography
                                     @endif
