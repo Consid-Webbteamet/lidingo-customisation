@@ -24,6 +24,7 @@
     "--color-quaternary-300": "#6A7E7B",
     "--color-quaternary-400": "#405754",
     "--color-quaternary-500": "#17302D",
+    "--lidingo-color-border-outline": "rgba(0, 0, 0, 0.1)",
     "--color--primary": "var(--color-primary-500)",
     "--color--primary-contrast": "#ffffff",
     "--color--secondary": "var(--color-secondary-500)",
