@@ -33,6 +33,7 @@ use LidingoCustomisation\Infrastructure\AssetManifest;
 use LidingoCustomisation\Infrastructure\CspHandler;
 use LidingoCustomisation\Infrastructure\DevServer;
 use LidingoCustomisation\Navigation\PageTreeFetchDepth;
+use LidingoCustomisation\Presentation\BrandTokens;
 use LidingoCustomisation\Presentation\PagePresentation;
 use LidingoCustomisation\Search\SearchPage;
 use LidingoCustomisation\Templates\ArticlePageTemplate;
@@ -90,6 +91,7 @@ class App
     private FontDisplay $fontDisplay;
     private BrandFonts $brandFonts;
     private HeaderLayout $headerLayout;
+    private BrandTokens $brandTokens;
 
     public function __construct()
     {
@@ -142,6 +144,7 @@ class App
         $this->fontDisplay = new FontDisplay();
         $this->brandFonts = new BrandFonts();
         $this->headerLayout = new HeaderLayout();
+        $this->brandTokens = new BrandTokens();
 
         $this->addHooks();
     }
@@ -195,6 +198,7 @@ class App
         $this->fontDisplay->addHooks();
         $this->brandFonts->addHooks();
         $this->headerLayout->addHooks();
+        $this->brandTokens->addHooks();
 
         if (!$this->assetManifest->isLoaded()) {
             add_action('admin_notices', [$this, 'renderMissingManifestNotice']);
