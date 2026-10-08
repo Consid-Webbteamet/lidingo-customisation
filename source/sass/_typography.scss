@@ -8,9 +8,10 @@
   --card-header-font-size: 1.625rem;
   --preamble-font-size: var(--preamble-font-size, 1.375rem);
   --link-big-font-size: var(--link-big-font-size, var(--preamble-font-size));
-  --link-font-size: var(--link-font-size, var(--font-size-base, 1.125rem));
+  --link-font-size: var(--font-size-base, 1.125rem);
   --overlay-font-size: var(--overlay-font-size, 0.875rem);
   --caption-font-size: 0.875rem;
+  --lidingo-admin-bar-font-size: 13px;
   --font-weight-bold: 500;
 }
 
@@ -23,6 +24,24 @@
 
 a:visited, .link:visited {
     color: var(--inherit-link-color, initial);
+}
+
+#wpadminbar {
+  * {
+    font-size: var(--lidingo-admin-bar-font-size);
+  }
+
+  a,
+  .ab-item,
+  .ab-label,
+  .ab-empty-item {
+    color: var(--color--primary-contrast, #fff);
+  }
+
+  .ab-top-menu > li > .ab-item {
+    display: flex;
+    align-items: center;
+  }
 }
 
 h1,
