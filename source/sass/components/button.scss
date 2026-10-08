@@ -827,3 +827,7 @@ a.c-button.t-block-button.button--white .c-button__label-text {
 .c-button__basic:not(:disabled):hover {
   opacity: initial;
 }
+
+.t-block-container.t-block-button > .acf-innerblocks-container:empty {
+  display: none;
+}

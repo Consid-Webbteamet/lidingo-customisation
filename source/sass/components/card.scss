@@ -50,6 +50,11 @@
       }
     }
 
+    .c-card {
+      --c-card--border-width: 0;
+      --c-card--shadow-amount: 0;
+    }
+
     a.c-card:focus {
       background-color: $color-white;
     }
@@ -79,5 +84,13 @@
 a.c-card {
   &:hover {
     transform: none;
+  }
+}
+
+.modularity-mod-iframe .c-card__header {
+  padding: calc(var(--base, 8px) * 2);
+
+  .card-title {
+    margin-bottom: 0;
   }
 }

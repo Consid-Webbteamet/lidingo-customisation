@@ -27,10 +27,6 @@ a:visited, .link:visited {
 }
 
 #wpadminbar {
-  * {
-    font-size: var(--lidingo-admin-bar-font-size);
-  }
-
   a,
   .ab-item,
   .ab-label,
@@ -38,9 +34,15 @@ a:visited, .link:visited {
     color: var(--color--primary-contrast, #fff);
   }
 
-  .ab-top-menu > li > .ab-item {
-    display: flex;
-    align-items: center;
+  @media (min-width: $breakpoint-wp-admin-bar) {
+    * {
+      font-size: var(--lidingo-admin-bar-font-size);
+    }
+
+    .ab-top-menu > li > .ab-item {
+      display: flex;
+      align-items: center;
+    }
   }
 }
 
@@ -57,10 +59,18 @@ h2,
   color: $text-1000;
   margin-top: 2rem;
   margin-bottom: 1rem;
+
+  &:first-child {
+    margin-top: 0;
+  }
 }
 
 .c-typography.c-typography__variant--h2 {
   font-size: var(--h2-font-size, 2.3125rem);
+}
+
+h2.c-typography.c-typography__variant--h4 {
+  font-size: var(--h4-font-size, 1.625rem);
 }
 
 h3,
@@ -69,6 +79,10 @@ h3,
   color: $text-1000;
   margin-top: 2rem;
   margin-bottom: 1rem;
+
+  &:first-child {
+    margin-top: 0;
+  }
 }
 
 h4,

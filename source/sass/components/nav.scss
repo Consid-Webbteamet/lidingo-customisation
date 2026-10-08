@@ -87,6 +87,10 @@
   }
 }
 
+.c-drawer.s-drawer-menu + .drawer-overlay {
+  --c-drawer--color--alpha: rgba(0, 0, 0, 0.2);
+}
+
 .c-drawer {
   max-width: 31.25rem;
   --c-drawer--color--surface: #{$color-primary-400};
@@ -187,6 +191,8 @@
 
     button.c-button.c-drawer__close {
       width: 100%;
+      min-height: 3.25rem;
+      margin-inline: 0;
       padding: 0;
       justify-content: flex-start;
       border-radius: 0;
@@ -232,7 +238,20 @@
     }
 
     .c-nav__toggle {
+      min-height: 3.25rem;
       margin-right: 0.5rem;
+      margin-bottom: 0.4375rem;
+
+      .c-icon--expand-more {
+        width: 2rem;
+        height: 2rem;
+        margin-left: -1rem;
+
+        svg {
+          width: 100%;
+          height: 100%;
+        }
+      }
 
       &:focus:not(:focus-visible) {
         outline: none;

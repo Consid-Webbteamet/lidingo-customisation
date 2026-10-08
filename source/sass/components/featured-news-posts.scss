@@ -25,6 +25,7 @@
   .aktuellt-featured-left,
   .aktuellt-featured-right {
     .c-card {
+      --c-card--border-width: 0;
       filter: none;
       color: $text-1000;
       background-color: $color-white;
@@ -81,7 +82,7 @@
     .c-card__image-container {
       width: 100%;
       height: auto;
-      aspect-ratio: 2 / 1;
+      aspect-ratio: 16 / 9;
       background-color: $color-background-complementary;
     }
 
@@ -115,6 +116,10 @@
     .c-card__content {
       font-size: 1.125rem;
       line-height: 1.5;
+    }
+
+    .c-card__content:not(:first-child) {
+      margin-top: 0.5rem;
     }
 
     .c-card__date {

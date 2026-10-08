@@ -2,26 +2,33 @@
 @use "../abstracts/variables" as *;
 
 .c-footer {
+  --inherit-link-color: var(--c-footer--color);
+  --c-footer--subfooter-alignment: space-between;
+  --c-footer--columns-count: 3;
+  --c-footer--gap: 2.5rem;
+
   padding-bottom: 2rem;
 
   &__main-wrapper {
+    --c-footer--main-padding-x: 0;
+
     padding-top: 4rem;
     padding-bottom: 6rem;
   }
 
+  &__widget-area {
+    gap: calc(var(--base, 8px) * 2);
+  }
+
   .o-container {
     > .o-grid {
-      gap: 2.5rem;
       justify-content: space-between;
-
-      @media (min-width: $breakpoint-md) {
-        gap: initial;
-      }
     }
   }
 
   h2 {
     position: relative;
+    margin-top: 0;
     margin-bottom: 1.5rem;
     color: $color-white;
 
@@ -38,11 +45,6 @@
 
   a {
     text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-      text-decoration-style: solid;
-    }
   }
 
   a[data-external-text-link]::after {
@@ -58,6 +60,15 @@
     height: 5.8125rem;
   }
 
+  &__subfooter {
+    --inherit-link-color: var(--c-footer--subfooter-color);
+    --c-footer--gap: 0;
+
+    .o-container {
+      max-width: var(--container-width);
+    }
+  }
+
   &__subfooter__list {
     flex-direction: row;
     justify-content: flex-end;
@@ -69,7 +80,7 @@
       color: $color-white;
     }
 
-    li:not(:last-child) {
+    li {
       padding-right: 0;
     }
 
@@ -120,5 +131,16 @@
     a.c-link[data-js-original-link*="linkedin.com"]::before {
       background-image: url("../assets/linkedin.svg");
     }
+  }
+}
+
+@layer elements {
+  .c-footer__links a:hover,
+  .c-footer__links [data-component="link"]:hover,
+  .c-footer__widget-area a:hover,
+  .c-footer__widget-area [data-component="link"]:hover,
+  .c-footer__subfooter__list a:hover,
+  .c-footer__subfooter__list [data-component="link"]:hover {
+    text-decoration: underline solid !important;
   }
 }
