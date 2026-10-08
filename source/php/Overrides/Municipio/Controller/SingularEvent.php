@@ -308,7 +308,7 @@ class SingularEvent extends \Municipio\Controller\Singular
         $this->data['lang']->occasionsTitle = $this->wpService->__('Date and time', 'municipio');
         $this->data['lang']->moreOccasions = $this->wpService->__('More occasions', 'municipio');
         $this->data['lang']->placeTitle = $this->wpService->__('Place', 'municipio');
-        $this->data['lang']->directionsLabel = $this->wpService->__('Get directions', 'municipio');
+        $this->data['lang']->directionsLabel = __('Hitta hit', 'lidingo-customisation');
         $this->data['lang']->priceTitle = $this->wpService->__('Price', 'municipio');
         $this->data['lang']->organizersTitle = __('Arrangör', 'lidingo-customisation');
         $this->data['lang']->accessibilityTitle = $this->wpService->__('Accessibility', 'municipio');
