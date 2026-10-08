@@ -121,6 +121,15 @@ body:has(.c-header.is-scrolled) {
   box-shadow: $shadow-sm;
   transition: height 180ms ease;
 
+  --c-header--content-max-width: min(
+    100%,
+    var(--c-header--container-max-width)
+  );
+
+  &.site-header {
+    --c-header--color--surface-contrast: var(--color--primary-contrast);
+  }
+
   .c-header__brand-text {
     margin-left: 3rem;
   }
@@ -197,6 +206,60 @@ body:has(.c-header.is-scrolled) {
       }
     }
 
+    .c-header__item--collapsible-search {
+      height: 100%;
+      background-color: $color-primary-300;
+
+      .c-collapsiblesearch,
+      [data-js-collapsible-search-trigger] {
+        height: 100%;
+      }
+
+      .c-collapsiblesearch {
+        --c-collapsiblesearch--color--primary: #{$color-primary-200};
+        --c-collapsiblesearch--color--secondary: #{$color-primary-300};
+        --c-collapsiblesearch--color--secondary-contrast: #{$color-white};
+        --c-collapsiblesearch--color--surface-contrast-muted: #{$color-primary-300};
+        --c-collapsiblesearch--font-size-100: var(--h4-font-size, 1.625rem);
+        --c-collapsiblesearch--border-radius-capped: 0;
+        --c-collapsiblesearch--field-border-width: 1px;
+        --c-collapsiblesearch--input-max-width-multiplier: 60;
+
+        // The general icon-button rule assumes the legacy header marker.
+        .c-button {
+          padding-inline: 0;
+        }
+
+        &__input {
+          // The package's general input rule otherwise overrides the token.
+          font-size: var(--c-collapsiblesearch--font-size);
+          font-weight: var(--font-weight-bold);
+          line-height: var(--line-height-heading);
+        }
+
+        @media (max-width: ($breakpoint-md - 0.02px)) {
+          // Layout containment would bind the fixed panel to the small trigger.
+          contain: style;
+
+          &__panel {
+            position: fixed;
+            inset-inline: 1rem;
+            inset-block-start: calc(var(--header-height) / 2);
+            inline-size: auto;
+            max-inline-size: none;
+          }
+        }
+      }
+
+      .c-button[data-js-collapsible-search-trigger] {
+        padding-inline: 1.5rem;
+
+        @media (max-width: ($breakpoint-md - 0.02px)) {
+          padding-inline: 0.5rem;
+        }
+      }
+    }
+
     /* Menu button */
     .mobile-menu-trigger {
       font-weight: var(--font-weight-base);
@@ -204,6 +267,10 @@ body:has(.c-header.is-scrolled) {
       height: 100%;
       border-radius: 0;
       background-color: $color-primary-400;
+
+      @media (max-width: ($breakpoint-md - 0.02px)) {
+        padding-inline: 0.5rem;
+      }
 
       &::after {
         border-radius: 0;
@@ -230,6 +297,10 @@ body:has(.c-header.is-scrolled) {
 
     .c-header__main-lower-area {
       height: 100%;
+
+      @media (max-width: ($breakpoint-md - 0.02px)) {
+        column-gap: var(--base);
+      }
     }
 
     .c-header__lower-right {
@@ -247,7 +318,7 @@ body:has(.c-header.is-scrolled) {
 
   &.is-scrolled {
     @media (min-width: $breakpoint-md) {
-    height: var(--header-height);
+      height: var(--header-height);
     }
 
     .collapsible-search-form .collapsible-search-form__form {
@@ -303,6 +374,8 @@ body:has(.c-header.is-scrolled) {
 
   .c-header {
     height: var(--header-height);
+    // The new content row replaces the old container's horizontal inset.
+    --c-header--padding-x: 1rem;
 
     &.c-header--flexible {
       .c-logotype:not(.c-brand .c-logotype) {

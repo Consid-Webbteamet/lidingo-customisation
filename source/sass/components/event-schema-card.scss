@@ -1,9 +1,18 @@
 @use "../tokens/colors" as *;
 @use "../abstracts/variables" as *;
 
+@media (max-width: ($breakpoint-md - 0.02px)) {
+  .home
+    .t-block-container:has(
+      [data-posts-list-attributes*='"postType":"evenemang"']
+    ) {
+    padding-inline: 1rem;
+  }
+}
+
 @mixin event-schema-card-styles(
   $selector:
-    "[data-posts-list-attributes*='\"postType\":\"evenemang\"'], .post-type-archive-evenemang .c-post-type-archive__posts, .single-evenemang .c-event-page__related-posts"
+    '[data-posts-list-attributes*=\'"postType":"evenemang"\'], .post-type-archive-evenemang .c-post-type-archive__posts, .single-evenemang .c-event-page__related-posts'
 ) {
   #{$selector} {
     .c-segment {
@@ -20,9 +29,14 @@
         }
 
         .c-segment__content-card {
+          --c-card--border-width: 0;
           color: $text-1000;
           padding: 1rem 1.5rem 1.5rem;
           text-decoration: none;
+
+          .c-card__paint-container {
+            padding: 0;
+          }
         }
       }
 
@@ -37,6 +51,11 @@
 
       &__above-content {
         color: $text-1000;
+
+        .c-typography__variant--h4 {
+          font-size: clamp(var(--font-size-base), 3vw, var(--h4-font-size));
+          margin: 0;
+        }
 
         .c-typography,
         .c-icon {

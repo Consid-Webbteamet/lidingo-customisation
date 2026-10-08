@@ -89,6 +89,8 @@
 
 .c-drawer {
   max-width: 31.25rem;
+  --c-drawer--color--surface: #{$color-primary-400};
+  --c-drawer--color--surface-contrast: #{$color-white};
   background-color: $color-primary-400;
   --c-drawer-basic-background-color: $color-primary-400;
   --drawer-background: #{$color-primary-400};

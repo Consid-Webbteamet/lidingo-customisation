@@ -11,7 +11,6 @@
   --link-font-size: var(--link-font-size, var(--font-size-base, 1.125rem));
   --overlay-font-size: var(--overlay-font-size, 0.875rem);
   --caption-font-size: 0.875rem;
-  --lead-font-weight: 500;
   --font-weight-bold: 500;
 }
 
@@ -23,7 +22,7 @@
 }
 
 a:visited, .link:visited {
-    color: initial;
+    color: var(--inherit-link-color, initial);
 }
 
 h1,
@@ -74,6 +73,7 @@ h5,
 .preamble,
 .lead,
 .ingress,
+.c-typography__variant--lead,
 .preamble p,
 .lead p,
 .ingress p {
@@ -112,7 +112,8 @@ select {
 a,
 .link-text {
   font-size: var(--link-font-size, var(--font-size-base, 1.125rem));
-  color: $text-1000;
+  // Native navigation supplies its surface contrast through this public hook.
+  color: var(--inherit-link-color, #{$text-1000});
 }
 
 a[data-external-text-link]::after {
