@@ -1,6 +1,12 @@
 @use "../tokens/colors" as *;
 @use "../abstracts/variables" as *;
 
+.post-type-archive-evenemang .c-post-type-archive__posts {
+  .c-segment__above-content .c-typography.c-typography__variant--h6 {
+    font-size: clamp(var(--font-size-base), 3vw, var(--h4-font-size));
+  }
+}
+
 @media (max-width: ($breakpoint-md - 0.02px)) {
   .home
     .t-block-container:has(
