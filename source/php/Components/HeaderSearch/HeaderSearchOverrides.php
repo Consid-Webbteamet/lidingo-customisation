@@ -10,6 +10,15 @@ class HeaderSearchOverrides
     public function addHooks(): void
     {
         add_filter('ComponentLibrary/Component/Data', [$this, 'overridePlaceholder'], 20, 1);
+        add_filter('ComponentLibrary/Component/Collapsiblesearch/Data', [$this, 'overrideCollapsibleSearchPlaceholder'], 20, 1);
+    }
+
+    /** Use the short placeholder in the expanded header search; the input label keeps the full question. */
+    public function overrideCollapsibleSearchPlaceholder(array $data): array
+    {
+        $data['placeholder'] = __('Sök', 'lidingo-customisation');
+
+        return $data;
     }
 
     /** Replace the collapsible header search placeholder. */
