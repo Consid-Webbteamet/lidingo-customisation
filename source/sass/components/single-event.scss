@@ -386,6 +386,10 @@
 
   .c-event-page__hero .c-datebadge,
   .c-event-page__header .c-datebadge {
+    --c-typography--font-family-base: var(--font-family-heading);
+    --c-datebadge--color--surface-contrast: #000;
+    --c-datebadge--border-width: 0;
+
     .c-datebadge__container {
       align-items: center;
       background-color: $standard-red-100;
@@ -399,6 +403,10 @@
       font-size: inherit;
       padding: 0;
       text-transform: lowercase;
+    }
+
+    .c-datebadge__date {
+      font-size: inherit;
     }
   }
 }
