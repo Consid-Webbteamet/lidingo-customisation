@@ -1,33 +1,53 @@
 @use "../tokens" as *;
 
-.c-table .c-table__body .c-table__line:nth-child(odd) .c-table__column,
-.c-table__table .c-table__body .c-table__line:nth-child(odd) .c-table__column {
-  background-color: $color-primary-50;
+.c-table__table {
+  .c-table__cell {
+    padding: calc(var(--base, 8px) * 1.5);
+    font-size: var(--font-size-caption, 0.875rem);
+  }
+
+  .c-table__head .c-table__cell {
+    border-bottom: 0;
+    background-color: $color-primary-500;
+    color: $color-white;
+  }
+
+  .c-table__head .c-table__heading {
+    white-space: normal;
+  }
+
+  .c-table__body .c-table__cell {
+    border-left: 0;
+  }
+
+  .c-table__body .c-table__row:nth-child(odd) .c-table__cell {
+    background-color: $color-primary-50;
+  }
+
+  .c-table__body .c-table__row:nth-child(even) .c-table__cell {
+    background-color: #fcfcfc;
+  }
+
+  .c-table__body .c-table__row:hover .c-table__cell {
+    background-color: $standard-red-50;
+  }
 }
 
-.c-table .c-table__body .c-table__line:nth-child(odd):hover .c-table__column,
-.c-table .c-table__body .c-table__line:nth-child(even):hover .c-table__column,
-.c-table__table .c-table__body .c-table__line:nth-child(odd):hover .c-table__column,
-.c-table__table .c-table__body .c-table__line:nth-child(even):hover .c-table__column {
-  background-color: $standard-red-50;
-}
-
-.c-table__column-content {
+.c-table__cell-content {
   font-size: var(--font-size-base, 1.125rem);
+}
 
-  a.c-link {
+a.c-link.c-table__cell-content {
+  color: inherit;
+  font-weight: var(--font-weight-base);
+  text-decoration: none;
+
+  &:visited {
     color: inherit;
-    font-weight: var(--font-weight-base);
-    text-decoration: none;
-
-    &:visited {
-      color: inherit;
-    }
   }
 }
 
 table th {
   font-family: var(--font-family-base);
   font-weight: var(--font-weight-base);
-
 }
