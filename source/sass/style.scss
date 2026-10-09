@@ -49,6 +49,12 @@
 @include event-schema-card.event-schema-card-styles;
 @include mosaic.mosaic-styles;
 
+@layer objects {
+  .o-container:not(.o-container--content, .o-container--fullwidth) {
+    max-width: none;
+  }
+}
+
 .sr-only {
   @include sr-only;
 }

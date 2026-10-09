@@ -135,12 +135,12 @@
 }
 
 @layer elements {
-  .c-footer__links a:hover,
-  .c-footer__links [data-component="link"]:hover,
-  .c-footer__widget-area a:hover,
-  .c-footer__widget-area [data-component="link"]:hover,
-  .c-footer__subfooter__list a:hover,
-  .c-footer__subfooter__list [data-component="link"]:hover {
+  .c-footer__links a:is(:hover, :focus-visible),
+  .c-footer__links [data-component="link"]:is(:hover, :focus-visible),
+  .c-footer__widget-area a:is(:hover, :focus-visible),
+  .c-footer__widget-area [data-component="link"]:is(:hover, :focus-visible),
+  .c-footer__subfooter__list a:is(:hover, :focus-visible),
+  .c-footer__subfooter__list [data-component="link"]:is(:hover, :focus-visible) {
     text-decoration: underline solid !important;
   }
 }
