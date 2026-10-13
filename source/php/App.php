@@ -156,6 +156,7 @@ class App
         add_action('wp_footer', [$this, 'printFrontendScript'], 1001);
         add_action('admin_head', [$this, 'printAdminStylesheet'], 1001);
         add_action('admin_footer', [$this, 'printAdminScript'], 1001);
+        add_action('enqueue_block_assets', [$this, 'enqueueEditorStylesheet']);
         add_action('login_enqueue_scripts', [$this, 'printLoginStyles'], 1001);
         add_action('wp_enqueue_scripts', [$this, 'enqueueCoreImageStyles'], 20);
         add_action('init', [$this, 'enablePageTemplateSupports'], 20);
@@ -244,6 +245,16 @@ class App
         }
 
         $this->assetRenderer->printAdminScript();
+    }
+
+    /** Load content styles inside the block editor iframe. */
+    public function enqueueEditorStylesheet(): void
+    {
+        if (!is_admin() || !$this->isBlockEditorScreen()) {
+            return;
+        }
+
+        $this->assetRenderer->enqueueEditorStylesheet();
     }
 
     /** Apply login page background styling. */

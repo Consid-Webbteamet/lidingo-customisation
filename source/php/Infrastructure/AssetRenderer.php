@@ -79,6 +79,21 @@ class AssetRenderer
         );
     }
 
+    /** Enqueue styles for the block editor content document. */
+    public function enqueueEditorStylesheet(): void
+    {
+        $href = $this->devServer->shouldUseDevServer()
+            ? $this->devServer->getOrigin() . '/source/sass/admin.scss?direct'
+            : $this->assetManifest->getAssetUrl('source/sass/admin.scss', LIDINGO_CUSTOMISATION_URL . 'dist/');
+
+        if ($href === null) {
+            $this->logMissingAsset('source/sass/admin.scss');
+            return;
+        }
+
+        wp_enqueue_style('lidingo-customisation-editor-style', $href, [], null);
+    }
+
     /** Print the admin script. */
     public function printAdminScript(): void
     {

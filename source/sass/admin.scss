@@ -3,6 +3,7 @@
  */
 
 @use "./tokens/colors" as *;
+@use "./components/accordion";
 @use "./components/card" as card;
 @use "./components/card-news-grid" as card-news-grid;
 @use "./components/featured-news-posts" as featured-news-posts;
@@ -15,6 +16,16 @@
 }
 
 body.block-editor-page {
+  .block-editor-block-card__title {
+    margin: 0;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: var(--wpds-typography-font-weight-emphasis, 600);
+    line-height: 1.4;
+  }
+}
+
+:root {
   .editor-styles-wrapper {
     --lidingo-editor-content-max-width: 680px;
     --lidingo-editor-paragraph-gap: 1.5rem;
@@ -29,14 +40,20 @@ body.block-editor-page {
     @include shortcuts.shortcuts-styles;
   }
 
+  .editor-styles-wrapper .c-accordion__item__content {
+    color: $text-1000;
+    line-height: var(--line-height-base, 1.5);
+  }
+
   .editor-styles-wrapper .is-root-container {
-    padding-inline: 0;
+    box-sizing: border-box;
+    padding-inline: 1.5rem;
   }
 
   .editor-styles-wrapper
     .block-editor-block-list__layout.is-root-container
     > .wp-block:not([data-align="wide"]):not([data-align="full"]) {
-    width: calc(min(100%, var(--lidingo-editor-content-max-width)) + 3rem);
+    width: min(100%, calc(var(--lidingo-editor-content-max-width) + 3rem));
     margin-left: auto !important;
     margin-right: auto !important;
   }
@@ -70,7 +87,7 @@ body.block-editor-page {
   .editor-styles-wrapper .editor-post-title,
   .editor-styles-wrapper .editor-post-title__block,
   .editor-styles-wrapper .editor-post-title__input {
-    width: calc(min(100%, var(--lidingo-editor-content-max-width)) + 3rem);
+    width: min(calc(100% - 3rem), calc(var(--lidingo-editor-content-max-width) + 3rem));
     margin-left: auto !important;
     margin-right: auto !important;
   }
