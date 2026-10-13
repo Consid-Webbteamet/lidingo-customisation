@@ -113,6 +113,7 @@
 
     .c-datebadge {
       --c-typography--font-family-base: var(--font-family-heading);
+      --c-datebadge--border-width: 0;
 
       &__container {
         display: flex;
