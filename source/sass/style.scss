@@ -36,6 +36,7 @@
 @use "./components/single-job";
 @use "./components/single-service-info";
 @use "./components/table";
+@use "./components/frontend-form";
 @use "typography";
 
 :root.lidingo-customisation-loaded {
