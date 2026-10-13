@@ -1,0 +1,11 @@
+.c-select {
+  .c-select__clear-button.c-button.c-button--icon-only {
+    --c-button-hover: transparent;
+    height: 100%;
+    padding: 0;
+
+    &[aria-hidden="true"] {
+      display: none;
+    }
+  }
+}
