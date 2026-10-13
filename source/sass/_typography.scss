@@ -35,7 +35,7 @@ a:visited, .link:visited {
   }
 
   @media (min-width: $breakpoint-wp-admin-bar) {
-    * {
+    *:not(.ab-icon) {
       font-size: var(--lidingo-admin-bar-font-size);
     }
 
