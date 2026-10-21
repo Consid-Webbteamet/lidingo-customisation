@@ -25,7 +25,7 @@
 
     @php($daysLeftLabel = $daysLeft === 1 ? __('dag kvar', 'lidingo-customisation') : __('dagar kvar', 'lidingo-customisation'))
     @php($informationItems = array_values(array_filter([
-        ['label' => __('Sista ansökningsdag', 'lidingo-customisation'), 'value' => $effectiveEndDate !== '' ? $effectiveEndDate . ' (' . $daysLeft . ' ' . $daysLeftLabel . ')' : ''],
+        ['label' => __('Sista ansökningsdag', 'lidingo-customisation'), 'value' => $effectiveEndDate !== '' ? $effectiveEndDate . ($isExpired ? '' : ' (' . $daysLeft . ' ' . $daysLeftLabel . ')') : ''],
         ['label' => __('Omfattning', 'lidingo-customisation'), 'value' => $employmentGrade],
         ['label' => __('Publicerad', 'lidingo-customisation'), 'value' => $published],
         ['label' => __('Ort', 'lidingo-customisation'), 'value' => $locationName],
@@ -60,7 +60,7 @@
                             @notice([
                                 'type' => 'warning',
                                 'message' => [
-                                    'text' => __('The application period for this recruitment has ended.', 'job-listings'),
+                                    'text' => __('The application period has ended', 'job-listings'),
                                     'size' => 'md'
                                 ],
                                 'icon' => [
