@@ -266,9 +266,7 @@ body:has(.c-header.is-scrolled) {
           background-color: $color-primary-300;
 
           .c-icon {
-            width: 2rem;
-            height: 2rem;
-            font-size: 2rem;
+            --c-icon-size: 2rem;
           }
         }
 
