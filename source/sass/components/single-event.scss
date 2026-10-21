@@ -364,6 +364,7 @@
       .c-event-page__booking-button {
         align-self: flex-start;
         margin-top: 0;
+        height: calc(var(--base, 8px) * 6.5);
 
         .c-button__label {
           display: inline-flex;
@@ -373,7 +374,6 @@
 
       .c-event-page__booking-button-content {
         display: inline-flex;
-        flex-direction: row-reverse;
         align-items: center;
         gap: 1rem;
 
