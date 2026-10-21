@@ -7,6 +7,13 @@
   }
 }
 
+.single-evenemang .c-event-page__related-posts {
+  .c-segment__above-content .c-typography.c-typography__variant--h6 {
+    font-size: clamp(var(--font-size-base), 3vw, var(--h4-font-size));
+    margin: 0;
+  }
+}
+
 @media (max-width: ($breakpoint-md - 0.02px)) {
   .home
     .t-block-container:has(
