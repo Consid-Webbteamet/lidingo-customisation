@@ -11,7 +11,7 @@
   display: none;
 }
 
-.site-wrapper {
+:is(.site-wrapper, .o-body) {
   > .o-container.u-margin__top--4:has(.c-notice) {
     max-width: none;
     width: 100%;
@@ -276,7 +276,7 @@
 }
 
 @media (max-width: 61.9375rem) {
-  .site-wrapper {
+  :is(.site-wrapper, .o-body) {
     > .c-element > .c-notice.c-notice--warning,
     > .o-container.u-margin__top--4:has(.c-notice--warning)
       .c-notice.c-notice--warning,
