@@ -46,7 +46,6 @@ use LidingoCustomisation\Templates\JobPostingTemplate;
 use LidingoCustomisation\Templates\LandingPageTemplate;
 use LidingoCustomisation\Templates\PageTemplatePostTypes;
 use LidingoCustomisation\Typography\BrandFonts;
-use LidingoCustomisation\Typography\FontDisplay;
 
 class App
 {
@@ -88,7 +87,6 @@ class App
     private RekAiIntegration $rekAiIntegration;
     private ServiceInfoIntegration $serviceInfoIntegration;
     private PageTreeFetchDepth $pageTreeFetchDepth;
-    private FontDisplay $fontDisplay;
     private BrandFonts $brandFonts;
     private HeaderLayout $headerLayout;
     private BrandTokens $brandTokens;
@@ -141,7 +139,6 @@ class App
         $this->rekAiIntegration = new RekAiIntegration();
         $this->serviceInfoIntegration = new ServiceInfoIntegration();
         $this->pageTreeFetchDepth = new PageTreeFetchDepth();
-        $this->fontDisplay = new FontDisplay();
         $this->brandFonts = new BrandFonts();
         $this->headerLayout = new HeaderLayout();
         $this->brandTokens = new BrandTokens();
@@ -196,7 +193,6 @@ class App
         $this->rekAiIntegration->addHooks();
         $this->serviceInfoIntegration->addHooks();
         $this->pageTreeFetchDepth->addHooks();
-        $this->fontDisplay->addHooks();
         $this->brandFonts->addHooks();
         $this->headerLayout->addHooks();
         $this->brandTokens->addHooks();
