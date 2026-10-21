@@ -138,7 +138,7 @@ class SingularEvent extends \Municipio\Controller\Singular
             ->getData();
     }
 
-    /** Resolve related event IDs. */
+    /** Resolve related event IDs: upcoming events ranked by shared keywords, then nearest start. */
     public function getRelatedEventsIds(): array
     {
         $wpdb = $this->getWpDb();
@@ -155,18 +155,20 @@ class SingularEvent extends \Municipio\Controller\Singular
 
         $results = $wpdb->get_results($wpdb->prepare(
             "
-            SELECT p.ID, COUNT(*) AS shared_terms
+            SELECT p.ID, COUNT(DISTINCT tt.term_id) AS shared_terms, MIN(pm.meta_value) AS next_start_date
             FROM {$wpdb->posts} AS p
             INNER JOIN {$wpdb->term_relationships} AS tr ON p.ID = tr.object_id
             INNER JOIN {$wpdb->term_taxonomy} AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+            INNER JOIN {$wpdb->postmeta} AS pm ON pm.post_id = p.ID AND pm.meta_key = 'startDate' AND pm.meta_value >= %s
             WHERE tt.term_id IN ($termIdsSql)
             AND p.post_status = 'publish'
             AND p.post_type = %s
             AND p.ID != %d
             GROUP BY p.ID
-            ORDER BY shared_terms DESC, p.post_date DESC
+            ORDER BY shared_terms DESC, next_start_date ASC
             LIMIT {$maxResults}
             ",
+            current_time('mysql'),
             $this->post->getPostType(),
             $this->post->getId(),
         ));
