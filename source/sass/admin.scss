@@ -23,6 +23,13 @@ body.block-editor-page {
     font-weight: var(--wpds-typography-font-weight-emphasis, 600);
     line-height: 1.4;
   }
+
+  .postbox .postbox-header .hndle {
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
 }
 
 :root {
