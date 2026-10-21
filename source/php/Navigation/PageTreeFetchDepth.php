@@ -24,18 +24,43 @@ class PageTreeFetchDepth
             return $fetchUrl;
         }
 
-        $itemId = (int) ($menuItem['id'] ?? 0);
+        $expectedDepth = $this->getExpectedDepth((int) ($menuItem['id'] ?? 0));
 
-        if ($itemId <= 0 || get_post_type($itemId) !== 'page') {
-            return $fetchUrl;
-        }
-
-        $expectedDepth = count(get_post_ancestors($itemId)) + 2;
-
-        if ($expectedDepth === $depth) {
+        if ($expectedDepth === null || $expectedDepth === $depth) {
             return $fetchUrl;
         }
 
         return add_query_arg('depth', (string) $expectedDepth, $fetchUrl);
+    }
+
+    /**
+     * Post type items are rendered below their archive page (page_for_{post type}),
+     * so their depth continues from that page rather than from the tree root.
+     */
+    private function getExpectedDepth(int $itemId): ?int
+    {
+        if ($itemId <= 0) {
+            return null;
+        }
+
+        $postType = get_post_type($itemId);
+
+        if (!$postType) {
+            return null;
+        }
+
+        $itemAncestors = count(get_post_ancestors($itemId));
+
+        if ($postType === 'page') {
+            return $itemAncestors + 2;
+        }
+
+        $archivePageId = (int) get_option("page_for_{$postType}");
+
+        if ($archivePageId <= 0) {
+            return null;
+        }
+
+        return $itemAncestors + count(get_post_ancestors($archivePageId)) + 3;
     }
 }
