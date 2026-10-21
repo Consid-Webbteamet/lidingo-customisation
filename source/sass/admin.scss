@@ -32,6 +32,24 @@ body.block-editor-page {
     font-weight: 600;
     line-height: 1.4;
   }
+
+  .edit-post-meta-boxes-area {
+    #poststuff .postbox-header h2.hndle {
+      min-width: 0;
+      padding-inline: 16px;
+      overflow-wrap: anywhere;
+      hyphens: auto;
+    }
+
+    .postbox .postbox-header .handle-actions {
+      margin-right: 0;
+    }
+
+    .postbox :is(.handle-order-higher, .handle-order-lower, .handlediv) {
+      width: 32px;
+      height: 32px;
+    }
+  }
 }
 
 :root {
