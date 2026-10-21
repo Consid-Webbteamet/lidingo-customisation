@@ -138,6 +138,10 @@
   @include button-base;
 }
 
+.c-button[disabled] {
+  cursor: not-allowed;
+}
+
 .button--icon-arrow {
   @include button-icon-arrow;
 }
