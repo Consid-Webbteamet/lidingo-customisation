@@ -10,6 +10,7 @@
 @use "./components/event-schema-card" as event-schema-card;
 @use "./components/mosiac" as mosaic;
 @use "./components/navigation-card" as navigation-card;
+@use "./components/contact-card" as contact-card;
 @use "./components/shortcuts" as shortcuts;
 
 :root.lidingo-customisation-admin-loaded {
@@ -46,6 +47,7 @@ body.block-editor-page {
     @include event-schema-card.event-schema-card-styles(".js-async-posts");
     @include mosaic.mosaic-styles;
     @include navigation-card.navigation-card-styles;
+    @include contact-card.contact-card-styles;
     @include shortcuts.shortcuts-styles;
   }
 
