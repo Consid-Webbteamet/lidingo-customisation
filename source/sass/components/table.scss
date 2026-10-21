@@ -18,6 +18,7 @@
 
   .c-table__body .c-table__cell {
     border-left: 0;
+    overflow-wrap: anywhere;
   }
 
   .c-table__body .c-table__row:nth-child(odd) .c-table__cell {
