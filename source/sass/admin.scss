@@ -9,6 +9,7 @@
 @use "./components/featured-news-posts" as featured-news-posts;
 @use "./components/event-schema-card" as event-schema-card;
 @use "./components/mosiac" as mosaic;
+@use "./components/navigation-card" as navigation-card;
 @use "./components/shortcuts" as shortcuts;
 
 :root.lidingo-customisation-admin-loaded {
@@ -44,6 +45,7 @@ body.block-editor-page {
     @include featured-news-posts.featured-news-posts-styles;
     @include event-schema-card.event-schema-card-styles(".js-async-posts");
     @include mosaic.mosaic-styles;
+    @include navigation-card.navigation-card-styles;
     @include shortcuts.shortcuts-styles;
   }
 
@@ -82,6 +84,12 @@ body.block-editor-page {
     > .wp-block:has(.modularity-mod-mosaic):not([data-align="full"]) {
     width: 100%;
     max-width: none;
+  }
+
+  .editor-styles-wrapper
+    .block-editor-block-list__layout.is-root-container
+    > .wp-block:has(.modularity-mod-navigation-card):not([data-align="full"]) {
+    width: min(100%, 68rem);
   }
 
   .editor-styles-wrapper .modularity-mod-mosaic {

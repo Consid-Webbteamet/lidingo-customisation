@@ -15,7 +15,7 @@
 @use "./components/article-page";
 @use "./components/content-page";
 @use "./components/mosiac" as mosaic;
-@use "./components/navigation-card";
+@use "./components/navigation-card" as navigation-card;
 @use "./components/contact-card";
 @use "./components/shortcuts" as shortcuts;
 @use "./components/nav";
@@ -50,6 +50,7 @@
 @include featured-news-posts.featured-news-posts-styles;
 @include event-schema-card.event-schema-card-styles;
 @include mosaic.mosaic-styles;
+@include navigation-card.navigation-card-styles;
 
 @layer objects {
   .o-container:not(.o-container--content, .o-container--fullwidth) {
