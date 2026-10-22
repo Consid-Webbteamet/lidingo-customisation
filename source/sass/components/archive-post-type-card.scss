@@ -21,9 +21,10 @@
 
     &__image-container {
       width: 100%;
-      aspect-ratio: 2 / 1;
+      aspect-ratio: 16 / 9;
 
       @media (min-width: $breakpoint-md) {
+        aspect-ratio: 2 / 1;
         height: 13.75rem;
       }
     }
