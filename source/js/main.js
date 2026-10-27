@@ -12,7 +12,6 @@ import initScrolledHeaderState from './components/scrolledHeader';
 import initModularityTocDeduplicate from './components/modularityTocDeduplicate';
 import initModularityTocOffset from './components/modularityTocOffset';
 import initExternalLinks from './components/externalLinks';
-import initAccordionHashGuard from './components/accordionHashGuard';
 
 if (import.meta.env.DEV) {
     import('../sass/style.scss');
@@ -30,5 +29,4 @@ document.addEventListener('DOMContentLoaded', () => {
     initModularityTocDeduplicate();
     initModularityTocOffset();
     initExternalLinks();
-    initAccordionHashGuard();
 });

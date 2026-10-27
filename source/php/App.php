@@ -16,6 +16,7 @@ use LidingoCustomisation\AcfFields\ServiceInfoSingleSidebarFields;
 use LidingoCustomisation\Archives\ArchiveLayout;
 use LidingoCustomisation\Archives\OngoingWorkArchive;
 use LidingoCustomisation\Archives\ServiceInfoArchive;
+use LidingoCustomisation\Components\Header\HeaderLayout;
 use LidingoCustomisation\Components\HeaderSearch\HeaderSearchOverrides;
 use LidingoCustomisation\Components\HeroSearch\HeroSearchOverrides;
 use LidingoCustomisation\Components\Posts\FeaturedNewsPosts;
@@ -32,6 +33,7 @@ use LidingoCustomisation\Infrastructure\AssetManifest;
 use LidingoCustomisation\Infrastructure\CspHandler;
 use LidingoCustomisation\Infrastructure\DevServer;
 use LidingoCustomisation\Navigation\PageTreeFetchDepth;
+use LidingoCustomisation\Presentation\BrandTokens;
 use LidingoCustomisation\Presentation\PagePresentation;
 use LidingoCustomisation\Search\SearchPage;
 use LidingoCustomisation\Templates\ArticlePageTemplate;
@@ -43,7 +45,7 @@ use LidingoCustomisation\Templates\JobListingTemplate;
 use LidingoCustomisation\Templates\JobPostingTemplate;
 use LidingoCustomisation\Templates\LandingPageTemplate;
 use LidingoCustomisation\Templates\PageTemplatePostTypes;
-use LidingoCustomisation\Typography\FontDisplay;
+use LidingoCustomisation\Typography\BrandFonts;
 
 class App
 {
@@ -85,7 +87,9 @@ class App
     private RekAiIntegration $rekAiIntegration;
     private ServiceInfoIntegration $serviceInfoIntegration;
     private PageTreeFetchDepth $pageTreeFetchDepth;
-    private FontDisplay $fontDisplay;
+    private BrandFonts $brandFonts;
+    private HeaderLayout $headerLayout;
+    private BrandTokens $brandTokens;
 
     public function __construct()
     {
@@ -135,7 +139,9 @@ class App
         $this->rekAiIntegration = new RekAiIntegration();
         $this->serviceInfoIntegration = new ServiceInfoIntegration();
         $this->pageTreeFetchDepth = new PageTreeFetchDepth();
-        $this->fontDisplay = new FontDisplay();
+        $this->brandFonts = new BrandFonts();
+        $this->headerLayout = new HeaderLayout();
+        $this->brandTokens = new BrandTokens();
 
         $this->addHooks();
     }
@@ -147,6 +153,7 @@ class App
         add_action('wp_footer', [$this, 'printFrontendScript'], 1001);
         add_action('admin_head', [$this, 'printAdminStylesheet'], 1001);
         add_action('admin_footer', [$this, 'printAdminScript'], 1001);
+        add_action('enqueue_block_assets', [$this, 'enqueueEditorStylesheet']);
         add_action('login_enqueue_scripts', [$this, 'printLoginStyles'], 1001);
         add_action('wp_enqueue_scripts', [$this, 'enqueueCoreImageStyles'], 20);
         add_action('init', [$this, 'enablePageTemplateSupports'], 20);
@@ -186,7 +193,9 @@ class App
         $this->rekAiIntegration->addHooks();
         $this->serviceInfoIntegration->addHooks();
         $this->pageTreeFetchDepth->addHooks();
-        $this->fontDisplay->addHooks();
+        $this->brandFonts->addHooks();
+        $this->headerLayout->addHooks();
+        $this->brandTokens->addHooks();
 
         if (!$this->assetManifest->isLoaded()) {
             add_action('admin_notices', [$this, 'renderMissingManifestNotice']);
@@ -232,6 +241,16 @@ class App
         }
 
         $this->assetRenderer->printAdminScript();
+    }
+
+    /** Load content styles inside the block editor iframe. */
+    public function enqueueEditorStylesheet(): void
+    {
+        if (!is_admin() || !$this->isBlockEditorScreen()) {
+            return;
+        }
+
+        $this->assetRenderer->enqueueEditorStylesheet();
     }
 
     /** Apply login page background styling. */

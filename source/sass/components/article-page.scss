@@ -31,7 +31,9 @@
   }
 
   h1#page-title {
+    color: $color-primary-500;
     margin-bottom: 2rem;
+    margin-top: 0;
   }
 
   &__published {

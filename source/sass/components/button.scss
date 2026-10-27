@@ -138,6 +138,10 @@
   @include button-base;
 }
 
+.c-button[disabled] {
+  cursor: not-allowed;
+}
+
 .button--icon-arrow {
   @include button-icon-arrow;
 }
@@ -826,4 +830,15 @@ a.c-button.t-block-button.button--white .c-button__label-text {
 
 .c-button__basic:not(:disabled):hover {
   opacity: initial;
+}
+
+.c-header,
+.c-drawer {
+  .c-button.c-button__basic {
+    --c-button-hover: transparent;
+  }
+}
+
+.t-block-container.t-block-button > .acf-innerblocks-container:empty {
+  display: none;
 }

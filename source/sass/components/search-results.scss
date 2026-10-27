@@ -62,6 +62,12 @@
     }
   }
 
+  &__submit.c-button {
+    --c-button-icon-offset: -12px;
+    height: var(--c-button-height);
+    font-size: 1rem;
+  }
+
   &__form-group {
     display: flex;
     flex-direction: column;

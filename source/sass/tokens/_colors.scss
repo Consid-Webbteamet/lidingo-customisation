@@ -1,4 +1,4 @@
-/* Site-configured semantic color scales from Municipio Customizer */
+/* Package-owned palette tokens from source/tokens/lidingo-brand.tokens.json. */
 $color-primary-50: var(--color-primary-50);
 $color-primary-100: var(--color-primary-100);
 $color-primary-200: var(--color-primary-200);
@@ -93,7 +93,7 @@ $text-disabled: var(--text-disabled);
 $text-1000: var(--text-1000, #333);
 
 $color-border-divider: var(--color-border-divider);
-$color-border-outline: var(--color-border-outline);
+$color-border-outline: var(--lidingo-color-border-outline);
 $color-border-input: var(--color-border-input);
 $border-dark: var(--border-dark, #333);
 $border-marine-lightest: #8095a4;

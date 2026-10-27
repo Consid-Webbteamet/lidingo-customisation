@@ -8,10 +8,10 @@
   --card-header-font-size: 1.625rem;
   --preamble-font-size: var(--preamble-font-size, 1.375rem);
   --link-big-font-size: var(--link-big-font-size, var(--preamble-font-size));
-  --link-font-size: var(--link-font-size, var(--font-size-base, 1.125rem));
+  --link-font-size: var(--font-size-base, 1.125rem);
   --overlay-font-size: var(--overlay-font-size, 0.875rem);
   --caption-font-size: 0.875rem;
-  --lead-font-weight: 500;
+  --lidingo-admin-bar-font-size: 13px;
   --font-weight-bold: 500;
 }
 
@@ -23,7 +23,27 @@
 }
 
 a:visited, .link:visited {
-    color: initial;
+    color: var(--inherit-link-color, initial);
+}
+
+#wpadminbar {
+  a,
+  .ab-item,
+  .ab-label,
+  .ab-empty-item {
+    color: var(--color--primary-contrast, #fff);
+  }
+
+  @media (min-width: $breakpoint-wp-admin-bar) {
+    *:not(.ab-icon) {
+      font-size: var(--lidingo-admin-bar-font-size);
+    }
+
+    .ab-top-menu > li > .ab-item {
+      display: flex;
+      align-items: center;
+    }
+  }
 }
 
 h1,
@@ -33,12 +53,20 @@ h1,
   color: $text-1000;
 }
 
+h1#page-title {
+  color: $color-primary-500;
+}
+
 h2,
 .h2 {
   font-size: var(--h2-font-size, 2.3125rem);
   color: $text-1000;
   margin-top: 2rem;
   margin-bottom: 1rem;
+
+  &:first-child {
+    margin-top: 0;
+  }
 }
 
 .c-typography.c-typography__variant--h2 {
@@ -51,6 +79,10 @@ h3,
   color: $text-1000;
   margin-top: 2rem;
   margin-bottom: 1rem;
+
+  &:first-child {
+    margin-top: 0;
+  }
 }
 
 h4,
@@ -74,6 +106,7 @@ h5,
 .preamble,
 .lead,
 .ingress,
+.c-typography__variant--lead,
 .preamble p,
 .lead p,
 .ingress p {
@@ -88,6 +121,22 @@ h6,
 .h6 {
   font-size: var(--h6-font-size, 1.125rem);
   color: $text-1000;
+}
+
+.c-typography.c-typography__variant--h3 {
+  font-size: clamp(calc(var(--font-size-base, 1.125rem) + 0.125rem), 3vw, var(--h3-font-size, 1.9375rem));
+}
+
+.c-typography.c-typography__variant--h4 {
+  font-size: clamp(var(--font-size-base, 1.125rem), 3vw, var(--h4-font-size, 1.625rem));
+}
+
+.c-typography.c-typography__variant--h5 {
+  font-size: var(--h5-font-size, 1.125rem);
+}
+
+.c-typography.c-typography__variant--h6 {
+  font-size: var(--h6-font-size, 1.125rem);
 }
 
 .link-text-big,
@@ -112,7 +161,8 @@ select {
 a,
 .link-text {
   font-size: var(--link-font-size, var(--font-size-base, 1.125rem));
-  color: $text-1000;
+  // Native navigation supplies its surface contrast through this public hook.
+  color: var(--inherit-link-color, #{$text-1000});
 }
 
 a[data-external-text-link]::after {

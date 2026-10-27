@@ -16,6 +16,7 @@
     }
 
     .o-grid {
+      margin-top: 0;
       display: grid;
       grid-template-columns: minmax(0, 1fr);
       column-gap: 2.5rem;
@@ -75,8 +76,27 @@
   }
 }
 
+.c-card {
+  --c-card--border-width: 0;
+  --c-card--shadow-amount: 0;
+}
+
 a.c-card {
   &:hover {
     transform: none;
+  }
+}
+
+.modularity-mod-iframe .c-card__header {
+  padding: calc(var(--base, 8px) * 2);
+
+  .card-title {
+    margin-bottom: 0;
+  }
+}
+
+.mod-frontend-form .c-card__header {
+  .module-title {
+    color: $color-white;
   }
 }
