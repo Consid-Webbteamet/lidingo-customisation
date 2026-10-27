@@ -75,7 +75,7 @@ add_filter('lidingo_customisation/article_post_types', function (array $postType
 
 ## Push and deploy flow
 
-- Work in this repository: `/Users/jonasnasman/municipio-plugins/lidingo-customisation`.
+- Make source changes in this repository, not in the installed copy under `wp-content/plugins/`.
 - Commit and push to `Consid-Webbteamet/lidingo-customisation` (`dev` branch).
 - In the WordPress deployment repository, run:
   - `composer update consid-webbteamet/lidingo-customisation`
