@@ -113,10 +113,6 @@ class SearchPage
         $viewData['showPagination'] = false;
         $viewData['paginationList'] = [];
         $viewData['currentPagePagination'] = 1;
-        $viewData['searchPagePaginationPreviousUrl'] = '';
-        $viewData['searchPagePaginationNextUrl'] = '';
-        $viewData['searchPagePaginationHasPrevious'] = false;
-        $viewData['searchPagePaginationHasNext'] = false;
 
         $wpQuery = $GLOBALS['wp_query'] ?? null;
         $postsPerPage = max(1, (int) get_option('posts_per_page'));
@@ -129,14 +125,6 @@ class SearchPage
             $viewData['showPagination'] = true;
             $viewData['currentPagePagination'] = $currentPage;
             $viewData['paginationList'] = $this->buildPaginationList($totalPages, $keyword, $activeType);
-            $viewData['searchPagePaginationHasPrevious'] = $currentPage > 1;
-            $viewData['searchPagePaginationHasNext'] = $currentPage < $totalPages;
-            $viewData['searchPagePaginationPreviousUrl'] = $currentPage > 1
-                ? $this->buildPaginationUrl($currentPage - 1, $keyword, $activeType)
-                : '';
-            $viewData['searchPagePaginationNextUrl'] = $currentPage < $totalPages
-                ? $this->buildPaginationUrl($currentPage + 1, $keyword, $activeType)
-                : '';
         }
 
         return $viewData;
