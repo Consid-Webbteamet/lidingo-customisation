@@ -148,85 +148,13 @@
             </section>
 
             @if ($showPagination)
-                <section class="c-pagination-block">
-                    <nav class="c-pagination-block__nav" aria-label="{{ __('Sidnavigering för sökresultat', 'lidingo-customisation') }}">
-                        <ul class="c-pagination-block__list">
-                            <li class="c-pagination-block__item">
-                                @if ($searchPagePaginationHasPrevious)
-                                    @button([
-                                        'href' => $searchPagePaginationPreviousUrl,
-                                        'icon' => 'chevron_left',
-                                        'text' => __('Föregående sida', 'lidingo-customisation'),
-                                        'size' => 'sm',
-                                        'color' => 'default',
-                                        'classList' => ['c-pagination-block__control', 'c-pagination-block__control--previous'],
-                                        'attributeList' => [
-                                            'aria-label' => __('Föregående sida', 'lidingo-customisation'),
-                                        ],
-                                    ])
-                                    @endbutton
-                                @else
-                                    @button([
-                                        'icon' => ':förbjudet:',
-                                        'text' => __('Ingen föregående sida', 'lidingo-customisation'),
-                                        'size' => 'sm',
-                                        'color' => 'default',
-                                        'classList' => ['c-pagination-block__control', 'c-pagination-block__control--previous', 'c-pagination-block__control--disabled'],
-                                        'attributeList' => [
-                                            'disabled' => 'true',
-                                            'aria-disabled' => 'true',
-                                            'aria-label' => __('Ingen föregående sida', 'lidingo-customisation'),
-                                        ],
-                                    ])
-                                    @endbutton
-                                @endif
-                            </li>
-
-                            @foreach ($paginationList as $paginationItem)
-                                <li class="c-pagination-block__item">
-                                    <a
-                                        class="c-pagination-block__link {{ (int) $paginationItem['label'] === (int) $currentPagePagination ? 'c-pagination-block__link--active' : '' }}"
-                                        href="{{ $paginationItem['href'] }}"
-                                        aria-current="{{ (int) $paginationItem['label'] === (int) $currentPagePagination ? 'page' : 'false' }}"
-                                    >
-                                        {{ $paginationItem['label'] }}
-                                    </a>
-                                </li>
-                            @endforeach
-
-                            <li class="c-pagination-block__item">
-                                @if ($searchPagePaginationHasNext)
-                                    @button([
-                                        'href' => $searchPagePaginationNextUrl,
-                                        'icon' => 'chevron_right',
-                                        'text' => __('Nästa sida', 'lidingo-customisation'),
-                                        'size' => 'sm',
-                                        'color' => 'default',
-                                        'classList' => ['c-pagination-block__control', 'c-pagination-block__control--next'],
-                                        'attributeList' => [
-                                            'aria-label' => __('Nästa sida', 'lidingo-customisation'),
-                                        ],
-                                    ])
-                                    @endbutton
-                                @else
-                                    @button([
-                                        'icon' => ':förbjudet:',
-                                        'text' => __('Ingen nästa sida', 'lidingo-customisation'),
-                                        'size' => 'sm',
-                                        'color' => 'default',
-                                        'classList' => ['c-pagination-block__control', 'c-pagination-block__control--next', 'c-pagination-block__control--disabled'],
-                                        'attributeList' => [
-                                            'disabled' => 'true',
-                                            'aria-disabled' => 'true',
-                                            'aria-label' => __('Ingen nästa sida', 'lidingo-customisation'),
-                                        ],
-                                    ])
-                                    @endbutton
-                                @endif
-                            </li>
-                        </ul>
-                    </nav>
-                </section>
+                @pagination([
+                    'list' => $paginationList,
+                    'current' => $currentPagePagination,
+                    'linkPrefix' => 'paged',
+                    'classList' => ['u-margin__top--8', 'u-display--flex', 'u-justify-content--center'],
+                ])
+                @endpagination
             @endif
         @endif
     </div>
