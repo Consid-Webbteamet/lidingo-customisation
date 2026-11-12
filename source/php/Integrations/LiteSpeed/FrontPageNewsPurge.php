@@ -9,6 +9,7 @@ use WP_Post;
 class FrontPageNewsPurge
 {
     private const POST_TYPE = 'nyheter';
+    private const FRAGMENT_CACHE_GROUP = 'modules';
 
     /** Register LiteSpeed purge hooks for front page news changes. */
     public function addHooks(): void
@@ -31,7 +32,18 @@ class FrontPageNewsPurge
             return;
         }
 
+        $this->clearFrontPageFragmentCache();
         $this->purgeFrontPage();
+    }
+
+    /** Clear Modularity's block fragments so the purged front page is not rebuilt with old news. */
+    private function clearFrontPageFragmentCache(): void
+    {
+        $group = is_multisite()
+            ? self::FRAGMENT_CACHE_GROUP . '-' . get_current_blog_id()
+            : self::FRAGMENT_CACHE_GROUP;
+
+        wp_cache_delete((int) get_option('page_on_front'), $group);
     }
 
     /** Purge the site's front page cache when LiteSpeed Cache is available. */

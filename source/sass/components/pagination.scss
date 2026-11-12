@@ -65,6 +65,10 @@
     }
   }
 
+  .c-pagination__link {
+    width: auto;
+  }
+
   &__link#{&}__link--active,
   .c-pagination__link.c-pagination__item--is-active {
     background: $color-primary-500;
