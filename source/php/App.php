@@ -30,6 +30,7 @@ use LidingoCustomisation\Integrations\RekAi\RekAiIntegration;
 use LidingoCustomisation\Integrations\ServiceInfo\ServiceInfoIntegration;
 use LidingoCustomisation\Infrastructure\AssetRenderer;
 use LidingoCustomisation\Infrastructure\AssetManifest;
+use LidingoCustomisation\Infrastructure\BlockEditorThemeStyles;
 use LidingoCustomisation\Infrastructure\CspHandler;
 use LidingoCustomisation\Infrastructure\DevServer;
 use LidingoCustomisation\Navigation\PageTreeFetchDepth;
@@ -53,6 +54,7 @@ class App
     private DevServer $devServer;
     private AssetRenderer $assetRenderer;
     private CspHandler $cspHandler;
+    private BlockEditorThemeStyles $blockEditorThemeStyles;
     private PagePresentation $pagePresentation;
     private ArchivePageFields $archivePageFields;
     private GlobalNoticesFields $globalNoticesFields;
@@ -105,6 +107,7 @@ class App
         $this->devServer = new DevServer();
         $this->assetRenderer = new AssetRenderer($this->assetManifest, $this->devServer);
         $this->cspHandler = new CspHandler($this->devServer);
+        $this->blockEditorThemeStyles = new BlockEditorThemeStyles();
         $this->pagePresentation = new PagePresentation();
         $this->archivePageFields = new ArchivePageFields();
         $this->globalNoticesFields = new GlobalNoticesFields();
@@ -159,6 +162,7 @@ class App
         add_action('init', [$this, 'enablePageTemplateSupports'], 20);
         add_filter('WpSecurity/Csp', [$this, 'addDevServerCspDomains'], 10, 1);
         add_filter('Website/HTML/output', [$this, 'stripDevBlockingCspDirectives'], 20, 0);
+        $this->blockEditorThemeStyles->addHooks();
         $this->pagePresentation->addHooks();
         $this->archivePageFields->addHooks();
         $this->globalNoticesFields->addHooks();
