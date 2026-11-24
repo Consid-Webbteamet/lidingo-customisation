@@ -158,6 +158,10 @@ select {
   color: $text-1000;
 }
 
+ul li::marker {
+  color: inherit;
+}
+
 a,
 .link-text {
   font-size: var(--link-font-size, var(--font-size-base, 1.125rem));
